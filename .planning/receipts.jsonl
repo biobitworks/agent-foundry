@@ -1,2 +1,3 @@
 {"ts":"2026-09-29T05:01:17Z","agent":"claude-sonnet-5-5","turn":"AGENT_FOUNDRY_GSD_BOOTSTRAP_002","summary":"baseline provenance written","state":"IMPLEMENTED"}
 {"ts":"2026-09-29T05:05:34Z","agent":"claude-sonnet-5-5","turn":"AGENT_FOUNDRY_GSD_BOOTSTRAP_002","summary":"GSD v1.15.0 local install + official requirement atomization","state":"EXECUTED"}
+{"ts":"2026-09-29T05:36:52Z","correction":"port_11434_observation","was":"NOT_LISTENING","now":"LISTENING (ollama pid 1331)","cause":"nc flag quirk"}

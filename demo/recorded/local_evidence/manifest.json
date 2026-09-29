@@ -1,0 +1,36 @@
+{
+  "schema": "agent-foundry.recorded_capture.v1",
+  "scenario": "local_evidence",
+  "title": "REAL: same local model, evidence changed (policy v1 -> v2)",
+  "captured_at": "2026-09-29T05:33:32+00:00",
+  "host": "magicPRObox.local",
+  "kind": "REAL_EXECUTION_RECORDED",
+  "declared_variable": "evidence",
+  "control_config": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "evidence": "policy-v1"
+  },
+  "variant_config": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "evidence": "policy-v2"
+  },
+  "ollama_model_ids": {
+    "qwen2.5:7b": "845dbda0ea48"
+  },
+  "files": {
+    "control.jsonl": "f6b1e5b5d33d11acfc7a05ced310edd3a4612251fe479133d1c5e55f778548bf",
+    "variant.jsonl": "a8794ff9cb4e42a43e924577ce8ce48d4f880049aa5c41e22103054b4cd2fa5d"
+  },
+  "comparison_summary": {
+    "DIVERGENCE": "OBSERVED",
+    "first_divergence_index": 3,
+    "kind": "payload"
+  },
+  "limits": [
+    "single execution per side; nondeterminism not measured beyond n=2 spot repeats at temperature 0/seed 1",
+    "hashes establish identity of these files, not correctness of model answers",
+    "captured via Ollama HTTP API directly, NOT via Ollarma routing"
+  ]
+}

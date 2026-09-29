@@ -52,8 +52,13 @@ def run_pair(task: dict, control_cfg: dict, variant_cfg: dict, out_dir, tag="pai
     """EXE-02: the two configs must differ in EXACTLY ONE declared variable."""
     keys = set(control_cfg) | set(variant_cfg)
     diff = sorted(k for k in keys if control_cfg.get(k) != variant_cfg.get(k))
-    if len(diff) != 1:
+    # provider and model are one variable: changing the provider necessarily changes the model name
+    if not diff:
+        variable = "none"  # replicate pair: the null control that demonstrates DIVERGENCE=NULL when behavior is stable
+    else:
+        variable = "provider_model" if diff and set(diff) <= {"provider", "model"} and "provider" in diff else (diff[0] if len(diff) == 1 else None)
+    if variable is None:
         raise ValueError(f"run pair must differ in exactly one variable, differs in {diff}")
-    a = run_task(task, control_cfg, f"{tag}-control", out_dir, "CONTROL_RUN", diff[0])
-    b = run_task(task, variant_cfg, f"{tag}-variant", out_dir, "VARIANT_RUN", diff[0])
-    return a, b, diff[0]
+    a = run_task(task, control_cfg, f"{tag}-control", out_dir, "CONTROL_RUN", variable)
+    b = run_task(task, variant_cfg, f"{tag}-variant", out_dir, "VARIANT_RUN", variable)
+    return a, b, variable

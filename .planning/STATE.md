@@ -3,10 +3,10 @@ gsd_state_version: '1.0'
 status: planning
 progress:
   total_phases: 9
-  completed_phases: 1
-  total_plans: 1
-  completed_plans: 1
-  percent: 11
+  completed_phases: 4
+  total_plans: 4
+  completed_plans: 4
+  percent: 44
 ---
 
 # Project State
@@ -16,16 +16,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-09-29)
 
 **Core value:** Show where two runs of the same agent task first diverged, what caused it, and whether it can be replayed.
-**Current focus:** Phase 4: Run inspector UI (Phase 2 real provider pending)
+**Current focus:** Phase 5/6/7 (evidence lineage, checkpoint/replay, DuploCloud)
 
 ## Current Position
 
-Phase: 4 of 9 (Run inspector UI)
+Phase: 5 of 9 (Evidence and lineage)
 Plan: 0 of TBD in current phase
 Status: Ready to plan
-Last activity: 2026-09-29 — Phase 3 complete on fixtures (24 tests); Phase 2 real provider pending operator decision
+Last activity: 2026-09-29 — Phases 1-4 done; real local-model runs captured; inspector UI verified
 
-Progress: [█░░░░░░░░░] 11%
+Progress: [████░░░░░░] 44%
 
 ## Accumulated Context
 
@@ -36,6 +36,6 @@ Progress: [█░░░░░░░░░] 11%
 
 ### Blockers
 
-- Phase 2 real providers: operator must choose providers/credentials (session ANTHROPIC_* env not reused).
+- Cloud providers: operator must approve credentials (session ANTHROPIC_* env not reused). Local Ollama works without credentials.
 - magicSTUDIObox sync: `ssh` guarded in this workspace (HUMAN_ACTION_REQUIRED).
 - DuploCloud runtime: not tested; devkit first run needs a work-domain email verification (HUMAN_ACTION_REQUIRED).

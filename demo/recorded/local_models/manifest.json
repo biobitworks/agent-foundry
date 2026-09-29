@@ -1,0 +1,37 @@
+{
+  "schema": "agent-foundry.recorded_capture.v1",
+  "scenario": "local_models",
+  "title": "REAL: same task, two local models (qwen2.5:7b vs llama3.2:3b)",
+  "captured_at": "2026-09-29T05:35:53+00:00",
+  "host": "magicPRObox.local",
+  "kind": "REAL_EXECUTION_RECORDED",
+  "declared_variable": "model",
+  "control_config": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "evidence": "policy-v1"
+  },
+  "variant_config": {
+    "provider": "ollama",
+    "model": "llama3.2:3b",
+    "evidence": "policy-v1"
+  },
+  "ollama_model_ids": {
+    "qwen2.5:7b": "845dbda0ea48",
+    "llama3.2:3b": "a80c4f17acd5"
+  },
+  "files": {
+    "control.jsonl": "1fb5f823782e2272f437fc3028d56eff7eb73f6d3ad7e23e55843f8f412a5e2f",
+    "variant.jsonl": "31166fd651167b834ae381387aa907b0371e6bf6af2c852660232797d2cf0546"
+  },
+  "comparison_summary": {
+    "DIVERGENCE": "OBSERVED",
+    "first_divergence_index": 4,
+    "kind": "actor"
+  },
+  "limits": [
+    "single execution per side; nondeterminism not measured beyond n=2 spot repeats at temperature 0/seed 1",
+    "hashes establish identity of these files, not correctness of model answers",
+    "captured via Ollama HTTP API directly, NOT via Ollarma routing"
+  ]
+}

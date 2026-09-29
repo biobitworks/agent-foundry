@@ -60,3 +60,17 @@ def test_claim_declares_dependency_on_model_and_evidence(tmp_path):
     by_id = {e["event_id"]: e for e in ev}
     claim = [e for e in ev if e["event_type"] == "claim"][0]
     assert {by_id[d]["event_type"] for d in claim["deps"]} == {"model", "evidence"}
+
+
+def test_provider_switch_counts_as_one_composite_variable(tmp_path):
+    dead = "http://127.0.0.1:9"  # nothing listens: deterministic connection failure, no real model call
+    a, b, var = run_pair(TASK, {**A, "host": dead}, {**A, "provider": "ollama", "model": "qwen2.5:7b", "host": dead}, tmp_path)
+    assert var == "provider_model"
+    assert [e["event_type"] for e in read_run(b.path)][-2:] == ["failure", "run_completed"]  # unreachable provider is recorded
+
+
+def test_replicate_pair_is_allowed_as_a_null_control(tmp_path):
+    from agent_foundry.compare import compare_runs
+    a, b, var = run_pair(TASK, A, dict(A), tmp_path)
+    assert var == "none"
+    assert compare_runs(read_run(a.path), read_run(b.path))["DIVERGENCE"] == "NULL"

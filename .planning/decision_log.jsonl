@@ -4,3 +4,4 @@
 {"ts":"2026-09-29T05:14:57Z","decision":"follow_pinned_local_gsd_workflows_not_global_skill","rationale":"global skill is 1.8.0, local pin is 1.15.0"}
 {"ts":"2026-09-29T05:18:33Z","decision":"run_started_config_moved_to_meta","rationale":"hashing config/label made every run pair diverge at seq 0; config is controlled input, not behavior. Amends Phase 1 schema."}
 {"ts":"2026-09-29T05:18:33Z","decision":"do_not_reuse_session_anthropic_credentials","rationale":"ANTHROPIC_* env belongs to Claude Code harness; product provider credentials require explicit operator approval"}
+{"ts":"2026-09-29T05:36:52Z","decision":"use_recorded_real_captures_for_demo","rationale":"16GB host: cold model swap 70-150s; recorded captures are real executions with hashes, labeled as recorded"}

@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Foundry: run inspector</title>
+<style>
+:root{--bg:#0e1116;--panel:#151a22;--panel2:#1b212b;--line:#2a3340;--tx:#e6ebf2;--mut:#8b97a8;--acc:#7cc4ff;--red:#ff6b6b;--amb:#ffb454;--vio:#b794f6;--grn:#5fd38d;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif}
+header{display:flex;flex-wrap:wrap;gap:14px;align-items:center;padding:14px 22px;border-bottom:1px solid var(--line);background:var(--panel)}
+.brand{font-weight:700;letter-spacing:.2px}.brand small{display:block;font-weight:400;color:var(--mut);font-size:12px}
+.spacer{flex:1}select,button{background:var(--panel2);color:var(--tx);border:1px solid var(--line);border-radius:6px;padding:8px 10px;font:inherit}
+button.primary{background:var(--acc);color:#04121f;border-color:var(--acc);font-weight:600;cursor:pointer}button:disabled{opacity:.5;cursor:wait}
+main{padding:18px 22px;max-width:1500px;margin:0 auto}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:14px}
+.verdict{display:flex;gap:16px;align-items:flex-start}.verdict h2{margin:0 0 6px;font-size:20px}.verdict p{margin:6px 0 0;color:#c9d3e0}
+.chip{display:inline-block;font:600 11px var(--mono);padding:2px 7px;border-radius:999px;border:1px solid var(--line);color:var(--mut);white-space:nowrap}
+.chip.red{color:var(--red);border-color:var(--red)}.chip.amb{color:var(--amb);border-color:var(--amb)}.chip.vio{color:var(--vio);border-color:var(--vio)}.chip.grn{color:var(--grn);border-color:var(--grn)}.chip.acc{color:var(--acc);border-color:var(--acc)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:1000px){.grid{grid-template-columns:1fr}}
+.col h3{margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.8px;color:var(--mut);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ev{display:grid;grid-template-columns:34px 92px 1fr;gap:8px;align-items:start;padding:7px 9px;border:1px solid var(--line);border-left:3px solid var(--line);border-radius:6px;margin-bottom:6px;cursor:pointer;background:var(--panel2)}
+.ev:hover{border-color:#3a475a}.ev.sel{outline:2px solid var(--acc)}
+.ev.div{border-left-color:var(--red);background:#2a1a1e}.ev.down{border-left-color:var(--amb)}.ev.fail{border-left-color:var(--red)}.ev.abst{border-left-color:var(--vio)}.ev.empty{opacity:.35;cursor:default}
+.seq{font:12px var(--mono);color:var(--mut)}.typ{font:600 12px var(--mono);color:var(--acc)}.sum{word-break:break-word}.tags{margin-top:4px;display:flex;gap:5px;flex-wrap:wrap}
+table{width:100%;border-collapse:collapse}td,th{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--mut);font-weight:500;font-size:12px}
+pre{margin:0;background:#0a0d12;border:1px solid var(--line);border-radius:6px;padding:10px;overflow:auto;font:12px/1.5 var(--mono);max-height:340px}
+.diff td:first-child{font-family:var(--mono);font-size:12px;color:var(--amb)}.old{color:var(--red)}.new{color:var(--grn)}
+.muted{color:var(--mut)}.note{font-size:12px;color:var(--mut)}.legend{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 12px}
+.err{color:var(--red)}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Agent Foundry<small>Debug your AI agents like software.</small></div>
+  <div class="spacer"></div>
+  <label class="muted" for="scenario">Scenario</label>
+  <select id="scenario"></select>
+  <select id="mode" title="How to obtain the runs">
+    <option value="auto">Recorded real run if available</option>
+    <option value="live">Execute live now</option>
+  </select>
+  <button id="go" class="primary">Compare runs</button>
+</header>
+<main>
+  <div id="status" class="note" style="margin-bottom:10px">Pick a scenario and compare two runs of the same canonical task.</div>
+  <div id="out" hidden>
+    <div class="card verdict" id="verdict"></div>
+    <div class="legend">
+      <span class="chip red">first divergence</span><span class="chip amb">downstream via declared dependency</span>
+      <span class="chip red">failure (kept)</span><span class="chip vio">abstention (kept)</span><span class="chip">click a row to inspect</span>
+    </div>
+    <div class="grid">
+      <div class="col card"><h3><span>Control run</span><span id="srcC"></span></h3><div id="colC"></div></div>
+      <div class="col card"><h3><span>Variant run</span><span id="srcV"></span></h3><div id="colV"></div></div>
+    </div>
+    <div class="card"><h3 class="muted" style="margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.8px">Event inspector</h3><div id="insp" class="muted">Select an event.</div></div>
+    <div class="grid">
+      <div class="card"><h3 class="muted" style="margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.8px">Affected downstream claims</h3><div id="claims"></div></div>
+      <div class="card"><h3 class="muted" style="margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.8px">Failures and abstentions</h3><div id="fails"></div></div>
+    </div>
+    <div class="card note" id="prov"></div>
+  </div>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const el=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e};
+let scenarios=[];
+const short=(s,n=150)=>s&&s.length>n?s.slice(0,n)+'…':s;
+
+function summarize(ev){
+  const p=ev.payload,a=ev.actor;
+  switch(ev.event_type){
+    case 'run_started': return 'run started · task '+p.task_id;
+    case 'agent': return p.action;
+    case 'tool': return p.tool+'('+Object.entries(p.arguments).map(([k,v])=>k+'='+JSON.stringify(v)).join(', ')+') → '+(p.ok?'ok':'no result');
+    case 'evidence': return p.source_ref+' — '+short(p.excerpt||p.content_digest);
+    case 'model': return a.provider+'/'+a.model+' → '+short(p.response.text);
+    case 'failure': return p.error_type+': '+p.message+' (at '+p.where+')';
+    case 'abstention': return 'abstained: '+short(p.reason);
+    case 'claim': return p.claim_id+': '+short(p.text);
+    case 'run_completed': return 'run '+p.status;
+    default: return JSON.stringify(p).slice(0,120);
+  }
+}
+
+function buildIndex(cmp,ctrl,vari){
+  const divIdx=cmp.FIRST_DIVERGENCE?cmp.FIRST_DIVERGENCE.index:null;
+  const down=new Set(cmp.DOWNSTREAM_CHANGED_EVENTS.map(e=>e.event_id));
+  return {divIdx,down};
+}
+
+function renderCol(root,events,other,side,idx,cmp,onSel){
+  root.replaceChildren();
+  const n=Math.max(events.length,other.length);
+  for(let i=0;i<n;i++){
+    const ev=events[i];
+    const row=el('div','ev'+(ev?'':' empty'));
+    row.dataset.i=i;
+    row.append(el('div','seq',ev?String(i):''));
+    if(!ev){row.append(el('div','typ','—'),el('div','sum muted','(run has no event here)'));root.append(row);continue}
+    row.append(el('div','typ',ev.event_type));
+    const body=el('div');body.append(el('div','sum',summarize(ev)));
+    const tags=el('div','tags');
+    if(idx.divIdx===i){row.classList.add('div');tags.append(el('span','chip red','FIRST DIVERGENCE'))}
+    else if(idx.down.has(ev.event_id)){row.classList.add('down');tags.append(el('span','chip amb','downstream'))}
+    if(ev.event_type==='failure'){row.classList.add('fail');tags.append(el('span','chip red','FAILED'))}
+    if(ev.event_type==='abstention'){row.classList.add('abst');tags.append(el('span','chip vio','NOT_COMPUTED'))}
+    if(ev.event_type==='model'||ev.event_type==='failure'){const k=ev.actor.provider_kind;tags.append(el('span','chip '+(k==='fixture'?'':'grn'),k==='fixture'?'fixture':'real model'))}
+    body.append(tags);row.append(body);
+    row.addEventListener('click',()=>onSel(i));
+    root.append(row);
+  }
+}
+
+function jsonBlock(obj){const pre=el('pre');pre.textContent=JSON.stringify(obj,null,2);return pre}
+
+function inspect(i,ctrl,vari,cmp){
+  document.querySelectorAll('.ev').forEach(r=>r.classList.toggle('sel',Number(r.dataset.i)===i));
+  const box=$('insp');box.replaceChildren();box.classList.remove('muted');
+  const c=ctrl[i],v=vari[i];
+  const g=el('div','grid');
+  const mk=(title,ev)=>{const d=el('div');d.append(el('div','note',title+(ev?' · event_id '+ev.event_id.slice(0,22)+'… · content_id '+ev.content_id.slice(0,22)+'…':'')));d.append(ev?jsonBlock({event_type:ev.event_type,state:ev.state,actor:ev.actor,payload:ev.payload,deps:ev.deps,meta:ev.meta}):el('div','muted','(none)'));return d};
+  g.append(mk('Control',c),mk('Variant',v));box.append(g);
+  if(cmp.FIRST_DIVERGENCE&&cmp.FIRST_DIVERGENCE.index===i&&cmp.FIRST_DIVERGENCE.changed_fields.length){
+    const t=el('table','diff');const h=el('tr');['changed field','control','variant'].forEach(x=>h.append(el('th','',x)));t.append(h);
+    cmp.FIRST_DIVERGENCE.changed_fields.forEach(f=>{const r=el('tr');r.append(el('td','',f.path),el('td','old',String(f.control)),el('td','new',String(f.variant)));t.append(r)});
+    const w=el('div');w.style.marginTop='10px';w.append(el('div','note','Field-level difference at the first divergence'),t);box.append(w);
+  }
+  if(c&&v&&c.content_id===v.content_id)box.append(el('div','note','Identical content on both sides (same CONTENT_ID); occurrence ids differ because they include the run.'));
+}
+
+function render(data){
+  const {control:ctrl,variant:vari,comparison:cmp}=data;
+  $('out').hidden=false;
+  const vd=$('verdict');vd.replaceChildren();
+  const left=el('div');
+  if(cmp.DIVERGENCE==='NULL'){
+    left.append(el('h2','','DIVERGENCE = NULL'),el('div','','No difference found; none was manufactured.'));
+  }else{
+    const fd=cmp.FIRST_DIVERGENCE;const ev=fd.control_event||fd.variant_event;
+    left.append(el('h2','','First divergence at event '+fd.index+' · '+(fd.kind==='event_type'?fd.control_event.event_type+' vs '+fd.variant_event.event_type:ev.event_type)));
+  }
+  left.append(el('p','',cmp.explanation));
+  left.append(el('div','note','Declared variable: '+(cmp.declared_variable||'—')+'. '+cmp.attribution_note));
+  vd.append(left);
+  const st=el('span','chip '+(cmp.DIVERGENCE==='NULL'?'':'red'),cmp.divergence_state);vd.append(st);
+  const kindOf=evs=>{const m=evs.find(e=>e.event_type==='model'||e.event_type==='failure');return m?m.actor.provider_kind:null};
+  const src=data.source==='RECORDED_REAL_EXECUTION'?'recorded real execution':'live execution';
+  const badge=(evs)=>{const k=kindOf(evs);const s=el('span','chip '+(k==='real'?'grn':''),(k==='fixture'?'FIXTURE · ':k==='real'?'REAL MODEL · ':'')+src);return s};
+  $('srcC').replaceChildren(badge(ctrl));$('srcV').replaceChildren(badge(vari));
+  const idx=buildIndex(cmp,ctrl,vari);
+  const sel=i=>inspect(i,ctrl,vari,cmp);
+  renderCol($('colC'),ctrl,vari,'C',idx,cmp,sel);renderCol($('colV'),vari,ctrl,'V',idx,cmp,sel);
+  const cl=$('claims');cl.replaceChildren();
+  if(!cmp.AFFECTED_CLAIMS.length)cl.append(el('div','muted','None (no claim depends on a divergent event).'));
+  else{const t=el('table');const h=el('tr');['claim','control','variant','basis'].forEach(x=>h.append(el('th','',x)));t.append(h);
+    cmp.AFFECTED_CLAIMS.forEach(a=>{const r=el('tr');r.append(el('td','',a.claim_id),el('td','old',a.control===null?'(no claim)':a.control),el('td','new',a.variant===null?'(no claim)':a.variant),el('td','note',a.basis));t.append(r)});cl.append(t)}
+  const fl=$('fails');fl.replaceChildren();
+  if(!cmp.failures_and_abstentions.length)fl.append(el('div','muted','None recorded in either run.'));
+  cmp.failures_and_abstentions.forEach(f=>{const d=el('div');d.style.marginBottom='6px';d.append(el('span','chip '+(f.event_type==='failure'?'red':'vio'),f.run+' · '+f.event_type),el('span','',' '+(f.event_type==='failure'?f.payload.error_type+': '+f.payload.message:f.payload.reason)));fl.append(d)});
+  const pv=$('prov');pv.replaceChildren();
+  const lines=['Runs are internally verified on load (schema, ordering, id recomputation). This proves consistency, not authenticity or answer correctness.',
+    'Comparison is native to Agent Foundry (Glasswork adapter: NOT_IMPLEMENTED). Replay/checkpoint: NOT_IMPLEMENTED. Attribution rests on the controlled design of one run per side.'];
+  if(data.manifest)lines.unshift('Recorded capture: '+data.manifest.captured_at+' on '+data.manifest.host+'; models '+JSON.stringify(data.manifest.ollama_model_ids)+'; files sha256 '+Object.entries(data.manifest.files).map(([k,v])=>k+' '+v.slice(0,12)+'…').join(', ')+'. Replaying a recorded capture is not a new execution.');
+  lines.forEach(l=>pv.append(el('div','',l)));
+  const first=cmp.FIRST_DIVERGENCE?cmp.FIRST_DIVERGENCE.index:0;sel(first);
+}
+
+async function go(){
+  const id=$('scenario').value,sc=scenarios.find(s=>s.id===id),mode=$('mode').value;
+  $('go').disabled=true;$('status').className='note';$('out').hidden=true;  // never leave a previous scenario's results on screen
+  const useRec=mode==='auto'&&sc.recorded;
+  $('status').textContent=useRec?'Loading recorded real run…':'Executing both runs live'+(sc.real?' (real local models; cold model loads can take 1–2 minutes)':'')+'…';
+  try{
+    const r=useRec?await fetch('/api/recorded/'+id):await fetch('/api/pair',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({scenario:id})});
+    if(!r.ok)throw new Error((await r.json()).detail||r.statusText);
+    render(await r.json());$('status').textContent='';
+  }catch(e){$('status').className='err';$('status').textContent='Error: '+e.message}
+  $('go').disabled=false;
+}
+(async()=>{
+  const r=await (await fetch('/api/scenarios')).json();scenarios=r.scenarios;
+  const s=$('scenario');scenarios.forEach(x=>{const o=el('option','',(x.recorded?'● ':'')+x.title);o.value=x.id;s.append(o)});
+  $('go').addEventListener('click',go);
+})();
+</script>
+</body>
+</html>

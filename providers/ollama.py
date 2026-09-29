@@ -11,12 +11,13 @@ class OllamaProvider(Provider):
     name = "ollama"
     provider_kind = "real"
 
-    def __init__(self, model, host="http://127.0.0.1:11434", timeout=120):
+    def __init__(self, model, host="http://127.0.0.1:11434", timeout=240):
         self.model, self.host, self.timeout = model, host.rstrip("/"), timeout
 
     def complete(self, request: dict) -> dict:
         ev = "\n".join(d.get("text", "") for d in request.get("evidence", []))
-        prompt = f"Use ONLY this policy text. If it does not answer, reply ABSTAIN.\nPolicy: {ev}\nQuestion: {request['prompt']}"
+        prompt = (f"You are a support agent. Answer the customer's question in one sentence using ONLY the policy text below and the facts in the question. "
+                  f"Reply exactly 'ABSTAIN' only if the policy text does not contain a rule that applies.\nPolicy: {ev}\nQuestion: {request['prompt']}")
         body = json.dumps({"model": self.model, "prompt": prompt, "stream": False, "options": {"temperature": 0, "seed": 1}}).encode()
         t0 = time.time()
         try:

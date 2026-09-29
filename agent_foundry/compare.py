@@ -106,7 +106,9 @@ def explain(res: dict, control: list, variant: list) -> str:
             if f["path"].endswith(("content_digest",)):
                 continue
             parts.append(f"{f['path']}: {f['control']!r} -> {f['variant']!r}.")
-    if res.get("declared_variable"):
+    if res.get("declared_variable") == "none":
+        parts.append("No controlled difference was declared (replicate pair), so this divergence is unexplained nondeterminism or an environment difference.")
+    elif res.get("declared_variable"):
         parts.append(f"The declared controlled difference between the runs was '{res['declared_variable']}' (single run per side; nondeterminism not measured).")
     if res["DOWNSTREAM_CHANGED_EVENTS"]:
         types = sorted({e["event_type"] for e in res["DOWNSTREAM_CHANGED_EVENTS"]})

@@ -114,7 +114,10 @@ def explain(res: dict, control: list, variant: list) -> str:
         types = sorted({e["event_type"] for e in res["DOWNSTREAM_CHANGED_EVENTS"]})
         parts.append(f"Events downstream through declared dependencies: {', '.join(types)}.")
     for a in res["AFFECTED_CLAIMS"]:
-        parts.append(f"Affected claim '{a['claim_id']}': {a['control']!r} -> {a['variant']!r}.")
+        if a["changed"]:
+            parts.append(f"Affected claim '{a['claim_id']}': {a['control']!r} -> {a['variant']!r}.")
+        else:
+            parts.append(f"Downstream claim '{a['claim_id']}' is unchanged ({a['control']!r}) despite the upstream difference.")
     if res["failures_and_abstentions"]:
         parts.append("Failures/abstentions present: " + "; ".join(f"{e['run']} {e['event_type']}" for e in res["failures_and_abstentions"]) + ".")
     if res["changed_without_declared_dependency"]:

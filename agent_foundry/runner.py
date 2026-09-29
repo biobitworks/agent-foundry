@@ -57,7 +57,11 @@ def answer(rec: RunRecorder, task: dict, config: dict, ev: dict, evidence_text: 
             fail = rec.record("failure", actor, {"where": "output_validation", "error_type": "InvalidOutput", "message": err, "recoverable": False}, deps=[model["event_id"]])
             rec.record("run_completed", SYS, {"status": "failed"}, state="EXECUTED", deps=[fail["event_id"]])
             return rec
-    claim = rec.record("claim", AGENT, {"claim_id": claim_id, "text": out["text"]}, state="OBSERVED", deps=[model["event_id"], ev["event_id"]])
+    claim_text = out["text"]
+    if task.get("output_validator"):  # validated structured output: canonical form in the claim; raw response stays in the model event
+        import json as _json
+        claim_text = _json.dumps(_json.loads(out["text"].strip()), sort_keys=True, separators=(",", ":"))
+    claim = rec.record("claim", AGENT, {"claim_id": claim_id, "text": claim_text}, state="OBSERVED", deps=[model["event_id"], ev["event_id"]])
     rec.record("run_completed", SYS, {"status": "completed"}, state="EXECUTED", deps=[claim["event_id"]])
     return rec
 

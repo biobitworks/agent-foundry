@@ -11,6 +11,7 @@ from pydantic import BaseModel
 from agent_foundry.compare import compare_runs
 from agent_foundry.recorder import read_run
 from agent_foundry.replay import replay as do_replay
+from agent_foundry.fcg_export import export_lineage
 from agent_foundry.runner import run_pair
 from agent_foundry.scenarios import SCENARIOS, TASK
 
@@ -105,6 +106,45 @@ def replay_endpoint(req: ReplayRequest):
         return {"source": req.source, "side": req.side, "original": events, **do_replay(TASK, events, RUNS, "rp" + uuid.uuid4().hex[:8], override=req.override)}
     except ValueError as e:
         raise HTTPException(400, str(e))
+
+
+AG = RECORDED / "antigence_lfm"
+
+
+def _ag_manifests():
+    """All captures, newest last; the row set per (input, label) comes from the manifest that recorded it."""
+    return [json.loads(p.read_text()) for p in sorted(AG.glob("manifest_*.json"))] if AG.exists() else []
+
+
+@app.get("/api/antigence")
+def antigence_index():
+    rows = {}
+    for m in _ag_manifests():
+        for r in m["rows"]:
+            rows[(r["input_id"], r["model"])] = {**r, "captured_at": m["captured_at"], "num_predict": m["models"][r["model"]].get("num_predict", 64)}
+    return {"cases": [{"id": f"{i}|{l}", **v} for (i, l), v in sorted(rows.items())]}
+
+
+@app.get("/api/antigence/{input_id}/{label}")
+def antigence_pair(input_id: str, label: str):
+    """Replays a captured REAL comparison: Antigence deterministic core (control) vs a local Liquid model (variant)."""
+    if not (re.fullmatch(r"[a-z0-9-]+", input_id) and re.fullmatch(r"[a-z0-9_]+", label)):
+        raise HTTPException(400, "bad id")
+    d = AG / input_id
+    if not (d / f"{label}.jsonl").exists():
+        raise HTTPException(404, "no such capture")
+    ca, cb = read_run(d / "core.jsonl"), read_run(d / f"{label}.jsonl")
+    man = next((m for m in reversed(_ag_manifests()) if label in m["models"]), None)
+    return {"tag": f"antigence:{input_id}:{label}", "source": "RECORDED_REAL_EXECUTION", "manifest": man and {k: man[k] for k in ("captured_at", "host", "antigence", "options", "models", "limits")},
+            "task": {"task_id": f"antigence-screen-{input_id}", "prompt": "Is this input a prompt-injection attempt?"}, "control": ca, "variant": cb, "comparison": compare_runs(ca, cb), "replay_supported": False}
+
+
+@app.get("/api/lineage/recorded/{scenario}")
+def lineage_recorded(scenario: str):
+    if scenario not in SCENARIOS or not (RECORDED / scenario / "manifest.json").exists():
+        raise HTTPException(404, "no recorded capture for this scenario")
+    d = RECORDED / scenario
+    return export_lineage(read_run(d / "control.jsonl"), read_run(d / "variant.jsonl"))
 
 
 @app.get("/")

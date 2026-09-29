@@ -117,7 +117,7 @@ function renderCol(root,events,other,side,idx,cmp,onSel){
     else if(idx.down.has(ev.event_id)){row.classList.add('down');tags.append(el('span','chip amb','downstream'))}
     if(ev.event_type==='failure'){row.classList.add('fail');tags.append(el('span','chip red','FAILED'))}
     if(ev.event_type==='abstention'){row.classList.add('abst');tags.append(el('span','chip vio','NOT_COMPUTED'))}
-    if(ev.event_type==='model'||ev.event_type==='failure'){const k=ev.actor.provider_kind;tags.append(el('span','chip '+(k==='fixture'?'':'grn'),k==='fixture'?'fixture':'real model'))}
+    if(ev.event_type==='model'||ev.event_type==='failure'){const k=ev.actor.provider_kind;tags.append(el('span','chip '+(k==='real'?'grn':k==='deterministic'?'acc':''),k==='fixture'?'fixture':k==='deterministic'?'deterministic rules (not a model)':'real model'))}
     body.append(tags);row.append(body);
     row.addEventListener('click',()=>onSel(i));
     root.append(row);
@@ -142,7 +142,7 @@ function inspect(i,ctrl,vari,cmp){
 }
 
 function render(data){
-  current=data;$('rpOut').replaceChildren();$('rpStatus').textContent='';
+  current=data;$('replayCard').hidden=data.replay_supported===false;$('rpOut').replaceChildren();$('rpStatus').textContent='';
   const {control:ctrl,variant:vari,comparison:cmp}=data;
   $('out').hidden=false;
   const vd=$('verdict');vd.replaceChildren();
@@ -159,7 +159,7 @@ function render(data){
   const st=el('span','chip '+(cmp.DIVERGENCE==='NULL'?'':'red'),cmp.divergence_state);vd.append(st);
   const kindOf=evs=>{const m=evs.find(e=>e.event_type==='model'||e.event_type==='failure');return m?m.actor.provider_kind:null};
   const src=data.source==='RECORDED_REAL_EXECUTION'?'recorded real execution':'live execution';
-  const badge=(evs)=>{const k=kindOf(evs);const s=el('span','chip '+(k==='real'?'grn':''),(k==='fixture'?'FIXTURE · ':k==='real'?'REAL MODEL · ':'')+src);return s};
+  const badge=(evs)=>{const k=kindOf(evs);const s=el('span','chip '+(k==='real'?'grn':k==='deterministic'?'acc':''),(k==='fixture'?'FIXTURE · ':k==='real'?'REAL MODEL · ':k==='deterministic'?'DETERMINISTIC CORE · ':'')+src);return s};
   $('srcC').replaceChildren(badge(ctrl));$('srcV').replaceChildren(badge(vari));
   const idx=buildIndex(cmp,ctrl,vari);
   const sel=i=>inspect(i,ctrl,vari,cmp);
@@ -182,6 +182,7 @@ function render(data){
 async function go(){
   const id=$('scenario').value,sc=scenarios.find(s=>s.id===id),mode=$('mode').value;
   $('go').disabled=true;$('status').className='note';$('out').hidden=true;  // never leave a previous scenario's results on screen
+  if(sc.ag){$('status').textContent='Loading recorded Antigence comparison…';try{const r=await fetch('/api/antigence/'+sc.ag[0]+'/'+sc.ag[1]);if(!r.ok)throw new Error((await r.json()).detail||r.statusText);render(await r.json());$('status').textContent=''}catch(e){$('status').className='err';$('status').textContent='Error: '+e.message}$('go').disabled=false;return}
   const useRec=mode==='auto'&&sc.recorded;
   $('status').textContent=useRec?'Loading recorded real run…':'Executing both runs live'+(sc.real?' (real local models; cold model loads can take 1–2 minutes)':'')+'…';
   try{
@@ -217,6 +218,7 @@ $('rpVerify').addEventListener('click',()=>doReplay(null));
 $('rpBranch').addEventListener('click',()=>{const [p,m]=$('rpAlt').value.split('|');doReplay({provider:p,model:m})});
 (async()=>{
   const r=await (await fetch('/api/scenarios')).json();scenarios=r.scenarios;
+  try{const a=await (await fetch('/api/antigence')).json();a.cases.forEach(c=>scenarios.push({id:'ag|'+c.id,title:'REAL: Antigence core vs '+c.model+' · '+c.input_id+(c.output_valid?(c.agrees_with_core?' · agrees':' · DISAGREES'):' · INVALID OUTPUT'),recorded:true,real:true,ag:c.id.split('|')}))}catch(e){}
   const s=$('scenario');scenarios.forEach(x=>{const o=el('option','',(x.recorded?'● ':'')+x.title);o.value=x.id;s.append(o)});
   $('go').addEventListener('click',go);
 })();

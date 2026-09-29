@@ -1,0 +1,30 @@
+{
+  "schema": "agent-foundry.local_model_probe.v1",
+  "captured_at": "2026-09-29T06:02:17Z",
+  "host": "magicPRObox",
+  "model": "hf.co/LiquidAI/LFM2.5-2.6B-GGUF:Q4_K_M",
+  "observations": [
+    {
+      "setting": "num_predict=64, strict validator, Antigence 4 inputs",
+      "result": "0/4 valid JSON",
+      "evidence": "demo/recorded/antigence_lfm/*/lfm2p6b.jsonl"
+    },
+    {
+      "setting": "num_predict=512, strict validator, Antigence 4 inputs",
+      "result": "0/4 valid JSON; reply still mid-reasoning at cap",
+      "evidence": "demo/recorded/antigence_lfm/*/lfm2p6b_np512.jsonl"
+    },
+    {
+      "setting": "/api/generate think=false, smoke prompt, num_predict=64",
+      "result": "no effect: visible reasoning preamble; not Ollama thinking channel",
+      "evidence": "this receipt (single call, 5.8s)"
+    }
+  ],
+  "classification": {
+    "MODEL_PRESENT": true,
+    "INFERENCE_EXECUTED": true,
+    "OUTPUT_VALID": false,
+    "READY_FOR_STRICT_JSON": false
+  },
+  "note": "Reasoning appears to reach the right verdict in prose, but a lenient extractor is a DIFFERENT explicit contract and was not applied. Do not treat 2.6B as the structured-output fallback without a passing strict test."
+}

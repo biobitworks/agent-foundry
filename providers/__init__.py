@@ -8,7 +8,7 @@ def get_provider(cfg: dict):
         return FixtureProvider(cfg.get("model", "fixture-a"))
     if kind == "ollama":
         from .ollama import OllamaProvider
-        return OllamaProvider(cfg["model"], cfg.get("host", "http://127.0.0.1:11434"))
+        return OllamaProvider(cfg["model"], cfg.get("host", "http://127.0.0.1:11434"), num_predict=cfg.get("num_predict"))
     if kind == "antigence":
         from .antigence import AntigenceProvider
         return AntigenceProvider()

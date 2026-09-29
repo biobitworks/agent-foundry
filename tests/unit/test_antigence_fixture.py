@@ -46,3 +46,16 @@ def test_invalid_model_output_is_a_visible_failure_not_a_claim(tmp_path, monkeyp
     ev = read_run(run_task(task, {"provider": "fixture", "model": "fixture-a", "evidence": "input"}, "bad", tmp_path).path)
     assert [e["event_type"] for e in ev][-3:] == ["model", "failure", "run_completed"]
     assert ev[-2]["payload"]["error_type"] == "InvalidOutput" and ev[-2]["state"] == "FAILED"
+
+
+def test_semantically_equal_structured_outputs_yield_an_unchanged_claim(tmp_path, monkeypatch):
+    from providers import fixture
+    task = {"task_id": "t", "prompt": "p", "tool": "x", "query": "q", "corpus": {"input": {"doc_id": "d", "version": "v", "text": "hello"}},
+            "instruction": "i", "claim_id": "c", "about": "a", "output_validator": "injection_json"}
+    outs = iter(['{"injection": true}', '{\n  "injection":true\n}'])
+    monkeypatch.setattr(fixture.FixtureProvider, "complete", lambda self, req: {"text": next(outs), "meta": {}})
+    a = read_run(run_task(task, {"provider": "fixture", "model": "fixture-a", "evidence": "input"}, "a", tmp_path, "CONTROL_RUN", "none").path)
+    b = read_run(run_task(task, {"provider": "fixture", "model": "fixture-a", "evidence": "input"}, "b", tmp_path, "VARIANT_RUN", "none").path)
+    r = compare_runs(a, b)
+    assert r["AFFECTED_CLAIMS"][0]["changed"] is False
+    assert "unchanged" in r["explanation"]

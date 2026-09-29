@@ -8,3 +8,4 @@
 {"ts":"2026-09-29T05:36:52Z","task":"phase_4_inspector_ui","state":"EXECUTED","note":"UI browser-verified; 32 tests; 2 real captures recorded; defects fixed: replicate pair, stale UI"}
 {"ts":"2026-09-29T05:41:56Z","task":"phase_6_checkpoint_replay","state":"EXECUTED","note":"40 tests; 1 real replay verified n=1; REPLAY_FAILED classification added after finding misclassification risk"}
 {"ts":"2026-09-29T05:56:07Z","task":"duplo_wrapper_setup","state":"EXECUTED_PARTIAL","note":"wrapper pushed fee7875; engine started; platform NOT running; HUMAN_ACTION_REQUIRED for run.sh email/password/LLM key/verification link"}
+{"ts":"2026-09-29T06:03:12Z","task":"antigence_liquid_comparison","state":"EXECUTED","note":"4 inputs x 4 model settings recorded (350M, 1.2B, 2.6B np64, 2.6B np512); 2.6B invalid under strict JSON in all settings; inspector wired; native lineage export; 50 tests"}

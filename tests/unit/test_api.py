@@ -46,3 +46,24 @@ def test_recorded_captures_match_their_manifest_hashes_and_are_real():
 
 def test_index_serves_ui():
     assert "Agent Foundry" in c.get("/").text
+
+
+def test_antigence_capture_endpoints_and_integrity():
+    idx = c.get("/api/antigence").json()["cases"]
+    assert {x["model"] for x in idx} >= {"lfm350m", "lfm1p2b", "lfm2p6b"} and len(idx) >= 12
+    r = c.get("/api/antigence/adv-ignore/lfm350m").json()
+    assert r["source"] == "RECORDED_REAL_EXECUTION" and r["control"][4]["actor"]["provider_kind"] == "deterministic"
+    assert r["variant"][4]["actor"]["provider_kind"] == "real"
+    assert c.get("/api/antigence/../x/y").status_code in (400, 404)
+    assert c.get("/api/antigence/adv-ignore/nope").status_code == 404
+
+
+def test_antigence_capture_files_match_manifest_hashes():
+    import hashlib
+    root = RECORDED / "antigence_lfm"
+    files = {}
+    for m in sorted(root.glob("manifest_*.json")):
+        files.update(json.loads(m.read_text())["files_sha256"])
+    assert files
+    for rel, h in files.items():
+        assert hashlib.sha256((root / rel).read_bytes()).hexdigest() == h, f"{rel} changed since capture"

@@ -12,6 +12,7 @@ from agent_foundry.compare import compare_runs
 from agent_foundry.recorder import read_run
 from agent_foundry.replay import replay as do_replay
 from agent_foundry.fcg_export import export_lineage
+from agent_foundry.recorder import verify_run
 from agent_foundry.runner import run_pair
 from agent_foundry.scenarios import SCENARIOS, TASK
 
@@ -137,6 +138,53 @@ def antigence_pair(input_id: str, label: str):
     man = next((m for m in reversed(_ag_manifests()) if label in m["models"]), None)
     return {"tag": f"antigence:{input_id}:{label}", "source": "RECORDED_REAL_EXECUTION", "manifest": man and {k: man[k] for k in ("captured_at", "host", "antigence", "options", "models", "limits")},
             "task": {"task_id": f"antigence-screen-{input_id}", "prompt": "Is this input a prompt-injection attempt?"}, "control": ca, "variant": cb, "comparison": compare_runs(ca, cb), "replay_supported": False}
+
+
+LIVE_MODELS = {"lfm350m": "hf.co/LiquidAI/LFM2.5-350M-GGUF:Q4_K_M", "lfm1p2b": "hf.co/LiquidAI/LFM2.5-1.2B-Instruct-GGUF:Q4_K_M"}
+
+
+class LiveRequest(BaseModel):
+    text: str
+    model: str = "lfm1p2b"
+
+
+@app.post("/api/antigence/live")
+def antigence_live(req: LiveRequest):
+    """LIVE execution: deterministic Antigence core (control) vs a local Liquid model (variant) on the SAME canonical input.
+    2.6B is excluded: it failed the strict-JSON test in every setting (see provenance/local_models)."""
+    import hashlib
+    from agent_foundry import antigence_fixture as af
+    from agent_foundry.runner import run_task
+    if req.model not in LIVE_MODELS:
+        raise HTTPException(400, f"model must be one of {sorted(LIVE_MODELS)}")
+    text = req.text.strip()
+    if not (1 <= len(text) <= 600):
+        raise HTTPException(400, "text must be 1-600 characters")
+    iid = "live-" + hashlib.sha256(text.encode()).hexdigest()[:10]
+    task, fco = af.build_task({"id": iid, "text": text, "expected_flagged": None})
+    tag = "L" + uuid.uuid4().hex[:8]
+    a = run_task(task, {"provider": "antigence", "model": "antigence-prompt-injection-antibodies", "evidence": "input"}, f"{tag}-core", RUNS, "CONTROL_RUN", "provider_model")
+    b = run_task(task, {"provider": "ollama", "model": LIVE_MODELS[req.model], "evidence": "input"}, f"{tag}-{req.model}", RUNS, "VARIANT_RUN", "provider_model")
+    ca, cb = read_run(a.path), read_run(b.path)
+    return {"tag": f"live:{tag}", "source": "LIVE_EXECUTION", "task": {"task_id": task["task_id"], "prompt": task["prompt"]}, "canonical_input_content_id": fco["CONTENT_ID"],
+            "control": ca, "variant": cb, "comparison": compare_runs(ca, cb), "replay_supported": False,
+            "manifest": {"captured_at": None, "host": None, "antigence": af.antigence_identity(), "options": {"temperature": 0, "seed": 1, "num_predict": 64}, "models": {req.model: {"tag": LIVE_MODELS[req.model]}}, "limits": ["live single execution; nondeterminism not measured"]}}
+
+
+class LineageRequest(BaseModel):
+    control: list
+    variant: list
+
+
+@app.post("/api/lineage")
+def lineage(req: LineageRequest):
+    """Verifies both runs (schema, ordering, id recomputation) then exports declared-edge lineage. Unsigned; no Merkle/MMR."""
+    try:
+        verify_run(req.control)
+        verify_run(req.variant)
+    except (ValueError, KeyError, IndexError) as e:
+        raise HTTPException(400, f"run failed verification: {e}")
+    return export_lineage(req.control, req.variant)
 
 
 @app.get("/api/lineage/recorded/{scenario}")

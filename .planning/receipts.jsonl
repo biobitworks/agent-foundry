@@ -2,3 +2,4 @@
 {"ts":"2026-09-29T05:05:34Z","agent":"claude-sonnet-5-5","turn":"AGENT_FOUNDRY_GSD_BOOTSTRAP_002","summary":"GSD v1.15.0 local install + official requirement atomization","state":"EXECUTED"}
 {"ts":"2026-09-29T05:36:52Z","correction":"port_11434_observation","was":"NOT_LISTENING","now":"LISTENING (ollama pid 1331)","cause":"nc flag quirk"}
 {"ts":"2026-09-29T05:42:34Z","agent":"claude-sonnet-5-5","turn":"AGENT_FOUNDRY_GSD_BOOTSTRAP_002","summary":"bootstrap complete through phases 1-4 and 6; breakpoint written","state":"EXECUTED"}
+{"ts":"2026-09-29T05:56:07Z","observation":"orbstack_start_side_effect","detail":"3 pre-existing containers auto-restarted; left running; operator to decide"}

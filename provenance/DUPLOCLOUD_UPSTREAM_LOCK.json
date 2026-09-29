@@ -30,5 +30,48 @@
     }
   ],
   "tenant_credentials": "UNKNOWN / not recorded; never committed",
-  "status": "NOT_TESTED"
+  "status": "NOT_TESTED",
+  "successor_state_2026_09_29": {
+    "retrieved_at": "2026-09-29T05:54:34Z",
+    "role": "EXTERNAL_HACKDAY_EXECUTION_SUBSTRATE",
+    "canonical_provenance_authority": "NO",
+    "upstream": {
+      "repository": "duplocloud/devkit",
+      "url": "https://github.com/duplocloud/devkit",
+      "main_commit": "e9f016fd90a67611907fcf673701351669eaa47d",
+      "latest_release": "v0.2.0",
+      "license": "Apache-2.0"
+    },
+    "wrapper": {
+      "repository": "biobitworks/agent-foundry-duplo",
+      "visibility": "private",
+      "local_path": "/Users/byron/projects/toolchains/agent-foundry-duplo",
+      "source_commit_at_init": "e9f016fd90a67611907fcf673701351669eaa47d",
+      "init_commit": "e24f5f83c10d6889eb3422c2a2e17fb0fe9b324e",
+      "head": "fee7875f138781a95c6060134b814997d5cb7ea0",
+      "init_method": "scripts/init-project.sh run in the WRAPPER only (fresh git history, origin repointed); never in the canonical Agent Foundry repo",
+      "created_by": "operator terminal session (observed, not by this agent)",
+      "gitleaks": "history clean after fingerprint-allowlisting 2 upstream doc false positives"
+    },
+    "official_setup_doc": "wrapper hackday/Installing DevKit.md",
+    "status": "INSTALLED_NOT_RUNNING",
+    "platform_ready": "NOT_OBSERVED",
+    "blockers": [
+      "HUMAN_ACTION_REQUIRED: run.sh prompts for admin email (work domain), admin password, LLM provider + key; DuploCloud emails a verification link",
+      "Docker engine (OrbStack) not running on magicPRObox at time of check"
+    ],
+    "ports_required": {
+      "4210": "free",
+      "60031": "free",
+      "8010": "free",
+      "27018": "free",
+      "6061": "free",
+      "6333": "free"
+    },
+    "ports_observed_other": {
+      "11434": "ollama LISTEN (untouched)",
+      "8484": "python3 LISTEN (untouched)"
+    },
+    "side_effect_observed": "Starting the OrbStack engine auto-restarted 3 pre-existing containers with restart policies (msm-piecewise-neo4j, seedgraph-neo4j-local, openshell-cluster-nemoclaw). Left running; ports do not collide. Engine VM reports 8 GB memory / 8 CPUs on a 16 GB host."
+  }
 }

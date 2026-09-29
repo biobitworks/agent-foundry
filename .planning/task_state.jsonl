@@ -7,3 +7,4 @@
 {"ts":"2026-09-29T05:19:52Z","task":"phase_3_compare","state":"EXECUTED","note":"24 tests; native comparison, Glasswork adapter NOT_IMPLEMENTED"}
 {"ts":"2026-09-29T05:36:52Z","task":"phase_4_inspector_ui","state":"EXECUTED","note":"UI browser-verified; 32 tests; 2 real captures recorded; defects fixed: replicate pair, stale UI"}
 {"ts":"2026-09-29T05:41:56Z","task":"phase_6_checkpoint_replay","state":"EXECUTED","note":"40 tests; 1 real replay verified n=1; REPLAY_FAILED classification added after finding misclassification risk"}
+{"ts":"2026-09-29T05:56:07Z","task":"duplo_wrapper_setup","state":"EXECUTED_PARTIAL","note":"wrapper pushed fee7875; engine started; platform NOT running; HUMAN_ACTION_REQUIRED for run.sh email/password/LLM key/verification link"}

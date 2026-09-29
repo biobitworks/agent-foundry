@@ -6,7 +6,7 @@ This document records how the Hack Day integrations participate in Agent Foundry
 
 | Integration | Role | Status | Receipt / evidence |
 |---|---|---|---|
-| DuploCloud | External agent-development and execution substrate | EXECUTED with explicit direct-skill fallback; Duplo agent dispatch FAILED_AUTH | `provenance/BREAKPOINT_DUPLO_THIN_EXTENSION_016.json`; `provenance/rehearsal/duplo_rehearsal_20260929T143948Z.json`; wrapper `biobitworks/agent-foundry-duplo` |
+| DuploCloud | External agent-development and execution substrate | PARTIAL: workspace/extension/resource/write-back executed through an explicit direct-skill fallback; Duplo agent dispatch FAILED_AUTH | `provenance/BREAKPOINT_DUPLO_THIN_EXTENSION_016.json`; `provenance/rehearsal/duplo_rehearsal_20260929T143948Z.json`; wrapper `biobitworks/agent-foundry-duplo` |
 | PLAUD | Independent human/audio evidence ingress | PARTIAL: exact audio and transcript bytes independently hash-verified; governed FCO/Merkle admission NOT_EXECUTED | `provenance/plaud/PLAUD_MEETING_BYTES_20260929.json`; raw private media intentionally not tracked |
 | Neo4j | Rebuildable projection / query / visualization substrate | EXECUTED | `provenance/BREAKPOINT_HACKERSQUAD_E2E_REHEARSAL_018.json`; `provenance/rehearsal/hackersquad_e2e_20260929T200636Z.json` |
 

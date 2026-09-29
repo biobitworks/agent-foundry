@@ -1,0 +1,57 @@
+{
+  "schema": "agent-foundry.turn_breakpoint.v1",
+  "id": "AGENT_FOUNDRY_DUPLO_RUNTIME_SETUP_015",
+  "parent": "AGENT_FOUNDRY_RECOVER_CONTINUE_014",
+  "parent_note": "the last breakpoint actually present in this repo is AGENT_FOUNDRY_GSD_BOOTSTRAP_002; 003-013 are UNKNOWN here",
+  "created_at": "2026-09-29T07:09:48Z",
+  "verified_new": [
+    "wrapper biobitworks/agent-foundry-duplo exists (private), init commit e24f5f8 from devkit e9f016fd, pushed; HEAD fee7875 == origin",
+    "wrapper history gitleaks: 2 upstream doc false positives, allowlisted by fingerprint",
+    "6 DuploCloud ports free; 11434/8484 listeners untouched",
+    "LFM 350M and 1.2B-Instruct READY (strict JSON); 2.6B not READY in 3 settings",
+    "Antigence deterministic screen matches its own test expectations on 4 inputs"
+  ],
+  "executed": [
+    "ollama pulls: LFM2.5-2.6B (1.7GB), LFM2.5-350M (229MB)",
+    "16 real recorded runs Antigence core vs Liquid",
+    "50 tests"
+  ],
+  "observed": [
+    "350M: false positive + missed attack; 1.2B: false positive on benign debug question",
+    "OrbStack start auto-restarted 3 pre-existing containers",
+    "DuploCloud run.sh needs interactive email/password/LLM key + verification link"
+  ],
+  "decisions": [
+    "do not run init-project.sh in canonical repo",
+    "do not enter operator credentials/email into DuploCloud",
+    "1.2B-Instruct is the local structured fallback candidate; 2.6B is not",
+    "lenient JSON extraction not applied (different contract)"
+  ],
+  "proposed": [
+    "run.sh by operator, then /duplo-extension smoke per integrations/duplocloud/EXTENSION_SMOKE_SPEC.md",
+    "Glasswork export/adapter",
+    "FCO/FCG real-repo bridge",
+    "8B-A1B and 1.2B-Thinking on Studio"
+  ],
+  "not_tested": [
+    "DuploCloud platform",
+    "extension smoke",
+    "OpenCode (not installed)",
+    "Studio sync (ssh guarded)",
+    "8B-A1B",
+    "1.2B-Thinking",
+    "Ollarma routing",
+    "cloud providers"
+  ],
+  "failures": [
+    "2.6B invalid JSON in 3 settings (kept)",
+    "earlier: llama cold-load timeout kept"
+  ],
+  "unresolved": [
+    "HUMAN_ACTION_REQUIRED: run.sh in wrapper",
+    "stray untracked .gitleaksignore.new in wrapper (rm guarded)",
+    "3 auto-restarted containers use RAM; operator to decide",
+    "official rubric UNKNOWN"
+  ],
+  "next_action": "operator runs ./run.sh in the wrapper; then ready gate; then /duplo-extension smoke"
+}

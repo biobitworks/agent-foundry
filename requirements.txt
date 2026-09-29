@@ -1,0 +1,9 @@
+# Versions the recorded evidence was produced and verified with (Python 3.13). Live runs additionally need Ollama; Neo4j runs need Docker (see scripts/moddik_neo4j.sh).
+fastapi==0.135.2
+uvicorn==0.40.0
+pydantic==2.13.5
+starlette==0.51.0
+httpx==0.28.1
+jsonschema==4.26.0
+neo4j==6.1.0
+pytest==8.4.2

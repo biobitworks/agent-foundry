@@ -1,5 +1,7 @@
 # Demo acceptance and build priority
 
+> **Post-submission status note (2026-09-29):** this file is a planning-time requirement list, not an achievement claim. DuploCloud did **not** participate in the demonstrated Moddik workflow (thin extension smoke only; its agent lane failed authentication). See the README and `provenance/` for what executed.
+
 Source: operator-stated, derived from `provenance/requirements/AI_CONFERENCE_REQUIREMENTS.jsonl`
 (official criteria: execution, product clarity, real-world viability: could a customer use it, would they pay).
 Everything here is `PROPOSED` until demonstrated.

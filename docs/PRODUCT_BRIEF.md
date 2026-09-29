@@ -1,5 +1,7 @@
 # Agent Foundry: product brief (input to GSD; NOT canonical provenance)
 
+> **Post-submission status note (2026-09-29):** this brief was the planning input. The boundary below describes intended adapters; HydraDG, Glasswork, Ollarma and FCO/FCG bridges are **NOT_IMPLEMENTED/NOT_TESTED** as adapters, and DuploCloud did not participate in the demonstrated workflow. See the README for the executed state.
+
 **Tagline:** Debug your AI agents like software.
 
 Agent Foundry is a provider-neutral developer reliability and debugging product for AI agents.

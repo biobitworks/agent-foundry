@@ -1,0 +1,48 @@
+{
+  "basis": "no repository or log evidence establishes when the original probe ran; the run-log event timestamps (2026-09-29T22:08:46Z) are when the receipt was RECORDED, not when the probe occurred",
+  "bounds": {
+    "exact_time": "UNKNOWN",
+    "not_later_than": "2026-09-29T22:08:46Z (the receipt was recorded after the probe)"
+  },
+  "corrected_time_of_original_tunnel_probe": "UNKNOWN",
+  "correction_id": "route_failure_receipt_correction_001",
+  "corrects": [
+    {
+      "field": "observations[1].utc",
+      "file": "demo/recorded/context_compare/eca_v01/route_failure_receipt.json",
+      "file_sha256": "2fa72ecd266cd983864ef6baf322308090233c9ff75bc36f8be1f582b37317f3",
+      "malformed_value": "2026-09-29T21:5x"
+    },
+    {
+      "field": "event seq 1 (failure) payload.observations[1].utc",
+      "file": "demo/recorded/context_compare/eca_v01/eca-v01-route-attempts.jsonl",
+      "file_sha256": "90155991df6153cdf5f7cf1adad1695215ef4d5f38064144f450e56674bfdbad",
+      "malformed_value": "2026-09-29T21:5x"
+    }
+  ],
+  "fresh_probe_at_release_closure": {
+    "note": "exactly timestamped; connection refused means the operator-managed tunnel is not up; no repair attempted; ssh not attempted (workspace guard)",
+    "observed_by": "agent",
+    "probes": [
+      {
+        "result": "UNREACHABLE (URLError)",
+        "target": "http://127.0.0.1:21434/api/tags",
+        "utc": "2026-09-29T23:07:45Z"
+      },
+      {
+        "result": "UNREACHABLE (URLError)",
+        "target": "http://127.0.0.1:18484/health",
+        "utc": "2026-09-29T23:07:45Z"
+      },
+      {
+        "result": "UNREACHABLE (URLError)",
+        "target": "http://127.0.0.1:18000/",
+        "utc": "2026-09-29T23:07:45Z"
+      }
+    ]
+  },
+  "original_files_modified": false,
+  "policy": "historical receipts are append-only; the malformed value is preserved in place and superseded by this correction",
+  "schema": "agent-foundry.receipt_correction.v1",
+  "unaffected": "the substantive observation (tunnel ports refused; OPENJEV_STUDIO_CONNECTIVITY=FAILED operator-declared) is unchanged; only the malformed time field is corrected"
+}

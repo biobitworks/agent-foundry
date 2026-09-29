@@ -1,0 +1,87 @@
+{
+  "schema": "agent-foundry.turn_breakpoint.v1",
+  "id": "AGENT_FOUNDRY_HACKDAY_POSTSUBMISSION_FINAL_001",
+  "name": "BREAKPOINT_HACKDAY_POSTSUBMISSION_FINAL",
+  "created_at": "2026-09-29T23:13:29Z",
+  "kind": "SUCCESSOR post-submission repository state; NOT the submission-time repository state",
+  "HACKERSQUAD_SUBMITTED": "YES",
+  "submission_time_operator_reported": "2026-09-29T15:29:41-07:00",
+  "submission_commit": "NOT_ESTABLISHED (no evidence ties a Git commit to the submission; a local-only branch 'submission/final-redteam-v01-20260929' at 5417780 exists but is not treated as evidence)",
+  "VIDEO_RECORDED": "YES",
+  "latest_take_operator_reported": "TAKE_2",
+  "video_and_submission_facts_basis": "operator-reported; not represented by a governed artifact in this repository",
+  "parent": "AGENT_FOUNDRY_VITHIA_OPENJEV_LIQUID_COMPARE_001",
+  "main_predecessor": "5417780cdfdceac06a31a772e15c627a7038511c",
+  "comparison_branch_predecessor": {
+    "branch": "compare/vithia-openjev-liquid-v01",
+    "head": "2af8cfb81c64eb2fc49349c1275a4926bc0f3b99",
+    "freeze_commit": "7c1370a40546d2e7ae098830e95c5704e244013c",
+    "ahead_of_main": 2,
+    "behind_main": 0
+  },
+  "final_main_sha": "NOT_EMBEDDED (self-referential; read git rev-parse origin/main and the handoff block)",
+  "readme_sha256": "91575d86ccc930025f332313cd86b29f93ac1a42a37e2a2f8073895107f00382",
+  "readme_correction": "stale 'baseline only / Nothing is implemented yet' replaced with a README grounded in executed evidence",
+  "recomputed_from_repository_bytes": {
+    "context_primary": {
+      "bytes": 835,
+      "sha256": "0748ed93c648903e64aa5295bc75cd4c5c979b089065a2447e250e06d5f88402"
+    },
+    "context_control": {
+      "bytes": 451,
+      "sha256": "a0098d3793f0bd47602040f9d866742182aecd9bb6ed4f80362e2be49ca85068"
+    },
+    "upstream_commit": "dbca313a22b3f3bdc35f7b4f45d5fd550b22b9b9",
+    "freeze_commit_is_ancestor_of_comparison_head": true
+  },
+  "verification": {
+    "tests": "124 tests (123 pre-existing/added closure tests + this breakpoint test) all passing at final; command: PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python3 -m pytest tests -q -p no:cacheprovider",
+    "moddik_verify_neo4j": "PASS",
+    "path_divergence_verify": "PASS",
+    "ieee_dmf_admit_verify": "PASS (metadata only; raw ACCESS_BLOCKED)",
+    "context_compare_verify": "PASS (Neo4j 62 nodes before delete, 0 after delete, 62 after rebuild; FCO/FCG subgraph identical; unrelated nodes untouched; 0 causal-like edges)",
+    "gitleaks": "see handoff (tree + staged: no leaks)"
+  },
+  "studio": {
+    "STUDIO_LIQUIDAI_ARM": "NOT_TESTED",
+    "reason": "magicSTUDIObox unreachable: tunnel ports 21434/18484/18000 refused at 2026-09-29T23:07:45Z; ssh guarded; no repair attempted (time-boxed)",
+    "OPENJEV_STUDIO_CONNECTIVITY": "FAILED (operator-declared; preserved)",
+    "pro_local_liquid_label": "LIQUIDAI_PRO_LOCAL_PROVISIONAL (not relabelled Studio)"
+  },
+  "plaud": {
+    "status": "importer IMPLEMENTED and unit-tested on synthetic bytes; no real PLAUD recording/transcript is committed or admitted; REAL_PLAUD_AUDIO=NOT_TESTED; governed PLAUD Merkle custody NOT claimed",
+    "private_artifacts_in_git": "NONE (no audio, transcript or PLAUD files tracked)"
+  },
+  "privacy_scan": {
+    "team_emails_in_tracked_files": "NONE (addresses searched: the three named team addresses plus a generic email regex)",
+    "secrets_patterns": "no values found; descriptive mentions only",
+    "absolute_user_paths": "present in 11 tracked receipt/doc files (username only; not secrets)"
+  },
+  "integration_claim_corrections": [
+    "README architecture table marks HydraDG/Glasswork/Ollarma/FCO-FCG adapters NOT_IMPLEMENTED/NOT_TESTED",
+    "DuploCloud stated as thin-extension smoke only, agent lane FAILED_AUTH, not part of the demonstrated workflow (status notes added to docs/DEMO_ACCEPTANCE.md and docs/PRODUCT_BRIEF.md)",
+    "Similarweb, OpenRouter, Crusoe, Vultr, Band, Merge.dev, Nebius, Brave, UserTesting marked NOT_USED",
+    "Neo4j, Liquid AI, OpenJEV retained as material because executed receipts exist"
+  ],
+  "malformed_historical_timestamp": {
+    "value": "2026-09-29T21:5x",
+    "locations": [
+      "demo/recorded/context_compare/eca_v01/route_failure_receipt.json (observations[1].utc)",
+      "demo/recorded/context_compare/eca_v01/eca-v01-route-attempts.jsonl (event seq 1 payload)"
+    ],
+    "handling": "NOT rewritten; superseded by demo/recorded/context_compare/eca_v01/route_failure_receipt_correction_001.json with the time UNKNOWN (no evidence establishes it); a fresh exactly-timestamped probe was added"
+  },
+  "gitleaks_ignore_review": "6 exact file:rule:line fingerprints, all the sha256 of the pinned OpenJEV tokenizer file under a 'tokenizer.json' key; enforced by a test; no broad suppression",
+  "repo_license": "NOT_SELECTED (operator decision); third-party licenses documented in the README",
+  "visibility": "PRIVATE (unchanged)",
+  "GITHUB_FINAL_APPROVED": "NOT_DECIDED (belongs to the independent red-team pass)",
+  "not_tested": [
+    "Studio LiquidAI arm",
+    "OpenJEV on Studio",
+    "live ASR",
+    "real PLAUD audio",
+    "model quality (no preregistered evaluation)",
+    "IEEE raw data (ACCESS_BLOCKED)"
+  ],
+  "next_action": "independent red-team review"
+}

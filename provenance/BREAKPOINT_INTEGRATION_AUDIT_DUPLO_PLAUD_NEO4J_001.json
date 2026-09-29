@@ -1,0 +1,52 @@
+{
+  "schema": "agent-foundry.turn_breakpoint.v1",
+  "id": "AGENT_FOUNDRY_INTEGRATION_AUDIT_DUPLO_PLAUD_NEO4J_001",
+  "parent": "AGENT_FOUNDRY_VITHIA_OPENJEV_LIQUID_COMPARE_001",
+  "review_scope": "DuploCloud / PLAUD / Neo4j integration evidence and README presentation",
+  "verified_new": [
+    "DuploCloud wrapper repository biobitworks/agent-foundry-duplo exists and contains typed AgentFoundryRun resource, provision-agentfoundry skill, and thin-adapter mapping",
+    "Duplo rehearsal receipt records API resource creation, explicit direct-skill fallback, canonical Agent Foundry API call with local Liquid model, and result written back into Duplo; Duplo agent dispatch itself FAILED_AUTH with HTTP 401",
+    "Exact operator-provided PLAUD audio bytes independently hashed: 15224876 bytes, sha256 bf9bb0284597f8820981b54292127104875b5a27f5d3f673ad28791db49fe55d",
+    "Exact operator-provided PLAUD transcript bytes independently hashed: 77153 bytes, sha256 49ec64d89419aea86a91373e8c6f159c31db595c926b3627f89d2939a40fee15",
+    "PLAUD audio duration independently probed as 5074.884 seconds",
+    "Neo4j prior verified rehearsal receipt records version 5.26.24, 91 nodes, 299 relationships, delete/rebuild identical counts, canonical log unchanged, and 0 causal-style edges"
+  ],
+  "executed": [
+    "GitHub remote audit of canonical Agent Foundry repo and DuploCloud wrapper repo",
+    "Independent local byte hashing of supplied PLAUD audio and transcript",
+    "README updated on compare/vithia-openjev-liquid-v01 to replace stale baseline-only text and document integration roles/status",
+    "docs/INTEGRATIONS.md added",
+    "provenance/plaud/PLAUD_MEETING_BYTES_20260929.json added"
+  ],
+  "observed": [
+    "DuploCloud materially participated through its resource API and direct skill adapter fallback, but the Duplo agent LLM lane did not dispatch because of FAILED_AUTH",
+    "PLAUD capture bytes are real and reproducibly identified, but governed FCO admission and Merkle commitment remain NOT_EXECUTED / NOT_COMPUTED",
+    "Neo4j is documented and previously verified as a rebuildable non-canonical projection"
+  ],
+  "decisions": [
+    "DuploCloud README status is EXECUTED with explicit fallback and FAILED_AUTH disclosure, not generic PASS",
+    "PLAUD README status is PARTIAL; byte identity is verified but platform-side provenance, FCO admission, and Merkle custody are not upgraded",
+    "Neo4j remains non-canonical; FCO/FCG is the canonical evidence and lineage substrate",
+    "raw PLAUD audio/transcript remain outside Git"
+  ],
+  "proposed": [
+    "Claude/local operator performs final full test + gitleaks + optional fresh Neo4j runtime verification before merging branch to main",
+    "operator may execute the existing PLAUD importer later to create a governed addendum without rewriting this byte-verification predecessor"
+  ],
+  "not_tested": [
+    "fresh Neo4j runtime execution during this independent review (remote desktop command quota unavailable)",
+    "PLAUD MCP/API origin verification",
+    "PLAUD governed FCO admission",
+    "PLAUD Merkle construction",
+    "DuploCloud agent dispatch after gateway credential repair"
+  ],
+  "failures": [
+    "DuploCloud agent LLM gateway auth 401 remains preserved",
+    "Remote Desktop Commander runtime verification could not be executed because the remote tool-call quota was exhausted; no retry attempted"
+  ],
+  "unresolved": [
+    "final local test/gitleaks pass after documentation commits",
+    "whether repository will remain private or be made public after privacy review"
+  ],
+  "next_action": "Claude/operator runs final closure verification on magicPRObox, then independent GitHub red-team checks final remote main"
+}

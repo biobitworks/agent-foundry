@@ -1,0 +1,201 @@
+{
+  "actor_id": "agent-foundry-path-divergence",
+  "anticube_state": {
+    "identity": "non-self",
+    "safety": "unknown"
+  },
+  "authorization_basis": "operator task IEEE_DIGITAL_MICROFLUIDICS_DATASET_FCO_ADMISSION_001 (metadata-level intake; no credentials used)",
+  "body": {
+    "anticube_state": {
+      "DISPOSITION": "NOT_COMPUTED (requires known SELFNESS and SAFETY; default disposition table has no UNKNOWN row)",
+      "EPISTEMIC_STATE": "NOT_DEFINED_IN_RECOVERED_ARTIFACTS",
+      "EVIDENCE_FCOS": [],
+      "POINT_SHA256": "42493baea7c547ad2ef77e92a6fdf8111e7e0b1ba9d0f5ddeb3f136540e95eb7",
+      "PREDICATE_IDS": [],
+      "SAFETY": "UNKNOWN",
+      "SELFNESS": "UNKNOWN",
+      "SUPERSEDES": "073f5108c4455e817a1b884d54ea98f4322202b6245a3a30855c076c33c4446e",
+      "TIME": 9,
+      "note": "no Anticube predicates were assessed for this simulation; verifier PASS and workflow abstention are NOT mapped to Anticube classes",
+      "schema": "agent-foundry.anticube_point.v1",
+      "statistical_result_implies_class": false
+    },
+    "domain": "moddik-local-simulation (SOURCE=SIMULATED)",
+    "fcg_state": {
+      "edge_count": 77,
+      "edges_sha256_identity_only": "48e1186cc6ad752531faef6cc0ab2a9412b751dbedcc5f4973aeeccb33cad4e2",
+      "last_event_index": 71,
+      "node_content_ids": [
+        "cid:sha256:952bb6f0e4bfdc5989692d4011bf96df7b606ef09a2d57d27fe7dd93a9229d91",
+        "cid:sha256:a8a2290493559bd8aab2d52f038b86fe94b05a6beb8e43c3b2f158aa174f4f3c",
+        "cid:sha256:ea5b561f8ae4938ad1d23b092074d7fb6dcfd1ba457a766d0e5bf7d9c7b733e8",
+        "cid:sha256:e3d243a0197bee8ff883d558ef08977e0d663e90adcf42040a8ddd623edaa5a2",
+        "cid:sha256:76072b29ad4068b81d2dd7e94a7427967a757f08d1be4287c5536dd79b31900a",
+        "cid:sha256:a796d1f798e022b2be86cf39d394ae2d8986ea2757b3dd498bc368d98e57e603",
+        "cid:sha256:46ecca9946329c361a1321364fa4e5e8c53ddde5efbab96573a1b78eead5a167",
+        "cid:sha256:aa3d17b8755e4867b4bb39f0005817131f1eaac6826a0c04c31aef8a080ebbf9",
+        "cid:sha256:b2c605eac2086af17d620331fede9ad3fcaed87c23e11f54d32c0bf2c2493c03",
+        "cid:sha256:30c5a3ae8fbe021c61cc3ebab5a3e58185f762201f84f7e14601947947987d45",
+        "cid:sha256:610427f7f9a5a785063a6e3e7a090a8f50a912e4d21676e419d51842d633339a",
+        "cid:sha256:ed5496130b65d0bddf6126e34e18771f66b0ad5bbafebf0d4c262e5c044f7b6e",
+        "cid:sha256:c729bc045ee6a25effb875bb63df64b1e46933dd8814d04b4f7f351a89a0edc1",
+        "cid:sha256:7266fbae68ba02f20c044b424dd51afbc62bf66d145ae41c93481993319f368c",
+        "cid:sha256:b16c1ae99533b9c23f3e816c1a9d8038cadcc160bf693fc54c8fde3c65a86035",
+        "cid:sha256:35337c5167a605989f81355be30513bf178840ed298a98dbadaf8fff81551ce5",
+        "cid:sha256:4305c657a1012af4c8376fe3e64df85c1440a3cd9ef48a1a5cb4ff8de908dec3",
+        "cid:sha256:17563475eae5a46264e4b0051937c1d5f9acabe960f1c8a58a69fc1401b83af6",
+        "cid:sha256:0dca293f0e021510edca46fdea2deea29c83b807c9ce94cb8be3e0e1585023bf",
+        "cid:sha256:01e4bfbfe1e18e68084bc07a42ff1ad3d53c85c5f240ca3102b5d176d62856c8",
+        "cid:sha256:27f56ad7caab64f24288b193f304a796009669ec87d48df956a2509ff1dfb335",
+        "cid:sha256:cb140cbd0f004c6c7d0aefe053abd8bc81e099849653f867b7ffa5b74e2d5d76",
+        "cid:sha256:3953838f2f4dea276e6f211e59d69cdd3a8bccafb32dbcb9b70e4ce23175501e",
+        "cid:sha256:4072f621626ae485103918b290858ffbec0123564172c5e21fb96256bb22bb5c",
+        "cid:sha256:f51cec796e72db29de3d45590afea7a420273458377e7ff265369fa7cd5e57ea",
+        "cid:sha256:5e9f52df4ae59e6fa5c7e7aa7949322dcc746fcbe5f95f6f50f6654fb50a688b",
+        "cid:sha256:b76ef3e82e6fd510748c1973e3faeb38ad6f65fe3db57ba94b0a63d1caba4c19",
+        "cid:sha256:8b45fd90d2adf4b3182f4661cc4b81ff7d2c5fd810de07918847ff5aa8ba3f1e",
+        "cid:sha256:33641b2097632cfb67c8d7a4cc91e1360087f0cc89031a35a6b769a7841c4e91",
+        "cid:sha256:ab6c440deca5d6cc1f091da3c54acbed9dba7dcfba95dd8dabb7a2795aa79f56",
+        "cid:sha256:916b86dd3c4415a9986e41640c44f69d04a710c2e5922129c7c7cd35e703412e",
+        "cid:sha256:d1600f5cb0799ee83146dbf5f1f78264ef2a8b515d6ede29dc886a71c8d874f0",
+        "cid:sha256:22bda4f34979ec62ab8758cccb001166c94e93eaeb92988a1e54a0b62e5f4422",
+        "cid:sha256:37fcc0999aa3846dfd38463745e9765b228a6e4dc0a36c109f1b096bbbb76b25",
+        "cid:sha256:d9c3e682eaabcbcbe685644b325507b1fd45aea9d8b6f109a812c71ec0593da5",
+        "cid:sha256:ec2fd40adceac6d71003974b52670125f5bffde0334d5a2bc01a8db466aede08",
+        "cid:sha256:15e5322ee52d66cbfbdd5b85b33c8f6843598c9c5cbe67c0435c6943cd13bc5e",
+        "cid:sha256:e013d198e44b26f2da9d9dca0f5d73f9a1f546573cceda021c597c14289e3db8",
+        "cid:sha256:f2f916cce6f4c76acf7f85af0b6b9ca40b66584cfb5753c475ccc85c573fab29",
+        "cid:sha256:980530b498e05021a8d5b00f1f61fb001f17d8e5462cc02ee52a32e7cf9f703f",
+        "cid:sha256:dbbb11fa64b1b824736c0f5b785f40dce0a87787e58a51f33246061276b848ec",
+        "cid:sha256:715483444f7e52d73d5838a7af8485745f32f29049cfb55a03927ba865cb1b85",
+        "cid:sha256:3cd1d6090c0899a0b3f5872e763debc92dbdc7f6cc8ef72d0aa2e26b0d3ffe79",
+        "cid:sha256:ed3b81660bd77745e9531a477bf3939715897ac6551a375980f1f46c82041f42",
+        "cid:sha256:da72d2ab070d3c54550f59091a4e31b8c401bb9c1c66b6987d196b9fe28e73c0",
+        "cid:sha256:775a364264bbe8f952c789fe4000aae3b4e6f5bee253b10b17711a9f4dbbe0e7",
+        "cid:sha256:5db2028a49de87fb2b012cda5915d49e7c85a3fdf7dbbfafb982fb2097d266dd",
+        "cid:sha256:bb697c90a0e77c358871cf928f611d74d4e6afa55075ec1a6b687515d4d25ca1",
+        "cid:sha256:41cfef886d1697c444175a598936718f7f356cf4aa772e5c09de48568b0d9764",
+        "cid:sha256:fd95b65ffaa2512f7804bd28dbc2a6330ebf9d963b195588cd1fdd1b44c56e09",
+        "cid:sha256:d4005d378e382037308beec8b457673bdcd91de609fcb2a26edc5af871215cef",
+        "cid:sha256:d3e4efeb5d476cbdfe2e81f29f24131e2d3d52aba2963b5e3e688d6017a91b01",
+        "cid:sha256:5701ca83c70de900d0981b59b29f9cd127b710e7b15309919338cffff75d6e14",
+        "cid:sha256:3cafb57686d8601e520ccf00ad6890a65dcf356fadd2271e8a5934991813c714",
+        "cid:sha256:1d018928a10c331ef7db0c0212f30c5bb789bcdc7ad66066be88dc211f0ca222",
+        "cid:sha256:2984884c5bfe28c4d938a6d367110f395aab1338194f0de70c78973b44ea264a",
+        "cid:sha256:2663e490fda16207ab32b9c65528a48e23eabf124c129e7bc57186aabbb167e2",
+        "cid:sha256:5551e1a9847436eeaa43362d79873c2fda98a7e3cdc702ab40296ec0b7a4e7fe",
+        "cid:sha256:a99fe6a9bd2c3afc502eb433ddbdd198a25675c7e407295da5a8f2cd60135b28",
+        "cid:sha256:7cc32950e632095e79035940aec350eee726549a96cfbb88495de7eb65818e56",
+        "cid:sha256:f865c88e11152195216f11a2ea74bda6e078e5a5614e36d82177ab1b3018ce48",
+        "cid:sha256:16139c7feb1fd864fb0ecd97178e766ffd913a28670a68694ac78e61efb9f686",
+        "cid:sha256:86569e6b7a8d41280dcb6342f838bd77a8ff68f16c1759d34606639b3af4fda2",
+        "cid:sha256:009d5878ec009226c521de13059aaa7ba07b678a5dd4c499ebde54e4dab42009",
+        "cid:sha256:ec197f5c5b578ac438c6dc37d4f2eb4508b75be0cef39abb558b9febfa4041cc",
+        "cid:sha256:e1cffa144e16a0a928059b5bc955aa79f13b4403f9b9c002b78b9973b7909c49",
+        "cid:sha256:b8b017bebf6c84688744ad25e8ce113ee09799c77d5c15a7bf002c515d97171c",
+        "cid:sha256:8147e86744193f1504d8f7aaf94952c5cbeafd6c3e1c3083b3b7102e5c2fb5d5",
+        "cid:sha256:674e4b5301ebb83d0772522a1d12bdff9554b6faee0c8fbd7de2285368fa3cc1",
+        "cid:sha256:ba6cd587abf1b6a47c8409f962c34305474887c3bd2f71c0b7fa0e5f766c2030",
+        "cid:sha256:b76b48ef0e8cd4d772f5ba9c1b2a473bd309d43ea967c82d7e21c91bc78ca0a0",
+        "cid:sha256:8440d24391c67c91116bd437dbdf36f16ee4300e1fcf843494e2e14a2606de01"
+      ],
+      "node_count": 72
+    },
+    "g_star_state": {
+      "G_star": "NOT_COMPUTED",
+      "components": {
+        "DELTA_COMPLEXITY": "NOT_EXECUTED",
+        "DELTA_CUSTODY": "NOT_EXECUTED",
+        "DELTA_GRAPH_STRUCTURE": "NOT_EXECUTED",
+        "DELTA_INFORMATION": "NOT_EXECUTED",
+        "DELTA_PREDICTION": "NOT_EXECUTED",
+        "DELTA_REPLAY": "NOT_EXECUTED"
+      },
+      "is_thermodynamic_gibbs_free_energy": false,
+      "program": "GSTAR_PROGRAM_UNNAMED",
+      "reason": [
+        "no probabilistic comparison frame: sensor readings are point observations and the model output is not a distribution (G_info needs KL(q||p))",
+        "no frozen target/comparison frame",
+        "DeltaG* component definitions have no executed, frozen implementation in the recovered artifacts"
+      ],
+      "uses_hash_distance": false
+    },
+    "observation": {
+      "CO2": {
+        "unit": "%",
+        "value": 5.311
+      },
+      "O2": {
+        "unit": "%",
+        "value": 16.03
+      },
+      "actuator_state": {
+        "unit": "state",
+        "value": "IDLE"
+      },
+      "mechanical_stress": {
+        "unit": "Pa",
+        "value": 0.839
+      },
+      "nutrient": {
+        "unit": "mM",
+        "value": 12.697
+      },
+      "pH": {
+        "unit": "pH",
+        "value": 7.059
+      },
+      "waste": {
+        "unit": "mM",
+        "value": 16.927
+      }
+    },
+    "schema": "agent-foundry.endpoint_state.v1",
+    "sim_time_s": 5400,
+    "tick": 9,
+    "timestamp_or_sequence": {
+      "last_event_index": 71,
+      "sim_time_s": 5400,
+      "tick": 9
+    }
+  },
+  "canonicalization_method": "agent_foundry.ids.canonical_json(sorted keys, compact separators, UTF-8) over {object_type, body}",
+  "claim_ceiling": "diagnostic localization on a deterministic SIMULATED replay pair; not a causal-mechanism claim; G*/DeltaG*/S*/Anticube explanation is NOT_COMPUTED; the simulator has no state dynamics (readings are scripted functions of tick), so endpoint agreement after a perturbation is a property of the script",
+  "content_hash": "sha256:84c25cec69f08f7f60e3163059d087aae155364a1aed4c982871d96f55441a2d",
+  "context": {
+    "note": "context (run occurrences) is outside the content identity; a state shared by both runs has one identity and two occurrences",
+    "occurrences": [
+      {
+        "evidence_event_ids": {
+          "CO2": "occ:sha256:93d7dfc464a7e8fff27a2155cbdfac6e9c88e45d4e788d38c32f16552ba40dc9",
+          "O2": "occ:sha256:ad761632421c752dc70c6f1b9b705a665f0afca84389cc0622c2fd87a704ce1a",
+          "actuator_state": "occ:sha256:ccafee9b219bab8f0b7963c28b632cea5f21c322f8440e88c244d26da1992175",
+          "mechanical_stress": "occ:sha256:0ee5bd6f4fe88a00e2dfbb04f7bce635acccc4f501cb604e276b89ca82633c87",
+          "nutrient": "occ:sha256:6e5d4e5df646d35df5443c9012ac79a33f98cd4a1694cb5d908e4a1e913464ba",
+          "pH": "occ:sha256:002cfe265c35ff0092644631f61c426eedbc90b4d05d18fddc673601a911d483",
+          "waste": "occ:sha256:2c5ef01d2e4b6d0915fbca5404c5b142ccfd11614d93a8f5fb0d112b868771ba"
+        },
+        "last_event_id": "occ:sha256:ccafee9b219bab8f0b7963c28b632cea5f21c322f8440e88c244d26da1992175",
+        "run_id": "rec1-moddik-perturbed",
+        "run_role": "observed_perturbed",
+        "source_run_sha256": "108168acf11ee7902e65633eaf99c7aad7e62103e82267782fe88590d5b93e62"
+      }
+    ]
+  },
+  "created_at": "2026-09-29T21:14:42Z",
+  "device_or_instrument_id": null,
+  "encryption": null,
+  "environment_hash": null,
+  "fco_version": "1.3.0",
+  "object_id": "fco:sha256:84c25cec69f08f7f60e3163059d087aae155364a1aed4c982871d96f55441a2d",
+  "object_type": "EndpointState",
+  "parent_hashes": [
+    "sha256:108168acf11ee7902e65633eaf99c7aad7e62103e82267782fe88590d5b93e62"
+  ],
+  "project_id": "agent-foundry",
+  "run_id": "pd-moddik-v01-intake",
+  "signature": null,
+  "software_hash": "sha256:577da044c633ad857517582f71527213365c0b1c4d977191e846acd991b5c967",
+  "source_or_derivative": "derivative",
+  "status": "draft"
+}

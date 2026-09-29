@@ -1,0 +1,14 @@
+{
+  "schema": "agent-foundry.path_divergence_recording.v1",
+  "kind": "REAL_EXECUTION_RECORDED",
+  "admission_id": "path_divergence_moddik_v01",
+  "run_file": "pd-moddik-v01.jsonl",
+  "run_sha256": "5275b065d966009f7c943bb7632132dfd7bbcb9319c98b12d6f691f32768a959",
+  "source_pair": "demo/recorded/moddik/rehearsal_1",
+  "program": "GSTAR_PROGRAM_UNNAMED",
+  "limits": [
+    "G*/DeltaG*/S*/P(Gamma)/Anticube explanation NOT_COMPUTED",
+    "nominal=predicted role is declared",
+    "simulator has no state dynamics"
+  ]
+}

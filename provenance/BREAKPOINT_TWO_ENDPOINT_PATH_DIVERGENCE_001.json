@@ -1,0 +1,65 @@
+{
+  "schema": "agent-foundry.turn_breakpoint.v1",
+  "id": "AGENT_FOUNDRY_TWO_ENDPOINT_PATH_DIVERGENCE_001",
+  "parent": "AGENT_FOUNDRY_IEEE_DMF_FCO_ADMISSION_001",
+  "created_at": "2026-09-29T21:17:06Z",
+  "base_head": "40cd7e75e92b68087b1a24cf274074286df7c2f7",
+  "branch": "analysis/path-divergence-v01",
+  "program": "GSTAR_PROGRAM_UNNAMED (not Hydra DeltaG*; G*/DeltaG* are not thermodynamic Gibbs free energy)",
+  "fco_content_hashes": {
+    "T2_two_endpoint_path": "sha256:cd1ee77872a7270aa36e1c0b6f89ec15b068feceb40591aa16792f48d15e631f",
+    "EndpointState:9": "sha256:84c25cec69f08f7f60e3163059d087aae155364a1aed4c982871d96f55441a2d",
+    "EndpointState:8": "sha256:abc5068cd07c9eff1feaf725d812b5ed8c33f85dba519b7c8ca04710da2eaee1",
+    "EndpointState:10": "sha256:426ba0a707825656e6e390517ca65a38a974c287d1863e6c04c0dc4f034128f3",
+    "RunLog:nominal": "sha256:30f69ac4a71511e9ababa6c397c722ca047b1dbac57f56e02ba8c2d22e4f9c28",
+    "T1_one_step": "sha256:7812f36adfb2274a6b6071deae3c02f6593ec6bfb983e78aca808d7e53c39827",
+    "RunLog:perturbed": "sha256:108168acf11ee7902e65633eaf99c7aad7e62103e82267782fe88590d5b93e62"
+  },
+  "verification_receipt": "provenance/path_divergence/path_divergence_verification_20260929T211632Z.json",
+  "verified_new": [
+    "dataset branch fast-forward merged into main (d9e7fe0 -> 40cd7e7), pushed, remote matches",
+    "the recorded Moddik pair recovered from canonical run logs: identical 68-event prefix, first divergence event 68 (nutrient tick 9: 10.197 vs 12.697), reproduced by compare_runs, a raw content-id scan and re-simulation from the seed (all = 68); recorded leaves equal regenerated simulator output",
+    "project definitions found: DeltaG* is a component VECTOR defaulting to NOT_EXECUTED; Anticube defined as SELFNESS x SAFETY; no definition of EPISTEMIC_STATE/DISPOSITION dimensions; no frozen S*/tau/weights; fco-r18 path_sum.py is a self-described editorial heuristic"
+  ],
+  "executed": [
+    "5 EndpointState FCOs, 2 RunLog FCOs (bytes re-hashed), 2 PathDivergenceFCO objects; 16 FCG edges (derived_from, compared_with; ontology v1.3.0)",
+    "T1: ENDPOINT+DIRECTION+MAGNITUDE wrong in nutrient only; T2: observation endpoints equal, PATH_WRONG at tick 9, FCG endpoint state differs",
+    "Anticube comparison executed: all UNKNOWN -> NOT_COMPUTED_ALL_UNKNOWN; G*/DeltaG*/S*: NOT_COMPUTED; P(Gamma): PROPOSED",
+    "Neo4j projection 25 nodes/64 relationships; delete -> rebuild identical; lineage closure equals canonical; 0 causal edges; unrelated nodes untouched",
+    "103 tests pass; gitleaks clean; Moddik/dataset artifacts byte-unchanged; moddik_verify and ieee_dmf_admit verify PASS"
+  ],
+  "observed": [
+    "the simulator has no state dynamics (readings are scripted per tick), so the perturbed tick-9 value does not propagate and the tick-10 observation endpoint equals the nominal one",
+    "the workflow action differs downstream (MEDIUM_EXCHANGE_RECOMMENDED vs no action) although the tick-10 observation vectors agree",
+    "one project-local Neo4j now holds: 14 (ieee_dmf) + 25 (path_divergence) + 91 (Moddik run) + 10 shared nodes; 0 causal edges"
+  ],
+  "decisions": [
+    "nominal = predicted role is a declared assignment (no independent model prediction exists)",
+    "aggregates across mixed units are NOT_COMPUTED; single-unit L2 only when all differing components share a unit",
+    "Anticube stays UNKNOWN: verifier PASS and workflow abstention are not predicates",
+    "fco-r18 path_sum.py not reused",
+    "'merge the databases' interpreted as merging the dataset branch into main and keeping all projections in the one project-local Neo4j"
+  ],
+  "proposed": [
+    "preregister S* terms, weights, tau, q, M_A before any P(Gamma)",
+    "define EPISTEMIC_STATE and DISPOSITION Anticube dimensions",
+    "dynamical Moddik simulator with state propagation",
+    "IEEE DMF frame0..frame15 observation FCOs once raw access exists"
+  ],
+  "not_tested": [
+    "IEEE vector analysis (DEFERRED_ACCESS)",
+    "any nonzero DeltaG*",
+    "real (non-simulated) trajectories",
+    "model-predicted successor states",
+    "magicSTUDIObox"
+  ],
+  "failures": [
+    "none"
+  ],
+  "unresolved": [
+    "definitions listed under proposed",
+    "raw IEEE data access",
+    "FCO repo writeback (deferred candidate)"
+  ],
+  "next_action": "operator decides on preregistering S*/Anticube dimensions and on IEEE raw access"
+}

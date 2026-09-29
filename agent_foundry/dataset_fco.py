@@ -128,8 +128,13 @@ def build_edge(rel: str, src: str, dst: str, *, basis: str, relationship_status:
             "ontology_status": "FCG_ONTOLOGY_V1.3.0" if rel in ONTOLOGY_V130 else "PROPOSED_EXTENSION (not in v1.3.0 ontology list)", "causal": False, "created_at": created_at, "run_id": run_id}
 
 
+BYTE_TYPES = ("SourcePageSnapshot", "RunLog")
+
+
 def verify_fco_hash(fco: dict, snapshot_bytes_lookup=None) -> bool:
     """Recompute CONTENT_ID from the stored body. SourcePageSnapshot identity is over saved bytes (only checkable if the bytes are available)."""
+    if fco["object_type"] == "RunLog":  # the committed run log is in the repo, so the bytes can actually be re-hashed
+        return "sha256:" + hashlib.sha256((ROOT / fco["body"]["path"]).read_bytes()).hexdigest() == fco["content_hash"]
     if fco["object_type"] == "SourcePageSnapshot":
         if snapshot_bytes_lookup is None:
             return fco["canonicalization_method"] == SNAPSHOT_METHOD and re.fullmatch(r"sha256:[0-9a-f]{64}", fco["content_hash"]) is not None
@@ -168,3 +173,27 @@ def load_canonical(directory: Path = None):
     for p in sorted((d / "fcg" / "edges").glob("*.jsonl")):
         edges += [json.loads(l) for l in p.read_text().splitlines() if l.strip()]
     return fcos, edges
+
+
+def load_canonical_sub(sub: str, directory: Path = None):
+    """Load a sub-collection (fco/objects/<sub>/, fcg/edges/<sub>/) so separate admissions never mix in the top-level loader."""
+    d = directory or ROOT
+    fcos = {}
+    for p in sorted((d / "fco" / "objects" / sub).glob("*.json")):
+        f = json.loads(p.read_text())
+        fcos[f["content_hash"]] = f
+    edges = []
+    for p in sorted((d / "fcg" / "edges" / sub).glob("*.jsonl")):
+        edges += [json.loads(l) for l in p.read_text().splitlines() if l.strip()]
+    return fcos, edges
+
+
+def closure(edges: list, start: str, rels=("derived_from",)) -> set:
+    out, stack = set(), [start]
+    while stack:
+        cur = stack.pop()
+        for e in edges:
+            if e["src_content_hash"] == cur and e["rel"] in rels and e["dst_content_hash"] not in out:
+                out.add(e["dst_content_hash"])
+                stack.append(e["dst_content_hash"])
+    return out

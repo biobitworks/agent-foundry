@@ -21,3 +21,7 @@
 {"ts": "2026-09-29T20:53:18Z", "decision": "license_flags_UNKNOWN_despite_declared_CC_BY", "rationale": "CC BY 4.0 appears only in page JSON-LD, not in visible text; applicability to data bytes unverified"}
 {"ts": "2026-09-29T20:53:18Z", "decision": "no_dataset_merkle_root", "rationale": "no raw bytes and no governed dataset-admission breakpoint pattern for metadata-only intake; DATASET_MERKLE_ROOT=NOT_COMPUTED"}
 {"ts": "2026-09-29T20:53:18Z", "decision": "projection_merges_scoped_by_admission_id", "rationale": "a unit test showed event-id-only MERGE let a second admission overwrite the first and delete its nodes on clear; fixed"}
+{"ts": "2026-09-29T21:16:30Z", "decision": "nominal_is_predicted_role_declared", "rationale": "no independent model prediction exists in the recorded pair; roles are a labelled assignment"}
+{"ts": "2026-09-29T21:16:30Z", "decision": "do_not_reuse_fco_r18_path_sum_as_S_star", "rationale": "self-described editorial heuristic with unfrozen lambdas over a publication graph; not GSTAR"}
+{"ts": "2026-09-29T21:16:30Z", "decision": "anticube_all_unknown_no_inference_from_verifier_or_abstention", "rationale": "assert_no_stat_to_anticube_inference: statistical/verifier outcomes are not predicates"}
+{"ts": "2026-09-29T21:16:30Z", "decision": "merge_databases_interpreted_as_merging_dataset_branch_into_main_and_keeping_all_projections_in_the_one_project_local_neo4j", "rationale": "instruction ambiguous; no other Neo4j instance touched"}

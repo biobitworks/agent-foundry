@@ -1,0 +1,345 @@
+{
+  "actor_id": "agent-foundry-path-divergence",
+  "anticube_state": {
+    "identity": "non-self",
+    "safety": "unknown"
+  },
+  "authorization_basis": "operator task IEEE_DIGITAL_MICROFLUIDICS_DATASET_FCO_ADMISSION_001 (metadata-level intake; no credentials used)",
+  "body": {
+    "S_star": {
+      "observed": {
+        "S_star": "NOT_COMPUTED",
+        "n_transitions": 2,
+        "tau": "NOT_DEFINED",
+        "terms": {
+          "anticube_cost": "NOT_COMPUTED (Anticube supplies admissibility separately; no cost defined)",
+          "delta_g_star_cost": "NOT_COMPUTED (DeltaG* NOT_COMPUTED)",
+          "fcg_edge_cost": "NOT_COMPUTED (no executed definition with preregistered/frozen weight in the recovered artifacts)",
+          "hysteresis_cost": "NOT_COMPUTED (no executed definition with preregistered/frozen weight in the recovered artifacts)",
+          "uncertainty_cost": "NOT_COMPUTED (no executed definition with preregistered/frozen weight in the recovered artifacts)"
+        },
+        "weights": "NOT_PREREGISTERED"
+      },
+      "predicted": {
+        "S_star": "NOT_COMPUTED",
+        "n_transitions": 2,
+        "tau": "NOT_DEFINED",
+        "terms": {
+          "anticube_cost": "NOT_COMPUTED (Anticube supplies admissibility separately; no cost defined)",
+          "delta_g_star_cost": "NOT_COMPUTED (DeltaG* NOT_COMPUTED)",
+          "fcg_edge_cost": "NOT_COMPUTED (no executed definition with preregistered/frozen weight in the recovered artifacts)",
+          "hysteresis_cost": "NOT_COMPUTED (no executed definition with preregistered/frozen weight in the recovered artifacts)",
+          "uncertainty_cost": "NOT_COMPUTED (no executed definition with preregistered/frozen weight in the recovered artifacts)"
+        },
+        "weights": "NOT_PREREGISTERED"
+      }
+    },
+    "anticube_comparison_executed": true,
+    "classification": {
+      "DIRECTION_WRONG": {
+        "basis": "no displacement sign flips",
+        "value": false
+      },
+      "ENDPOINT_WRONG": {
+        "basis": "observation endpoint identical in every component (exact equality; deterministic simulation)",
+        "value": false
+      },
+      "FCG_STATE_ENDPOINT_DIFFERS": {
+        "basis": "node content-id sets of the FCG state (identity comparison, not hash distance)",
+        "value": true
+      },
+      "MAGNITUDE_WRONG": {
+        "basis": "net displacement magnitudes identical",
+        "value": false
+      },
+      "PATH_WRONG": {
+        "basis": "intermediate state(s) at step [1] differ",
+        "value": true
+      },
+      "TIMING_WRONG": {
+        "basis": "no observed end value matches an earlier predicted state (no time-shifted match)",
+        "value": false
+      }
+    },
+    "computation_status": {
+      "S_star": "NOT_COMPUTED",
+      "direction_error": "COMPUTED_PER_COMPONENT; aggregate NOT_COMPUTED",
+      "endpoint_error": "COMPUTED (per component in native units; single-unit L2 over changed components where applicable)",
+      "first_anticube_divergence": "NOT_COMPUTED_ALL_UNKNOWN",
+      "first_delta_g_star_divergence": "NOT_COMPUTED",
+      "first_divergence_event_id": "COMPUTED (reproduced 3 independent ways)",
+      "first_fcg_divergence": "COMPUTED (identity-based diff over declared dependencies; not DELTA_GRAPH_STRUCTURE)",
+      "magnitude_error": "COMPUTED_PER_COMPONENT; aggregate NOT_COMPUTED",
+      "path_weighting": "PROPOSED"
+    },
+    "custody_state": "COMPUTED_FROM_COMMITTED_RUN_LOGS",
+    "diagnosis": {
+      "labels": {
+        "DIRECTION_WRONG": false,
+        "ENDPOINT_WRONG": false,
+        "FCG_STATE_ENDPOINT_DIFFERS": true,
+        "MAGNITUDE_WRONG": false,
+        "PATH_WRONG": true,
+        "TIMING_WRONG": false
+      },
+      "primary": "PATH_WRONG",
+      "text": "PATH_WRONG with observation-endpoint agreement: start and end observation vectors coincide, the intermediate state at tick 9 differs in 'nutrient' (10.197 vs 12.697); the FCG-state endpoints still differ because downstream workflow events differ (action MEDIUM_EXCHANGE_RECOMMENDED vs NONE). The simulator has no state dynamics, so endpoint agreement is a property of the script. No G*/DeltaG*/Anticube explanation is computable."
+    },
+    "diagnosis_primary": "PATH_WRONG",
+    "diagnostic_name": "PathDivergenceFCO",
+    "direction_error": {
+      "aggregate": "NOT_COMPUTED (cosine/angle across mixed units is not defined without preregistered scaling)",
+      "per_component": {
+        "CO2": {
+          "flipped": false,
+          "observed_sign": 1,
+          "predicted_sign": 1
+        },
+        "O2": {
+          "flipped": false,
+          "observed_sign": -1,
+          "predicted_sign": -1
+        },
+        "mechanical_stress": {
+          "flipped": false,
+          "observed_sign": 1,
+          "predicted_sign": 1
+        },
+        "nutrient": {
+          "flipped": false,
+          "observed_sign": -1,
+          "predicted_sign": -1
+        },
+        "pH": {
+          "flipped": false,
+          "observed_sign": -1,
+          "predicted_sign": -1
+        },
+        "waste": {
+          "flipped": false,
+          "observed_sign": 1,
+          "predicted_sign": 1
+        }
+      }
+    },
+    "endpoint_error": {
+      "aggregate": "NOT_COMPUTED (no differing components)",
+      "per_component": {
+        "CO2": 0.0,
+        "O2": 0.0,
+        "mechanical_stress": 0.0,
+        "nutrient": 0.0,
+        "pH": 0.0,
+        "waste": 0.0
+      }
+    },
+    "evidence_ids": [
+      "occ:sha256:fc2fd876b87b37615917c5c46a95e8aeb741b3bd86ba8b4257dea851253d9cec",
+      "occ:sha256:6e5d4e5df646d35df5443c9012ac79a33f98cd4a1694cb5d908e4a1e913464ba",
+      "occ:sha256:fa75b8c815a897ec5ccb927c27f79b4a3873cfb25ff484c3785111974686411e",
+      "occ:sha256:6800b7dcb366ad9b622b23330c64791dd733ec1066239c4554b96d1b0230b48c"
+    ],
+    "fcg": {
+      "DELTA_GRAPH_STRUCTURE": "NOT_EXECUTED (no frozen definition; this identity diff is descriptive and is NOT that component)",
+      "action_divergence": {
+        "nominal": "MEDIUM_EXCHANGE_RECOMMENDED",
+        "perturbed": "NONE (abstention event: no simulated action derived: recommendation=NO_INTERVENTION, criteria_met=False)"
+      },
+      "changed_without_declared_dependency": 0,
+      "downstream_changed_event_types": [
+        "abstention",
+        "checkpoint",
+        "decision",
+        "evaluation",
+        "model",
+        "run_completed",
+        "tool"
+      ],
+      "first_action_divergence_index": 80
+    },
+    "first_anticube_divergence": "NOT_COMPUTED_ALL_UNKNOWN",
+    "first_delta_g_star_divergence": "NOT_COMPUTED (DeltaG* NOT_COMPUTED on both paths)",
+    "first_divergence_event_id": {
+      "all_agree": true,
+      "index": 68,
+      "nominal_occurrence": "occ:sha256:fc2fd876b87b37615917c5c46a95e8aeb741b3bd86ba8b4257dea851253d9cec",
+      "perturbed_occurrence": "occ:sha256:6e5d4e5df646d35df5443c9012ac79a33f98cd4a1694cb5d908e4a1e913464ba",
+      "reproduced_by": [
+        "compare_runs",
+        "raw_content_id_scan",
+        "resimulation_from_seed"
+      ]
+    },
+    "first_fcg_divergence": {
+      "control_event_id": "occ:sha256:fc2fd876b87b37615917c5c46a95e8aeb741b3bd86ba8b4257dea851253d9cec",
+      "index": 68,
+      "kind": "payload",
+      "variant_event_id": "occ:sha256:6e5d4e5df646d35df5443c9012ac79a33f98cd4a1694cb5d908e4a1e913464ba"
+    },
+    "g_star_tracking": {
+      "observed": {
+        "delta_g_star_per_step": [
+          "NOT_COMPUTED_NO_COMPARABLE_PREDECESSOR",
+          "NOT_COMPUTED_G_STAR_UNDEFINED",
+          "NOT_COMPUTED_G_STAR_UNDEFINED"
+        ],
+        "drift": "NOT_COMPUTED (needs a G* time series)",
+        "mean": "NOT_COMPUTED (no distribution)",
+        "n_states": 3,
+        "persistence": "NOT_COMPUTED (needs a G* time series)",
+        "quantiles": "NOT_COMPUTED (no distribution)",
+        "value_or_distribution": "NOT_COMPUTED (no G* values, no distributions)",
+        "variance": "NOT_COMPUTED (no distribution)"
+      },
+      "predicted": {
+        "delta_g_star_per_step": [
+          "NOT_COMPUTED_NO_COMPARABLE_PREDECESSOR",
+          "NOT_COMPUTED_G_STAR_UNDEFINED",
+          "NOT_COMPUTED_G_STAR_UNDEFINED"
+        ],
+        "drift": "NOT_COMPUTED (needs a G* time series)",
+        "mean": "NOT_COMPUTED (no distribution)",
+        "n_states": 3,
+        "persistence": "NOT_COMPUTED (needs a G* time series)",
+        "quantiles": "NOT_COMPUTED (no distribution)",
+        "value_or_distribution": "NOT_COMPUTED (no G* values, no distributions)",
+        "variance": "NOT_COMPUTED (no distribution)"
+      }
+    },
+    "horizon": "T2_two_endpoint_path",
+    "is_thermodynamic_gibbs_free_energy": false,
+    "magnitude_error": {
+      "aggregate": "NOT_COMPUTED (mixed units; no preregistered weighting)",
+      "per_component": {
+        "CO2": {
+          "abs_difference": 0.0,
+          "observed_abs": 0.108,
+          "predicted_abs": 0.108
+        },
+        "O2": {
+          "abs_difference": 0.0,
+          "observed_abs": 0.444,
+          "predicted_abs": 0.444
+        },
+        "mechanical_stress": {
+          "abs_difference": 0.0,
+          "observed_abs": 0.005,
+          "predicted_abs": 0.005
+        },
+        "nutrient": {
+          "abs_difference": 0.0,
+          "observed_abs": 4.117,
+          "predicted_abs": 4.117
+        },
+        "pH": {
+          "abs_difference": 0.0,
+          "observed_abs": 0.08,
+          "predicted_abs": 0.08
+        },
+        "waste": {
+          "abs_difference": 0.0,
+          "observed_abs": 4.083,
+          "predicted_abs": 4.083
+        }
+      }
+    },
+    "net_vector_observed": {
+      "CO2": 0.108,
+      "O2": -0.444,
+      "mechanical_stress": 0.005,
+      "nutrient": -4.117,
+      "pH": -0.08,
+      "waste": 4.083
+    },
+    "net_vector_predicted": {
+      "CO2": 0.108,
+      "O2": -0.444,
+      "mechanical_stress": 0.005,
+      "nutrient": -4.117,
+      "pH": -0.08,
+      "waste": 4.083
+    },
+    "not_hydra_delta_g_star": true,
+    "observed_end_state_id": "state:sha256:43c6dca10c95786b1083881678479db67498081ab3858b04320491fd2abef989",
+    "observed_path": [
+      "state:sha256:abc5068cd07c9eff1feaf725d812b5ed8c33f85dba519b7c8ca04710da2eaee1",
+      "state:sha256:84c25cec69f08f7f60e3163059d087aae155364a1aed4c982871d96f55441a2d",
+      "state:sha256:43c6dca10c95786b1083881678479db67498081ab3858b04320491fd2abef989"
+    ],
+    "observed_path_id": "path:sha256:6558e3746aaa9eda159f037e12cba7befeb339a0b871fe6d130302fcefc8c342",
+    "path_step_deviation": [
+      {
+        "fcg_state_differs": false,
+        "observation_deviation_observed_minus_predicted": {},
+        "tick": 8
+      },
+      {
+        "fcg_state_differs": true,
+        "observation_deviation_observed_minus_predicted": {
+          "nutrient": 2.5
+        },
+        "tick": 9
+      },
+      {
+        "fcg_state_differs": true,
+        "observation_deviation_observed_minus_predicted": {},
+        "tick": 10
+      }
+    ],
+    "path_weighting": {
+      "formula": "P(Gamma) ~ q(Gamma) * M_A(Gamma) * exp(-S_star[Gamma] / tau)",
+      "reason": "no executed implementation and no frozen parameters (q, M_A, tau, weights) exist in the project; the fco-r18 path_sum.py heuristic is editorial and not GSTAR",
+      "status": "PROPOSED",
+      "value_per_path": {
+        "observed": "NOT_COMPUTED",
+        "predicted": "NOT_COMPUTED"
+      }
+    },
+    "predicted_end_state_id": "state:sha256:426ba0a707825656e6e390517ca65a38a974c287d1863e6c04c0dc4f034128f3",
+    "predicted_path": [
+      "state:sha256:abc5068cd07c9eff1feaf725d812b5ed8c33f85dba519b7c8ca04710da2eaee1",
+      "state:sha256:f238183124adaee71ab452d8300bca4581e9299a6457238f993d93e76088b606",
+      "state:sha256:426ba0a707825656e6e390517ca65a38a974c287d1863e6c04c0dc4f034128f3"
+    ],
+    "predicted_path_id": "path:sha256:8c589bac42f68d0dd6d8dcee8ec66232512d07eb76c9dfd525cbcb614ed6a906",
+    "program": "GSTAR_PROGRAM_UNNAMED",
+    "raw_bytes_state": "NOT_APPLICABLE",
+    "role_assignment": "nominal = PREDICTED (reference), perturbed = OBSERVED, declared by this analysis; no independent model prediction exists in the artifacts",
+    "start_state_id": "state:sha256:abc5068cd07c9eff1feaf725d812b5ed8c33f85dba519b7c8ca04710da2eaee1",
+    "unsupported_fields": [
+      "EPISTEMIC_STATE (no definition in recovered artifacts)",
+      "DISPOSITION (needs known SELFNESS and SAFETY)",
+      "G_star (no probabilistic comparison frame)",
+      "DeltaG_star (G* undefined)",
+      "DELTA_GRAPH_STRUCTURE / DELTA_REPLAY / DELTA_CUSTODY / DELTA_PREDICTION / DELTA_INFORMATION / DELTA_COMPLEXITY (no frozen definitions)",
+      "S_star (terms undefined, weights not preregistered)",
+      "P(Gamma) (PROPOSED only)",
+      "direction_error_aggregate and magnitude_error_aggregate across mixed units (no preregistered scaling)",
+      "first_anticube_divergence (all Anticube states UNKNOWN)",
+      "first_delta_g_star_divergence"
+    ]
+  },
+  "canonicalization_method": "agent_foundry.ids.canonical_json(sorted keys, compact separators, UTF-8) over {object_type, body}",
+  "claim_ceiling": "diagnostic localization on a deterministic SIMULATED replay pair; not a causal-mechanism claim; G*/DeltaG*/S*/Anticube explanation is NOT_COMPUTED; the simulator has no state dynamics (readings are scripted functions of tick), so endpoint agreement after a perturbation is a property of the script",
+  "content_hash": "sha256:cd1ee77872a7270aa36e1c0b6f89ec15b068feceb40591aa16792f48d15e631f",
+  "created_at": "2026-09-29T21:14:42Z",
+  "device_or_instrument_id": null,
+  "encryption": null,
+  "environment_hash": null,
+  "fco_version": "1.3.0",
+  "object_id": "fco:sha256:cd1ee77872a7270aa36e1c0b6f89ec15b068feceb40591aa16792f48d15e631f",
+  "object_type": "PathDivergenceFCO",
+  "parent_hashes": [
+    "sha256:abc5068cd07c9eff1feaf725d812b5ed8c33f85dba519b7c8ca04710da2eaee1",
+    "sha256:f238183124adaee71ab452d8300bca4581e9299a6457238f993d93e76088b606",
+    "sha256:426ba0a707825656e6e390517ca65a38a974c287d1863e6c04c0dc4f034128f3",
+    "sha256:84c25cec69f08f7f60e3163059d087aae155364a1aed4c982871d96f55441a2d",
+    "sha256:43c6dca10c95786b1083881678479db67498081ab3858b04320491fd2abef989"
+  ],
+  "project_id": "agent-foundry",
+  "run_id": "pd-moddik-v01-intake",
+  "signature": null,
+  "software_hash": "sha256:577da044c633ad857517582f71527213365c0b1c4d977191e846acd991b5c967",
+  "source_or_derivative": "derivative",
+  "status": "draft"
+}

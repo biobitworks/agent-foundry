@@ -1,0 +1,34 @@
+{
+  "actor_id": "agent-foundry-path-divergence",
+  "anticube_state": {
+    "identity": "non-self",
+    "safety": "unknown"
+  },
+  "authorization_basis": "operator task IEEE_DIGITAL_MICROFLUIDICS_DATASET_FCO_ADMISSION_001 (metadata-level intake; no credentials used)",
+  "body": {
+    "byte_length": 124579,
+    "custody_state": "COMMITTED_IN_GIT",
+    "path": "demo/recorded/moddik/rehearsal_1/variant.jsonl",
+    "raw_bytes_state": "PRESENT",
+    "role": "perturbed",
+    "run_id_of_log": "rec1-moddik-perturbed",
+    "source": "SIMULATED (local Moddik simulation)"
+  },
+  "canonicalization_method": "sha256 over the exact committed run-log bytes",
+  "claim_ceiling": "diagnostic localization on a deterministic SIMULATED replay pair; not a causal-mechanism claim; G*/DeltaG*/S*/Anticube explanation is NOT_COMPUTED; the simulator has no state dynamics (readings are scripted functions of tick), so endpoint agreement after a perturbation is a property of the script",
+  "content_hash": "sha256:108168acf11ee7902e65633eaf99c7aad7e62103e82267782fe88590d5b93e62",
+  "created_at": "2026-09-29T21:14:42Z",
+  "device_or_instrument_id": null,
+  "encryption": null,
+  "environment_hash": null,
+  "fco_version": "1.3.0",
+  "object_id": "fco:sha256:108168acf11ee7902e65633eaf99c7aad7e62103e82267782fe88590d5b93e62",
+  "object_type": "RunLog",
+  "parent_hashes": [],
+  "project_id": "agent-foundry",
+  "run_id": "pd-moddik-v01-intake",
+  "signature": null,
+  "software_hash": "sha256:577da044c633ad857517582f71527213365c0b1c4d977191e846acd991b5c967",
+  "source_or_derivative": "source",
+  "status": "draft"
+}

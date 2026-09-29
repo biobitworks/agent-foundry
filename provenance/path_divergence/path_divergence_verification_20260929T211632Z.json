@@ -1,0 +1,52 @@
+{
+  "schema": "agent-foundry.path_divergence_verification.v1",
+  "admission_id": "path_divergence_moddik_v01",
+  "checks": {
+    "fco_schema_valid": true,
+    "fco_content_ids_recomputed": true,
+    "edges_resolve_ontology_declared_and_not_causal": true,
+    "first_divergence_reproduced_three_ways": true,
+    "common_predecessor_identified": true,
+    "recomputed_diagnostics_equal_stored": true,
+    "not_computed_fields_preserved": true,
+    "no_zero_substituted_for_delta_g_star": true,
+    "endpoint_vs_path_distinction": {
+      "T1_ENDPOINT_WRONG": true,
+      "T1_DIRECTION_WRONG": true,
+      "T2_ENDPOINT_WRONG": false,
+      "T2_PATH_WRONG": true
+    },
+    "run_log_integrity_and_manifest": true,
+    "neo4j": {
+      "nodes_before_delete": 25,
+      "nodes_after_delete": 0,
+      "nodes_after_rebuild": 25,
+      "relationships_after_rebuild": 64,
+      "by_label": {
+        "EvidenceEvent": 9,
+        "FCO": 9,
+        "Run": 1,
+        "RunEvent": 2,
+        "ToolEvent": 3,
+        "VerifierEvent": 1
+      },
+      "by_rel": {
+        "COMPARED_WITH": 2,
+        "DECLARED_DEPENDENCY": 24,
+        "DERIVED_FROM": 14,
+        "OBSERVED_IN": 15,
+        "PROJECTED_FROM": 9
+      },
+      "rebuilt_subgraph_identical_to_before": true,
+      "counts_identical": true,
+      "unrelated_nodes_untouched": true,
+      "causal_like_edges": 0,
+      "lineage_closure_equals_canonical": true,
+      "compared_with_pairs_equal_canonical": true,
+      "closures_reach_run_log_bytes": true
+    }
+  },
+  "distinction_holds": true,
+  "PASS": true,
+  "verified_at": "2026-09-29T21:16:32+00:00"
+}

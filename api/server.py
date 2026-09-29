@@ -352,6 +352,27 @@ def dataset_view(name: str, graph: int = 0):
     return out
 
 
+PDIR = RECORDED / "path_divergence"
+
+
+@app.get("/api/path_divergence/{name}")
+def path_divergence_view(name: str):
+    """Two-endpoint path divergence diagnostic (PathDivergenceFCO) over the recorded Moddik pair: canonical FCO/FCG + recorded run, re-verified on load."""
+    if not re.fullmatch(r"[a-z0-9_]+", name):
+        raise HTTPException(400, "bad name")
+    d = PDIR / name
+    if not (d / "manifest.json").exists():
+        raise HTTPException(404, "no such path-divergence recording")
+    import hashlib
+    from agent_foundry import dataset_fco as dfco
+    man = json.loads((d / "manifest.json").read_text())
+    events = read_run(d / man["run_file"])
+    fcos, edges = dfco.load_canonical_sub("path_divergence")
+    return {"source": "RECORDED_REAL_EXECUTION", "manifest": man, "run_sha256_matches_manifest": hashlib.sha256((d / man["run_file"]).read_bytes()).hexdigest() == man["run_sha256"],
+            "fco_hashes_recomputed": all(dfco.verify_fco_hash(f) for f in fcos.values()), "diagnostics": [f for f in fcos.values() if f["object_type"] == "PathDivergenceFCO"],
+            "states": [f for f in fcos.values() if f["object_type"] == "EndpointState"], "run_logs": [f for f in fcos.values() if f["object_type"] == "RunLog"], "edges": edges, "events": events}
+
+
 @app.get("/")
 def index():
     return FileResponse(ROOT / "app" / "index.html")

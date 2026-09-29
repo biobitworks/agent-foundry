@@ -1,0 +1,32 @@
+{
+  "schema": "agent-foundry.plaud_bytes_receipt.v1",
+  "verification_date": "2026-09-29",
+  "verification_time": "NOT_COMPUTED",
+  "source_origin": "OPERATOR_ATTESTED_PLAUD_EXPORT",
+  "origin_verified_via_plaud_api": false,
+  "public_safe_metadata_only": true,
+  "audio": {
+    "filename": "2026-09-29_11_05_13.mp3",
+    "size_bytes": 15224876,
+    "sha256": "bf9bb0284597f8820981b54292127104875b5a27f5d3f673ad28791db49fe55d",
+    "duration_seconds": 5074.884,
+    "byte_hash_verified": true,
+    "tracked_in_git": false
+  },
+  "transcript": {
+    "filename": "09-29_Developing_a_Deterministic_AI_Framework_for_Automated_Biological_Research-transcript.txt",
+    "size_bytes": 77153,
+    "sha256": "49ec64d89419aea86a91373e8c6f159c31db595c926b3627f89d2939a40fee15",
+    "byte_hash_verified": true,
+    "tracked_in_git": false
+  },
+  "fco_admission": "NOT_EXECUTED",
+  "merkle_commitment": "NOT_COMPUTED",
+  "speaker_identity_mapping": "NOT_COMPUTED",
+  "relation_policy": "PARALLEL_CAPTURE / SAME_SESSION only unless stronger evidence is admitted",
+  "notes": [
+    "Exact file bytes were independently hashed in the current review runtime.",
+    "This receipt establishes byte identity for the supplied files, not authorship, truth, causality, or platform-side PLAUD provenance.",
+    "Raw private audio and transcript are intentionally excluded from Git."
+  ]
+}

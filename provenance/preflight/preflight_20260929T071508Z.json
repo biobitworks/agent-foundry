@@ -1,0 +1,50 @@
+{
+  "schema": "agent-foundry.preflight.v1",
+  "captured_at": "2026-09-29T07:15:08+00:00",
+  "host": "magicPRObox.local",
+  "head": "df88fb43f68d082ca5e8bb97c9cc81eb32f45e4c",
+  "checks": {
+    "git_parity_with_origin_main": {
+      "status": "PASS",
+      "detail": "HEAD=df88fb43 origin=df88fb43 (run `git fetch` first)"
+    },
+    "worktree_clean": {
+      "status": "PASS",
+      "detail": ""
+    },
+    "tests": {
+      "status": "PASS",
+      "detail": "52 passed in 3.64s"
+    },
+    "port_8765_free_for_inspector": {
+      "status": "PASS",
+      "detail": ""
+    },
+    "disk_free_gb>=5": {
+      "status": "PASS",
+      "detail": "18.2 GB free"
+    },
+    "ollama_reachable": {
+      "status": "PASS",
+      "detail": "14 models"
+    },
+    "live_model_present": {
+      "status": "PASS",
+      "detail": "hf.co/LiquidAI/LFM2.5-1.2B-Instruct-GGUF:Q4_K_M"
+    },
+    "live_model_warm_inference_executed": {
+      "status": "PASS",
+      "detail": "51.6s (cold load included on first run)"
+    },
+    "antigence_fixture_matches_its_own_test_expectations": {
+      "status": "PASS",
+      "detail": "4 inputs"
+    },
+    "duplocloud_containers_up": {
+      "status": "FAIL",
+      "detail": "none running"
+    }
+  },
+  "all_pass": false,
+  "note": "duplocloud check is informational for the local demo path; it gates the sponsor path"
+}

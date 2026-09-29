@@ -160,7 +160,8 @@ function render(data){
     left.append(el('h2','','DIVERGENCE = NULL'),el('div','','No difference found; none was manufactured.'));
   }else{
     const fd=cmp.FIRST_DIVERGENCE;const ev=fd.control_event||fd.variant_event;
-    left.append(el('h2','','First divergence at event '+fd.index+' · '+(fd.kind==='event_type'?fd.control_event.event_type+' vs '+fd.variant_event.event_type:ev.event_type)));
+    const same=cmp.AFFECTED_CLAIMS.length>0&&cmp.AFFECTED_CLAIMS.every(a=>!a.changed)&&!cmp.failures_and_abstentions.length&&fd.kind!=='event_type'&&fd.kind!=='length';
+    left.append(el('h2','',(same?'Same answer, different responder: first difference at event ':'First divergence at event ')+fd.index+' · '+(fd.kind==='event_type'?fd.control_event.event_type+' vs '+fd.variant_event.event_type:ev.event_type)));
   }
   left.append(el('p','',cmp.explanation));
   left.append(el('div','note','Declared variable: '+(cmp.declared_variable||'—')+'. '+cmp.attribution_note));
@@ -183,7 +184,12 @@ function render(data){
   const pv=$('prov');pv.replaceChildren();
   const lines=['Runs are internally verified on load (schema, ordering, id recomputation). This proves consistency, not authenticity or answer correctness.',
     'Comparison is native to Agent Foundry (Glasswork adapter: NOT_IMPLEMENTED). Replay/checkpoint: NOT_IMPLEMENTED. Attribution rests on the controlled design of one run per side.'];
-  if(data.manifest)lines.unshift('Recorded capture: '+data.manifest.captured_at+' on '+data.manifest.host+'; models '+JSON.stringify(data.manifest.ollama_model_ids)+'; files sha256 '+Object.entries(data.manifest.files).map(([k,v])=>k+' '+v.slice(0,12)+'…').join(', ')+'. Replaying a recorded capture is not a new execution.');
+  if(data.manifest){const m=data.manifest;const parts=[];
+    if(m.captured_at)parts.push('Recorded capture: '+m.captured_at+(m.host?' on '+m.host:''));else parts.push('Live execution (not a recording)');
+    const mods=m.ollama_model_ids||(m.models&&Object.fromEntries(Object.entries(m.models).map(([k,v])=>[k,v.ollama_model_id||v.tag])));if(mods)parts.push('models '+JSON.stringify(mods));
+    if(m.antigence)parts.push('Antigence HEAD '+String(m.antigence.head).slice(0,8)+' ('+m.antigence.dirty_entries+' uncommitted entries in that checkout)');
+    if(m.files)parts.push('files sha256 '+Object.entries(m.files).map(([k,v])=>k+' '+v.slice(0,12)+'…').join(', '));
+    lines.unshift(parts.join('; ')+'. '+(m.captured_at?'Replaying a recorded capture is not a new execution.':'')+' '+((m.limits||[]).join(' · ')));}
   lines.forEach(l=>pv.append(el('div','',l)));
   const first=cmp.FIRST_DIVERGENCE?cmp.FIRST_DIVERGENCE.index:0;sel(first);
 }

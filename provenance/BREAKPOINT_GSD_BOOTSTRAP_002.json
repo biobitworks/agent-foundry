@@ -1,0 +1,60 @@
+{
+  "schema": "agent-foundry.turn_breakpoint.v1",
+  "id": "AGENT_FOUNDRY_GSD_BOOTSTRAP_002",
+  "parent": "AGENT_FOUNDRY_BOOTSTRAP_001",
+  "created_at": "2026-09-29T05:42:34Z",
+  "verified_new": [
+    "biobitworks/agent-foundry created PRIVATE; baseline pushed",
+    "GSD v1.15.0 tag=b10ab3fd (GitHub) == npm gitHead; MIT",
+    "official AI Conference atoms verified against rendered page incl. collapsed accordions",
+    "node v26.7.0 satisfies >=24 (by execution)",
+    "ollama on 127.0.0.1:11434 and a python listener on 8484 (earlier NOT_LISTENING note was wrong, corrected)"
+  ],
+  "executed": [
+    "GSD local install (exit 0, 794 files, gitignored except manifest)",
+    "gsd-tools init onboard --fast, state.json, roadmap.analyze",
+    "41 pytest",
+    "real qwen2.5:7b and llama3.2:3b runs captured",
+    "real replay of recorded qwen run verified n=1",
+    "inspector UI driven in browser"
+  ],
+  "observed": [
+    "qwen2.5:7b abstains on policy v2; llama3.2:3b wrongly says no on v1",
+    "cold model swap 70-150s on 16GB host under memory pressure",
+    "global GSD skill is 1.8.0 vs pinned 1.15.0"
+  ],
+  "decisions": [
+    "own git repo",
+    "GSD not vendored",
+    "scoped node guard bypass for gsd-tools only (operator-authorized)",
+    "recorded real captures for demo",
+    "provider error != divergence",
+    "session ANTHROPIC_* creds not reused"
+  ],
+  "proposed": [
+    "evidence/FCG lineage (phase 5)",
+    "DuploCloud participation (phase 7)",
+    "demo controls + rehearsal + evidence bundle (8-9)",
+    "Glasswork/HydraDG/FCG adapters"
+  ],
+  "not_tested": [
+    "Ollarma routing (:8484)",
+    "cloud providers",
+    "DuploCloud runtime",
+    "HydraDG descriptor compatibility",
+    "real branch replay",
+    "agenda recheck before event"
+  ],
+  "failures": [
+    "provider timeout recorded honestly in an early local_models attempt (llama cold load)",
+    "two design bugs found and fixed by tests/verification: run_started hashing config; replicate pair rejected; stale UI results; replay misclassifying provider error"
+  ],
+  "unresolved": [
+    "magicSTUDIObox sync (ssh guarded): HUMAN_ACTION_REQUIRED",
+    "DuploCloud devkit needs work-domain email verification: HUMAN_ACTION_REQUIRED",
+    "cloud provider credentials approval",
+    "official judging panel/rubric/deadlines UNKNOWN",
+    "LongHorizon canonical repo UNKNOWN"
+  ],
+  "next_action": "operator: run Studio sync commands; decide DuploCloud + cloud-provider path; then phase 7 (DuploCloud in live run), phase 5 lineage, phase 8-9"
+}

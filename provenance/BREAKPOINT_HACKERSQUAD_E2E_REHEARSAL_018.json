@@ -1,0 +1,51 @@
+{
+  "schema": "agent-foundry.turn_breakpoint.v1",
+  "id": "AGENT_FOUNDRY_HACKERSQUAD_E2E_REHEARSAL_018",
+  "parent": "AGENT_FOUNDRY_MODDIK_LOCAL_DEMO_017",
+  "created_at": "2026-09-29T20:07:36Z",
+  "base_head": "942449002f78399cc421f2df8fa9572d48a400d8",
+  "verified_new": [
+    "main == origin/main == 9424490 (git ls-remote); eb0d1b0 is an ancestor; tree clean; 79 tests pass",
+    "Merkle roots for HB:nominal:tick4 (dddc7328...), HB:decision-state:tick9 (f56b0104...), HB:post-decision:tick10 (653744ef...) recomputed with plain hashlib from stored canonical leaf bytes == stored",
+    "Neo4j delete -> rebuild -> identical counts on a freshly recreated project-local container",
+    "first divergent event = nutrient tick 9 (10.197 -> 12.697), identical 68-event prefix, no false divergence"
+  ],
+  "executed": [
+    "clean start per runbook from the app Terminal panel; scene-by-scene UI acceptance A, C1-C6 in the built-in browser at 1440x900",
+    "paced dress rehearsal 178 s (narration estimated)",
+    "gitleaks tree + history: no leaks",
+    "moddik_verify --neo4j: PASS"
+  ],
+  "observed": [
+    "page load to run view 446 ms; graph query 322 ms; pair view 204 ms; 0 console errors",
+    "receipt: provenance/rehearsal/hackersquad_e2e_20260929T200636Z.json",
+    "a stale server from before the last push was running until restarted"
+  ],
+  "decisions": [
+    "record the model step from the recorded run; do not click 'Run live now' on camera",
+    "narration wording guardrails in docs/HACKERSQUAD_VIDEO_SCRIPT.md ('re-ran from the same seed', 'given and cited', typed transcript)",
+    "ASR lane stays on branch live-asr-successor (b521f2c), not admitted to main"
+  ],
+  "proposed": [
+    "operator records the video from the card in docs/HACKERSQUAD_VIDEO_SCRIPT.md",
+    "operator runs the Studio sync commands",
+    "real PLAUD export import after the video (optional)"
+  ],
+  "not_tested": [
+    "real PLAUD audio (importer implemented, no addendum)",
+    "live microphone ASR",
+    "magicSTUDIObox sync (ssh blocked in this workspace)",
+    "code files opened in an editor on camera",
+    "contents of seedgraph/msm Neo4j instances (not audited)",
+    "real Moddik hardware (NOT_CONNECTED)"
+  ],
+  "failures": [
+    "none blocking; cosmetic: 'ToolEvent@' text in the Neo4j route line; older Antigence strip above the Moddik banner"
+  ],
+  "unresolved": [
+    "Studio sync needs the operator (ssh blocked)",
+    "ASR successor latency 4-6 min/utterance under memory pressure (swap ~27 of 27.6 GB)",
+    "disk free ~8 GB"
+  ],
+  "next_action": "record the video using the operator card; after recording, optionally run the PLAUD import"
+}

@@ -1,0 +1,61 @@
+{
+  "schema": "agent-foundry.hackersquad_e2e_rehearsal.v1",
+  "captured_at": "2026-09-29T20:06:36Z",
+  "host": "magicPRObox.local",
+  "base_commit": "942449002f78399cc421f2df8fa9572d48a400d8",
+  "url": "http://localhost:8765/?moddik=recorded:rehearsal_1",
+  "startup": {
+    "neo4j": "scripts/moddik_neo4j.sh down then up (empty DB)",
+    "server": "python3 -m uvicorn api.server:app --host 127.0.0.1 --port 8765 started in the app Terminal panel",
+    "observed": [
+      "5 same-origin API calls, 0 external requests, 0 console errors, only /favicon.ico 404",
+      "no credentials in server output",
+      "first graph query on the empty DB rebuilt the projection from the canonical log"
+    ]
+  },
+  "scenes": {
+    "A_problem": "PASS: inspector, plate state, timeline, evidence path visible; tagline in header",
+    "C1": "PASS: click group tick 9 -> click nutrient row -> inspector shows source SIMULATED and event id occ:sha256:fc2fd876...",
+    "C2": "PASS UI + recompute: HB:decision-state:tick9 7 leaves ROOT f56b010492db946c06156d6993d214d1921b7317807fcc03763516ec713c1b82 recomputed with plain hashlib == stored; nominal dddc7328...; post 653744ef...",
+    "C3": "PASS: fresh project-local Neo4j 5.26.24 (127.0.0.1:7691); 91 nodes (90 event + Run) / 299 rels; delete -> 0 run nodes (10 shared nodes remain) -> rebuild -> identical counts; canonical log sha unchanged; 0 CAUS-like edges",
+    "C4": "PASS: ModelEvent index 78 occ:sha256:2ca69191...; ollama hf.co/LiquidAI/LFM2.5-2.6B-GGUF:Q4_K_M provider_kind real; 12 evidence lines + P1 in prompt; 3 cited ids resolve (S4,S5,P1); verifier index 79 PASS",
+    "C5": "PASS: decision index 80 occ:sha256:fa75b8c8..., state PROPOSED, MEDIUM_EXCHANGE_RECOMMENDED, actuation NONE; policy status SCENARIO_PARAMETER=ILLUSTRATIVE shown in banner and left panel",
+    "C6": "PASS: identical 68-event prefix; first divergent event index 68 nutrient tick 9 10.197 -> 12.697 (control occ:sha256:fc2fd876..., variant occ:sha256:6e5d4e5d...); predecessor checkpoint HB:nominal:tick4 index 36 root dddc7328... identical; nominal: evaluation PASS + decision MEDIUM_EXCHANGE_RECOMMENDED; perturbed: evaluation PASS + abstention (NO_INTERVENTION, criteria_met=False)"
+  },
+  "timing_s": {
+    "PROBLEM": 24.0,
+    "STACK": 18.8,
+    "SENSOR_EVIDENCE": 20.4,
+    "BREAKPOINT": 17.6,
+    "NEO4J": 18.8,
+    "MODEL_DECISION": 23.2,
+    "FIRST_DIVERGENCE": 30.4,
+    "CODE": 16.0,
+    "CLOSE": 8.8,
+    "TOTAL": 178.0,
+    "basis": "UI actions executed live; narration seconds ESTIMATED from word counts at 150 wpm plus ~4 s per click; CODE section paced but files not opened in an editor"
+  },
+  "ui_latencies_ms": {
+    "page_to_run_view": 446,
+    "neo4j_query_click": 322,
+    "pair_view": 204,
+    "row_click": 168
+  },
+  "admission": {
+    "tests": "79 passed",
+    "gitleaks_tree": "no leaks",
+    "gitleaks_history": "no leaks",
+    "moddik_verify_neo4j": "PASS",
+    "local_head==origin_main": true
+  },
+  "non_blocking_issues": [
+    "cosmetic: Neo4j route line prints 'ToolEvent@' for the policy-check item",
+    "cosmetic: older Antigence 'Run live' strip sits above the Moddik banner",
+    "server started before a code update is stale (no reload): restart it",
+    "live model run latency 47-135 s: do not click 'Run live now' on camera"
+  ],
+  "blocking_issues": [],
+  "plaud": "REAL_PLAUD_AUDIO=NOT_TESTED; importer implemented; no addendum present; no audio tracked in git",
+  "live_asr": "NOT_TESTED (engine smoke on synthetic speech only, on branch live-asr-successor b521f2c)",
+  "other_neo4j_instances": "seedgraph-neo4j-local and msm-piecewise-neo4j untouched by construction (project credentials, loopback 7691 only, generic NEO4J_* ignored; StartedAt unchanged); their contents were NOT audited (no credentials used)"
+}

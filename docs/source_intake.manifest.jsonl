@@ -1,2 +1,8 @@
 {"ts":"2026-09-29T05:01:17Z","source":"open-gsd/gsd-core@v1.15.0","kind":"upstream_tool","lock":"provenance/GSD_UPSTREAM_LOCK.json"}
 {"ts":"2026-09-29T05:05:34Z","source":"https://aiconference.com/#hackday","kind":"official_event_source","observation":"provenance/requirements/AI_CONFERENCE_SOURCE_OBSERVATION.json","recheck_before_event":true}
+{"ts": "2026-09-29T19:17:29Z", "source": "Moddik Partnering Deck - Non-confidential - 260923.pdf", "kind": "operator_supplied_application_reference", "committed": false, "note": "not in this repo; not committed; concepts used only as scenario shape; deck claims are not local experiments"}
+{"ts": "2026-09-29T19:17:29Z", "source": "https://huggingface.co/LiquidAI/LFM2.5-2.6B", "kind": "official_vendor_model_card", "observed": "pure reasoning model, <think> in template, recommended temperature 0.1/top_k 50/repetition_penalty 1.1"}
+{"ts": "2026-09-29T19:17:29Z", "source": "https://huggingface.co/LiquidAI/LFM2.5-Audio-1.5B", "kind": "official_vendor_model_card", "observed": "English-only ASR via liquid-audio; sequential generation; not installed"}
+{"ts": "2026-09-29T19:17:29Z", "source": "https://docs.plaud.ai/plaud-mcp-cli/mcp", "kind": "official_vendor_docs", "observed": "MCP tools list_files/get_file/get_note/get_transcript; OAuth; presigned_url 24h"}
+{"ts": "2026-09-29T19:17:29Z", "source": "https://dev.plaud.ai/", "kind": "official_vendor_docs", "observed": "developer platform: mobile BLE SDK + transcription API (sign-up/keys); MCP/CLI for account data"}
+{"ts": "2026-09-29T19:17:29Z", "source": "context7:/neo4j/neo4j-python-driver", "kind": "official_library_docs", "observed": "execute_query/MERGE; driver 6.1.0 installed"}

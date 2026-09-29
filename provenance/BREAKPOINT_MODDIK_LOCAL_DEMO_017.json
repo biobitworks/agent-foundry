@@ -1,0 +1,72 @@
+{
+  "schema": "agent-foundry.turn_breakpoint.v1",
+  "id": "AGENT_FOUNDRY_MODDIK_LOCAL_DEMO_017",
+  "parent": "AGENT_FOUNDRY_DUPLO_THIN_EXTENSION_016",
+  "parent_source": "provenance/BREAKPOINT_DUPLO_THIN_EXTENSION_016.json (repo HEAD 2e43abc at start; local == origin/main, clean)",
+  "created_at": "2026-09-29T19:18:17Z",
+  "base_head": "2e43abcced493cc8d6e900d7cc4ff7cfb3f00fc9",
+  "verified_new": [
+    "no Merkle code existed in this repo; FCO reference construction found in fractal-custody-objects (custody.py, order_independent=False)",
+    "official sources: LFM2.5-2.6B is a pure reasoning model with forced <think>; LFM2.5-Audio-1.5B needs liquid-audio + weights; PLAUD has an MCP (OAuth, presigned audio) and a mobile-SDK/transcription developer platform, so 'no public API' was only partly right",
+    "16 GB Mac, 17 GB disk free; torch present, liquid-audio and whisper absent; mic devices enumerate via avfoundation (capture not attempted)"
+  ],
+  "executed": [
+    "deterministic simulator: 77 sensor/actuator leaves, byte-identical on repeat (unit-tested)",
+    "3 HardwareBreakpoints per run: roots recomputed from stored canonical leaf bytes and equal to the FCO reference implementation; all 7 inclusion proofs verify per breakpoint",
+    "project-local Neo4j 5.26 container; projection of 90 events; deleted then rebuilt from the canonical log (nodes 90 == events 90; dep edges 127 == canonical deps 127; no causal edges)",
+    "local LFM2.5-2.6B (Ollama tag hf.co/LiquidAI/LFM2.5-2.6B-GGUF:Q4_K_M, id 26d07caa2ddb): valid JSON after the think block, verifier PASS, cited S4/S5/P1, SIMULATED_ACTION=MEDIUM_EXCHANGE_RECOMMENDED (actuation NONE)",
+    "two independent executions (r1, rec1) were byte-identical including the 3722-char reasoning text (n=2)",
+    "bonus replay: same nominal breakpoint root, first divergence = nutrient@tick9 10.197 -> 12.697; variant derived no action",
+    "inspector Moddik mode loaded in the built-in browser: three columns, breakpoint re-verify PASS, Neo4j route query, paired divergence view",
+    "75 tests pass; gitleaks 0 findings over the would-be-committed file set"
+  ],
+  "observed": [
+    "1.2B-Instruct on the same prompt returned valid JSON but wrong values (nutrient 14.379) and extra keys: the verifier caught it (probe, not a recorded run)",
+    "the app's preview server cannot reach the Neo4j socket (sandbox); a server started from a normal shell can",
+    "MERKLE root of the nominal breakpoint is identical between control and variant; the tick-10 breakpoint root is also identical because it commits only tick-10 leaves"
+  ],
+  "recorded_artifacts": {
+    "recording": "demo/recorded/moddik/rehearsal_1 (control.jsonl sha256 30f69ac4a71511e9ababa6c397c722ca047b1dbac57f56e02ba8c2d22e4f9c28, variant.jsonl sha256 108168acf11ee7902e65633eaf99c7aad7e62103e82267782fe88590d5b93e62)",
+    "verification_receipt": "provenance/moddik/verification_20260929T191609Z.json",
+    "control_roots": {
+      "nominal_tick4": "dddc7328477b6c2bb70ad4d6bd072cc78c21b87768eb21debc22bd84a9aee269",
+      "decision_tick9": "f56b010492db946c06156d6993d214d1921b7317807fcc03763516ec713c1b82",
+      "post_decision_tick10": "653744eff1d04a556e5534266bd4c23bc7535ce3b857b53b7bf3693ca962c435"
+    }
+  },
+  "decisions": [
+    "reuse FCO ordered Merkle construction; cross-check when the checkout is present",
+    "payloads reference content ids, occurrence ids live in deps/meta (a test exposed false divergences otherwise)",
+    "2.6B reopened under a NEW declared contract (json-after-think-v1); the earlier 0/4 remains on record",
+    "retrieval is orchestrator-run bounded Cypher, not model-initiated tool calls",
+    "project-local Neo4j; credentials generated into gitignored .local/, never printed",
+    "PLAUD account-linked path not attempted (OAuth + download need operator authorization)"
+  ],
+  "proposed": [
+    "operator authorizes an isolated venv + liquid-audio install and weights download to test LFM2.5-Audio ASR on a real mic sample",
+    "operator records with PLAUD during rehearsal and exports the audio file; run scripts/plaud_import.py",
+    "map Moddik breakpoints to the canonical FCO/FCG format (bridge NOT_IMPLEMENTED)"
+  ],
+  "not_tested": [
+    "live microphone capture and any ASR (asr.py is an interface; engine raises EngineUnavailable)",
+    "PLAUD import on a real recording (importer unit-tested on synthetic bytes only)",
+    "PLAUD MCP/CLI/SDK/transcription API",
+    "model-initiated tool calls",
+    "model nondeterminism beyond n=2",
+    "Neo4j Browser embedding (a query-driven evidence route is rendered instead)",
+    "Duplo extension with the Moddik scenario",
+    "any real Moddik hardware (NOT_CONNECTED)"
+  ],
+  "failures": [
+    "first inspector attempt: preview-sandboxed server got Neo4j ServiceUnavailable (environment, not code); worked from a normal shell",
+    "first rehearsal attempt raised on the existing evidence-schema (source_ref/content_digest required); fixed by adding those envelope fields outside the Merkle leaf",
+    "first replay test showed false divergence from run-specific ids in payloads; fixed and now unit-tested",
+    "gitleaks over the raw working tree flags my own gitignored .local credential file (correct; never committed); scan of the commit set is clean"
+  ],
+  "unresolved": [
+    "runs/ still holds stray artifacts (rm blocked in this workspace): t1-moddik.jsonl (partial), t2/r1/rec1 (regenerable, gitignored)",
+    "neo4j container agent-foundry-moddik-neo4j left running (127.0.0.1:7691/7476)",
+    "two verification-related decisions await the operator: ASR install approval; PLAUD authorization"
+  ],
+  "next_action": "operator: run the demo from a normal terminal (see docs/DEMO_RUNBOOK.md Moddik section); decide on the ASR venv install and PLAUD export; then push"
+}

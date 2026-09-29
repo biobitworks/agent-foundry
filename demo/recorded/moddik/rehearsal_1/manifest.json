@@ -1,0 +1,88 @@
+{
+  "schema": "agent-foundry.moddik_recording.v1",
+  "kind": "REAL_EXECUTION_RECORDED",
+  "scenario": "moddik-local-simulation",
+  "source": "SIMULATED",
+  "captured_at": "2026-09-29T19:14:06+00:00",
+  "host": "magicPRObox.local",
+  "head": "2e43abcced493cc8d6e900d7cc4ff7cfb3f00fc9",
+  "working_tree_dirty_at_capture": true,
+  "model": {
+    "key": "lfm2p6b",
+    "ollama_tag": "hf.co/LiquidAI/LFM2.5-2.6B-GGUF:Q4_K_M",
+    "ollama_model_id": "26d07caa2ddb",
+    "options": {
+      "temperature": 0.1,
+      "top_k": 50,
+      "repeat_penalty": 1.1,
+      "seed": 1,
+      "num_predict": 3500
+    },
+    "contract": "contract=json-after-think-v1: take the text after the last </think> if present, else the whole reply; strip whitespace; it must parse as ONE JSON object exactly (no markdown fence, no repair, no lenient extraction)"
+  },
+  "simulator": {
+    "seed": "moddik-demo-seed-v1",
+    "hardware_id": "moddik-sim-plate-01",
+    "ticks": 11,
+    "policy": {
+      "id": "illustrative-medium-exchange-v1",
+      "status": "SCENARIO_PARAMETER=ILLUSTRATIVE",
+      "rule": "nutrient < 12.0 mM AND waste > 15.0 mM",
+      "nutrient_below": 12.0,
+      "waste_above": 15.0,
+      "action_if_met": "MEDIUM_EXCHANGE_RECOMMENDED"
+    }
+  },
+  "transcript_source": "OPERATOR_TEXT_INPUT",
+  "graph_backend": "neo4j",
+  "control_breakpoints": [
+    {
+      "label": "nominal",
+      "tick": 4,
+      "MERKLE_ROOT": "dddc7328477b6c2bb70ad4d6bd072cc78c21b87768eb21debc22bd84a9aee269"
+    },
+    {
+      "label": "decision-state",
+      "tick": 9,
+      "MERKLE_ROOT": "f56b010492db946c06156d6993d214d1921b7317807fcc03763516ec713c1b82"
+    },
+    {
+      "label": "post-decision",
+      "tick": 10,
+      "MERKLE_ROOT": "653744eff1d04a556e5534266bd4c23bc7535ce3b857b53b7bf3693ca962c435"
+    }
+  ],
+  "variant_breakpoints": [
+    {
+      "label": "nominal",
+      "tick": 4,
+      "MERKLE_ROOT": "dddc7328477b6c2bb70ad4d6bd072cc78c21b87768eb21debc22bd84a9aee269"
+    },
+    {
+      "label": "decision-state",
+      "tick": 9,
+      "MERKLE_ROOT": "97a37d942b308af61a844264ca21c51d2f11e810974b5c3b3745921e66fc3a6f"
+    },
+    {
+      "label": "post-decision",
+      "tick": 10,
+      "MERKLE_ROOT": "653744eff1d04a556e5534266bd4c23bc7535ce3b857b53b7bf3693ca962c435"
+    }
+  ],
+  "variant_difference": {
+    "sensor": "nutrient",
+    "tick": 9,
+    "delta_mM": 2.5
+  },
+  "files": {
+    "control.jsonl": "30f69ac4a71511e9ababa6c397c722ca047b1dbac57f56e02ba8c2d22e4f9c28",
+    "variant.jsonl": "108168acf11ee7902e65633eaf99c7aad7e62103e82267782fe88590d5b93e62"
+  },
+  "limits": [
+    "LOCAL SIMULATION; no Moddik hardware contacted; no sensor physically tested",
+    "single execution per side; model nondeterminism NOT_COMPUTED",
+    "thresholds/trajectories are ILLUSTRATIVE scenario parameters",
+    "transcript was typed operator text; live ASR NOT_TESTED",
+    "PLAUD custody lane NOT_TESTED with a real recording"
+  ]
+}

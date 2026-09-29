@@ -10,3 +10,18 @@
 7. Sponsor path (blocked until DuploCloud is READY): see integrations/duplocloud/EXTENSION_SMOKE_SPEC.md.
 
 Fallbacks: model cold or Ollama down -> use recorded scenarios (all real, hash-checked in tests); never present a fixture as a real model.
+
+## Moddik local-simulation evidence demo (2-4 min) — LOCAL SIMULATION, source=SIMULATED
+
+Prep (once): `scripts/moddik_neo4j.sh up` (project-local Neo4j, rebuildable projection) and `ollama run hf.co/LiquidAI/LFM2.5-2.6B-GGUF:Q4_K_M ""` to warm the model (a cold load on this 16 GB Mac can be slow).
+Start the inspector **from your own terminal** (the app's preview sandbox blocks the Neo4j socket): `python3 -m uvicorn api.server:app --host 127.0.0.1 --port 8765`, open `http://localhost:8765/?moddik=recorded:rehearsal_1`.
+
+1. Press **Play stream**: the deterministic simulator's sensor state advances (nutrient falls, waste rises; amber = illustrative rule).
+2. Center column: every sensor observation is an independently addressable event; click a tick group to expand it, click an event to see its canonical payload.
+3. Right column: sensor leaves -> HardwareBreakpoint (root, re-verified now) -> transcript -> local Liquid decision -> deterministic verifier -> SIMULATED action -> next breakpoint. Expand the 7 committed leaves.
+4. Say / type "What changed, and does this culture need intervention?" and press **Run live now** (about 1-3 min; recorded run is the fallback: it is a real execution, not a mock).
+5. **Query Neo4j projection** shows the same route from the graph; deleting the projection loses nothing (`python3 scripts/moddik_verify.py --neo4j`).
+6. Bonus: **Replay with one sensor difference** opens the paired inspector: identical prefix (same nominal breakpoint root), first divergence = the changed nutrient reading, no action derived downstream.
+
+Not part of the demo (state): live microphone/ASR NOT_TESTED; PLAUD custody lane NOT_TESTED on a real recording; real Moddik hardware NOT_CONNECTED.
+Re-verify offline: `python3 scripts/moddik_verify.py` (add `--neo4j`, `--write-receipt`).

@@ -1,0 +1,147 @@
+{
+  "schema": "agent-foundry.moddik_verification.v1",
+  "target": "demo/recorded/moddik/rehearsal_1",
+  "checks": {
+    "manifest_file_hashes": true,
+    "fco_reference_implementation_present": true,
+    "control": {
+      "run_log_integrity": true,
+      "events": 90,
+      "all_sensor_events_source_simulated": true,
+      "breakpoints": [
+        {
+          "label": "nominal",
+          "tick": 4,
+          "MERKLE_ROOT": "dddc7328477b6c2bb70ad4d6bd072cc78c21b87768eb21debc22bd84a9aee269",
+          "recomputed_pass": true,
+          "leaves_bound_to_events": true,
+          "leaf_count": 7,
+          "checks": {
+            "order_is_index_order": true,
+            "leaf_hashes_recomputed": true,
+            "leaf_bytes_canonical": true,
+            "root_recomputed": true,
+            "inclusion_proofs_verify_every_leaf": true,
+            "construction_declared": true,
+            "independent_implementation_agrees": true
+          }
+        },
+        {
+          "label": "decision-state",
+          "tick": 9,
+          "MERKLE_ROOT": "f56b010492db946c06156d6993d214d1921b7317807fcc03763516ec713c1b82",
+          "recomputed_pass": true,
+          "leaves_bound_to_events": true,
+          "leaf_count": 7,
+          "checks": {
+            "order_is_index_order": true,
+            "leaf_hashes_recomputed": true,
+            "leaf_bytes_canonical": true,
+            "root_recomputed": true,
+            "inclusion_proofs_verify_every_leaf": true,
+            "construction_declared": true,
+            "independent_implementation_agrees": true
+          }
+        },
+        {
+          "label": "post-decision",
+          "tick": 10,
+          "MERKLE_ROOT": "653744eff1d04a556e5534266bd4c23bc7535ce3b857b53b7bf3693ca962c435",
+          "recomputed_pass": true,
+          "leaves_bound_to_events": true,
+          "leaf_count": 7,
+          "checks": {
+            "order_is_index_order": true,
+            "leaf_hashes_recomputed": true,
+            "leaf_bytes_canonical": true,
+            "root_recomputed": true,
+            "inclusion_proofs_verify_every_leaf": true,
+            "construction_declared": true,
+            "independent_implementation_agrees": true
+          }
+        }
+      ],
+      "all_breakpoints_verified": true,
+      "decision_evidence_chain_resolves": true,
+      "decision_actuation": "NONE (simulation only; no physical actuation)"
+    },
+    "variant": {
+      "run_log_integrity": true,
+      "events": 90,
+      "all_sensor_events_source_simulated": true,
+      "breakpoints": [
+        {
+          "label": "nominal",
+          "tick": 4,
+          "MERKLE_ROOT": "dddc7328477b6c2bb70ad4d6bd072cc78c21b87768eb21debc22bd84a9aee269",
+          "recomputed_pass": true,
+          "leaves_bound_to_events": true,
+          "leaf_count": 7,
+          "checks": {
+            "order_is_index_order": true,
+            "leaf_hashes_recomputed": true,
+            "leaf_bytes_canonical": true,
+            "root_recomputed": true,
+            "inclusion_proofs_verify_every_leaf": true,
+            "construction_declared": true,
+            "independent_implementation_agrees": true
+          }
+        },
+        {
+          "label": "decision-state",
+          "tick": 9,
+          "MERKLE_ROOT": "97a37d942b308af61a844264ca21c51d2f11e810974b5c3b3745921e66fc3a6f",
+          "recomputed_pass": true,
+          "leaves_bound_to_events": true,
+          "leaf_count": 7,
+          "checks": {
+            "order_is_index_order": true,
+            "leaf_hashes_recomputed": true,
+            "leaf_bytes_canonical": true,
+            "root_recomputed": true,
+            "inclusion_proofs_verify_every_leaf": true,
+            "construction_declared": true,
+            "independent_implementation_agrees": true
+          }
+        },
+        {
+          "label": "post-decision",
+          "tick": 10,
+          "MERKLE_ROOT": "653744eff1d04a556e5534266bd4c23bc7535ce3b857b53b7bf3693ca962c435",
+          "recomputed_pass": true,
+          "leaves_bound_to_events": true,
+          "leaf_count": 7,
+          "checks": {
+            "order_is_index_order": true,
+            "leaf_hashes_recomputed": true,
+            "leaf_bytes_canonical": true,
+            "root_recomputed": true,
+            "inclusion_proofs_verify_every_leaf": true,
+            "construction_declared": true,
+            "independent_implementation_agrees": true
+          }
+        }
+      ],
+      "all_breakpoints_verified": true,
+      "decision": "NO_DECISION_EVENT (NOT_COMPUTED path)"
+    },
+    "replay_prefix_breakpoint_identical": true,
+    "divergent_breakpoint_differs": true,
+    "neo4j": {
+      "projection_deleted_then_rebuilt": true,
+      "event_nodes_equal_canonical_events": true,
+      "dependency_edges_equal_canonical_deps": true,
+      "canonical_log_unchanged_by_deletion": true,
+      "no_causal_edges_present": true,
+      "counts": {
+        "events": 90,
+        "nodes": 90,
+        "dep_edges": 127,
+        "canonical_deps": 127
+      }
+    }
+  },
+  "PASS": true,
+  "note": "integrity/consistency over declared leaves and logs; not physical truth; single recorded execution",
+  "verified_at": "2026-09-29T19:16:09+00:00"
+}

@@ -1,0 +1,3 @@
+{"ts": "2026-09-29T19:17:29Z", "candidate": "plaud_account_linked_import", "status": "blocked", "reason": "needs operator OAuth authorization and audio download approval"}
+{"ts": "2026-09-29T19:17:29Z", "candidate": "lfm2.5_audio_local_asr_venv_install", "status": "needs_review", "reason": "new package + multi-GB weights; download requires operator approval; use an isolated venv"}
+{"ts": "2026-09-29T19:17:29Z", "candidate": "fco_fcg_canonical_bridge_for_moddik_breakpoints", "status": "candidate", "reason": "breakpoint receipts are native format; canonical FCO/FCG bridge remains NOT_IMPLEMENTED"}

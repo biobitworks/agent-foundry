@@ -16,7 +16,7 @@ progress:
 See: .planning/PROJECT.md (updated 2026-09-29)
 
 **Core value:** Show where two runs of the same agent task first diverged, what caused it, and whether it can be replayed.
-**Current focus:** Phase 5/6/7 (evidence lineage, checkpoint/replay, DuploCloud)
+**Current focus:** Moddik local-simulation evidence demo (breakpoint 017); then Phase 5/6/7 (evidence lineage, checkpoint/replay, DuploCloud)
 
 ## Current Position
 
@@ -39,3 +39,5 @@ Progress: [█████░░░░░] 56%
 - Cloud providers: operator must approve credentials (session ANTHROPIC_* env not reused). Local Ollama works without credentials.
 - magicSTUDIObox sync: `ssh` guarded in this workspace (HUMAN_ACTION_REQUIRED).
 - DuploCloud runtime: not tested; devkit first run needs a work-domain email verification (HUMAN_ACTION_REQUIRED).
+
+- Moddik demo (2026-09-29): see provenance/BREAKPOINT_MODDIK_LOCAL_DEMO_017.json. Live ASR NOT_TESTED; PLAUD real recording NOT_TESTED; account-linked PLAUD import needs operator OAuth.

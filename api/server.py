@@ -210,6 +210,100 @@ def lineage_recorded(scenario: str):
     return export_lineage(read_run(d / "control.jsonl"), read_run(d / "variant.jsonl"))
 
 
+MD = RECORDED / "moddik"
+
+
+def _moddik_events(source: str, side: str = "control"):
+    """Resolve a Moddik source id to a VERIFIED event list. recorded:<name> (captured real execution) or live:<tag> (executed earlier in this workspace)."""
+    if side not in ("control", "variant"):
+        raise HTTPException(400, "side must be control or variant")
+    m = re.fullmatch(r"recorded:([a-z0-9_]+)", source)
+    if m:
+        path, man = MD / m.group(1) / f"{side}.jsonl", MD / m.group(1) / "manifest.json"
+        kind = "RECORDED_REAL_EXECUTION"
+    elif re.fullmatch(r"live:mv[0-9a-f]{8}", source):
+        path, man, kind = RUNS / f"{source[5:]}-moddik{'' if side == 'control' else '-perturbed'}.jsonl", None, "LIVE_EXECUTION"
+    else:
+        raise HTTPException(400, "bad source")
+    try:
+        return read_run(path), kind, (json.loads(man.read_text()) if man and man.exists() else None)
+    except FileNotFoundError:
+        raise HTTPException(404, "no such moddik run")
+
+
+@app.get("/api/moddik/sources")
+def moddik_sources():
+    rec = [{"id": f"recorded:{d.name}", "kind": "RECORDED_REAL_EXECUTION", "has_variant": (d / "variant.jsonl").exists()} for d in sorted(MD.glob("*")) if (d / "manifest.json").exists()] if MD.exists() else []
+    live = [{"id": f"live:{p.name[:-len('-moddik.jsonl')]}", "kind": "LIVE_EXECUTION", "has_variant": (RUNS / f"{p.name[:-len('-moddik.jsonl')]}-moddik-perturbed.jsonl").exists()}
+            for p in sorted(RUNS.glob("mv*-moddik.jsonl"))]
+    return {"sources": rec + live, "banner": "LOCAL SIMULATION (source=SIMULATED). No Moddik hardware was contacted."}
+
+
+@app.get("/api/moddik/run/{source}")
+def moddik_run_view(source: str, side: str = "control"):
+    from agent_foundry.moddik_view import build_view
+    events, kind, man = _moddik_events(source, side)
+    return {"source": kind, "tag": source, "side": side, "manifest": man, "events": events, "view": build_view(events)}
+
+
+@app.get("/api/moddik/pair/{source}")
+def moddik_pair(source: str):
+    """Control vs one-controlled-sensor-difference replay, in the same shape the paired inspector already renders."""
+    ca, kind, man = _moddik_events(source, "control")
+    cb, _, _ = _moddik_events(source, "variant")
+    return {"tag": source, "source": kind, "manifest": man, "task": {"task_id": ca[0]["payload"]["task_id"], "prompt": "Does the simulated plate need a medium exchange? (variant = ONE controlled sensor difference)"},
+            "control": ca, "variant": cb, "comparison": compare_runs(ca, cb), "replay_supported": False}
+
+
+@app.get("/api/moddik/graph/{source}")
+def moddik_graph_route(source: str, side: str = "control"):
+    """Evidence route from the Neo4j PROJECTION when available (labelled as such); the canonical view is always /api/moddik/run."""
+    from agent_foundry import moddik_graph as g
+    events, _, _ = _moddik_events(source, side)
+    try:
+        drv = g.connect()
+    except Exception as e:
+        return {"backend": "UNAVAILABLE", "reason": f"neo4j not reachable ({type(e).__name__}); canonical run view still available", "credentials": g.credential_status()}
+    try:
+        rid = events[0]["run_id"]
+        have = g.query(drv, "MATCH (r:Run {run_id:$r}) RETURN r.canonical_log_sha256 AS h", r=rid)
+        import hashlib
+        path = (MD / source.split(":", 1)[1] / f"{side}.jsonl") if source.startswith("recorded:") else (RUNS / f"{source[5:]}-moddik{'' if side == 'control' else '-perturbed'}.jsonl")
+        want = hashlib.sha256(path.read_bytes()).hexdigest()
+        if not have or have[0]["h"] != want:  # projection missing or stale: rebuild from the canonical log (rebuildability is the point)
+            g.clear_run(drv, rid)
+            g.project_run(drv, events, path)
+            rebuilt = True
+        else:
+            rebuilt = False
+        return {"backend": "neo4j", "rebuilt_from_canonical_log": rebuilt, "canonical_log_sha256": want, **g.evidence_path(drv, rid),
+                "labels": g.query(drv, "MATCH (n {run_id:$r}) RETURN labels(n)[0] AS label, count(*) AS n ORDER BY n DESC", r=rid)}
+    finally:
+        drv.close()
+
+
+class ModdikRunRequest(BaseModel):
+    transcript: str = "What changed, and does this culture need intervention?"
+    model: str = "lfm2p6b"
+    bonus: bool = False
+
+
+@app.post("/api/moddik/run")
+def moddik_execute(req: ModdikRunRequest):
+    """LIVE execution of the local simulation + local Liquid model (about 1-3 minutes on this Mac). Nothing is actuated."""
+    from agent_foundry import moddik_agent as ag, moddik_run as mr
+    if req.model not in ag.MODELS:
+        raise HTTPException(400, f"model must be one of {sorted(ag.MODELS)}")
+    text = req.transcript.strip()
+    if not (1 <= len(text) <= 300):
+        raise HTTPException(400, "transcript must be 1-300 characters")
+    tag = "mv" + uuid.uuid4().hex[:8]
+    res = mr.run_moddik(f"{tag}-moddik", RUNS, transcript=text, model_key=req.model, label="CONTROL_RUN")
+    if req.bonus:
+        mr.run_moddik(f"{tag}-moddik-perturbed", RUNS, transcript=text, model_key=req.model, perturb={("nutrient", 9): 2.5}, label="VARIANT_RUN")
+    return {"source": f"live:{tag}", "summary": res["summary"]}
+
+
 @app.get("/")
 def index():
     return FileResponse(ROOT / "app" / "index.html")

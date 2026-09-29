@@ -17,3 +17,6 @@ __pycache__/
 
 # run outputs (regenerable)
 runs/
+
+# local-only credentials/state (never committed)
+.local/

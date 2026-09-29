@@ -221,10 +221,15 @@ def test_parallel_capture_is_never_claimed_as_same_bytes(tmp_path):
     assert p["same_bytes"] is False and p["relation"] == "PARALLEL_CAPTURE/SAME_SESSION"
 
 
-def test_asr_engine_unavailable_is_explicit_not_faked():
+def test_asr_engine_unavailable_is_explicit_not_faked(tmp_path, monkeypatch):
     from agent_foundry import asr
+    monkeypatch.setattr(asr, "VENV_PY", asr.VENV_PY.parent / "does-not-exist")
+    wav = tmp_path / "x.wav"
+    wav.write_bytes(b"x")
     with pytest.raises(asr.EngineUnavailable):
-        asr.transcribe("nope.wav")
+        asr.transcribe(wav)
+    with pytest.raises(FileNotFoundError):
+        asr.transcribe(tmp_path / "missing.wav")
 
 
 def test_plaud_import_records_filename_size_hash_time_relation_and_attestation(tmp_path, monkeypatch):
@@ -249,3 +254,22 @@ def test_plaud_import_records_filename_size_hash_time_relation_and_attestation(t
     junk = tmp_path / "notaudio.wav"
     junk.write_bytes(b"not media")
     assert "NOT_ADMITTABLE" in pi.import_into_addendum(parent["run_path"], junk, tmp_path, attest_plaud_export=True, addendum_id="t-q-plaud-3")["status"]
+
+
+def test_asr_transcript_and_mic_artifact_flow_into_the_existing_workflow(tmp_path, monkeypatch):
+    """Plumbing only, with STUBBED transcription and a synthetic wav: this is NOT a LIVE_ASR test (no microphone, no ASR engine)."""
+    from agent_foundry import asr
+    wav = tmp_path / "utt.wav"
+    wav.write_bytes(b"RIFF-synthetic" * 100)
+    _stub(monkeypatch)
+    meta, audio_ev = asr.transcript_and_audio_event(wav, "What changed and does this culture need intervention?", "lfm2.5-audio-1.5b")
+    res = mr.run_moddik("t-asr", tmp_path, use_graph=False, transcript="What changed and does this culture need intervention?", transcript_source="LOCAL_ASR:lfm2.5-audio-1.5b", transcript_meta=meta, audio_events=[audio_ev])
+    ev = res["events"]
+    tr = next(e for e in ev if e["event_type"] == "evidence" and "transcript_source" in e["payload"])
+    art = next(e for e in ev if e["event_type"] == "artifact")
+    m = next(e for e in ev if e["event_type"] == "model")
+    assert tr["payload"]["transcript_source"] == "LOCAL_ASR:lfm2.5-audio-1.5b" and art["event_id"] in tr["deps"] and tr["event_id"] in m["deps"]
+    assert "What changed and does this culture need intervention?" in m["payload"]["request"]["prompt"]
+    assert art["payload"]["capture"] == "LOCAL_MIC" and art["payload"]["digest"] == "sha256:" + hashlib.sha256(wav.read_bytes()).hexdigest()
+    from agent_foundry.moddik_view import build_view
+    assert build_view(ev)["route"]["transcript"]["source"] == "LOCAL_ASR:lfm2.5-audio-1.5b"

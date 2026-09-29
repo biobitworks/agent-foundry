@@ -20,3 +20,4 @@ runs/
 
 # local-only credentials/state (never committed)
 .local/
+.venv-asr/

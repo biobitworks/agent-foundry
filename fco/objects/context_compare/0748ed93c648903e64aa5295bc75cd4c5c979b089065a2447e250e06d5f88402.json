@@ -1,0 +1,99 @@
+{
+  "actor_id": "agent-foundry-context-freeze",
+  "anticube_state": {
+    "identity": "non-self",
+    "safety": "unknown"
+  },
+  "authorization_basis": "operator task IEEE_DIGITAL_MICROFLUIDICS_DATASET_FCO_ADMISSION_001 (metadata-level intake; no credentials used)",
+  "body": {
+    "anticube_fields_available": {
+      "hazard_cells": {
+        "identity": "NONSELF",
+        "safety": "UNSAFE"
+      },
+      "ship": {
+        "identity": "SELF",
+        "safety": "SAFE"
+      }
+    },
+    "arm": "A5_VITA01_FULL",
+    "arm_role": "PRIMARY (full Vithia context)",
+    "bounded_history_included": "rule truth table only (step 0; corpus history_atoms = NOT_APPLICABLE (t=0))",
+    "byte_count": 835,
+    "context_file": "demo/recorded/context_compare/eca_v01/context_primary.json",
+    "context_text_utf8": "{\"question\":{\"criteria\":{\"LEFT\":\"move one cell left\",\"RIGHT\":\"move one cell right\",\"STAY\":\"stay\"},\"instructions\":\"You steer a ship at position `x` on a ring of width `W`. Hazards (1s in `row`) fall onto the ship row each step. Choose the move for this step that keeps the ship alive.\",\"type\":\"choice\"},\"schema\":\"agent-foundry.canonical_context.v1\",\"state\":{\"W\":16,\"anticube\":{\"hazard_cells\":{\"identity\":\"NONSELF\",\"safety\":\"UNSAFE\"},\"ship\":{\"identity\":\"SELF\",\"safety\":\"SAFE\"}},\"history\":{\"rule_truth_table\":[1,0,0,0,0,0,0,0]},\"legal_actions\":[\"LEFT\",\"STAY\",\"RIGHT\"],\"path_distribution\":{\"horizon\":2,\"label\":\"public limited-lookahead (H=2) distribution; oracle horizon is 8; not \u0394G*\",\"mass_by_first_action\":{\"LEFT\":0.3333333333333333,\"RIGHT\":0.3333333333333333,\"STAY\":0.3333333333333333}},\"row\":[0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],\"x\":8}}",
+    "custody_state": "FROZEN_BEFORE_MODEL_EXECUTION",
+    "not_computed": [
+      "G_star",
+      "delta_G_star",
+      "H_norm",
+      "S_star",
+      "P(Gamma)",
+      "Anticube EPISTEMIC_STATE (not defined in recovered artifacts)",
+      "Anticube DISPOSITION (needs known SELFNESS and SAFETY)",
+      "Merkle root over the context (not computed for this object)",
+      "any quality/accuracy score (no preregistered evaluation)",
+      "corpus fields G_star=NOT_COMPUTED, delta_G_star=NOT_COMPUTED, H_norm=NOT_COMPUTED"
+    ],
+    "ordered_evidence_ids": [
+      "sha256:d46b95432e61b5d9db7fba76bb5683287e9f836e96ac1465ab29e8e08f0ec706",
+      "sha256:570d0f8362920b597e7cba9b6cf5de872960cb7a49a31af6196c9fefc257b3a0",
+      "sha256:c52e98d9abb3c5fc7aa53e7aa9c3710baead4de34719e423c1e0c4441922b25d",
+      "sha256:b472ada4ac7c5c1d7ac2d45e5f6b76d5cc4408ee25e8fc56ffdb6192dcd0d49e"
+    ],
+    "preprocessing_parameters": {
+      "H_a4": 2,
+      "H_oracle": 8,
+      "W": 16,
+      "arm": "A5_VITA01_FULL",
+      "seed": 0,
+      "serializer": "sorted keys, compact separators, UTF-8, ensure_ascii=False"
+    },
+    "question": {
+      "criteria": {
+        "LEFT": "move one cell left",
+        "RIGHT": "move one cell right",
+        "STAY": "stay"
+      },
+      "instructions": "You steer a ship at position `x` on a ring of width `W`. Hazards (1s in `row`) fall onto the ship row each step. Choose the move for this step that keeps the ship alive.",
+      "type": "choice"
+    },
+    "raw_bytes_state": "PRESENT",
+    "sha256": "0748ed93c648903e64aa5295bc75cd4c5c979b089065a2447e250e06d5f88402",
+    "vithia": {
+      "arm": "A5_VITA01_FULL",
+      "executed": "ONCE (frozen before any model call)",
+      "function": "src.daisy.eca_corpus.arm_context(row, arm, other=None, seed=0)",
+      "leakage_guard": "src.s01.protocol.FORBIDDEN_KEYS \u2229 context keys = \u2205 (executed)",
+      "upstream": {
+        "commit": "dbca313a22b3f3bdc35f7b4f45d5fd550b22b9b9",
+        "files_sha256": {
+          "src/daisy/eca_corpus.py": "895d1096daf2c733008424356c676db44904a0a69560a2a116fda8c82369f624",
+          "src/daisy/openjev_behavior.py": "cfb3bf05c1aa3d85e89c99693f1edd67c7591e2629e371bfc8a78258ab78aee0",
+          "src/s01/protocol.py": "f1237bd1b6dbc4bd75783ba3b3ec1d09bfefd8c06687d45566c559083ba24e1a"
+        },
+        "repo": "https://github.com/biobitworks/jev-space-invaders",
+        "worktree_modified": false
+      }
+    }
+  },
+  "canonicalization_method": "sha256 over the exact frozen context bytes",
+  "claim_ceiling": "behavioral comparison of two backends on one frozen context; a model choice is behavior, not ground truth; no quality claim without a preregistered evaluation; G*/DeltaG* are NOT_COMPUTED and are not used",
+  "content_hash": "sha256:0748ed93c648903e64aa5295bc75cd4c5c979b089065a2447e250e06d5f88402",
+  "created_at": "2026-09-29T22:02:53Z",
+  "device_or_instrument_id": null,
+  "encryption": null,
+  "environment_hash": null,
+  "fco_version": "1.3.0",
+  "object_id": "fco:sha256:0748ed93c648903e64aa5295bc75cd4c5c979b089065a2447e250e06d5f88402",
+  "object_type": "CanonicalContextFCO",
+  "parent_hashes": [
+    "sha256:7be4505c917df888d482acba91913e233e745fe122f4d920878128b7503d970a"
+  ],
+  "project_id": "agent-foundry",
+  "run_id": "eca-v01-freeze",
+  "signature": null,
+  "software_hash": "sha256:6483af7bed5d4eaa3efc5942402e410f31b23bba60d3600a590c01628d23714c",
+  "source_or_derivative": "derivative",
+  "status": "draft"
+}

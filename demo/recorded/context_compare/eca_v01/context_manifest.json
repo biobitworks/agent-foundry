@@ -1,0 +1,47 @@
+{
+  "contexts": {
+    "control": {
+      "arm": "A0_RAW",
+      "byte_count": 451,
+      "content_id": "sha256:a0098d3793f0bd47602040f9d866742182aecd9bb6ed4f80362e2be49ca85068",
+      "fco_content_hash": "sha256:a0098d3793f0bd47602040f9d866742182aecd9bb6ed4f80362e2be49ca85068",
+      "file": "context_control.json",
+      "sha256": "a0098d3793f0bd47602040f9d866742182aecd9bb6ed4f80362e2be49ca85068"
+    },
+    "primary": {
+      "arm": "A5_VITA01_FULL",
+      "byte_count": 835,
+      "content_id": "sha256:0748ed93c648903e64aa5295bc75cd4c5c979b089065a2447e250e06d5f88402",
+      "fco_content_hash": "sha256:0748ed93c648903e64aa5295bc75cd4c5c979b089065a2447e250e06d5f88402",
+      "file": "context_primary.json",
+      "sha256": "0748ed93c648903e64aa5295bc75cd4c5c979b089065a2447e250e06d5f88402"
+    }
+  },
+  "dataset": {
+    "bytes": 13909553,
+    "bytes_match_manifest": true,
+    "claim_ceiling": "training-CANDIDATE corpus; no training contract frozen; not an E0-E4 evaluation dataset",
+    "code_commit_at_generation": "dbe76cc4718590e1d7077b04055a4ddf70b660b0",
+    "dataset_id": "VITHIA_DAISY_ECA_ACTION_CORPUS_V1",
+    "file": "data/daisy/VITHIA_DAISY_ECA_ACTION_CORPUS_V1/rows.jsonl",
+    "license": "CC-BY-4.0",
+    "manifest_bytes": 13909553,
+    "manifest_sha256": "989de222cddd3f5a3b075f9709d45149cf07d2041dfb83267ee17527bf6ee020",
+    "sha256": "989de222cddd3f5a3b075f9709d45149cf07d2041dfb83267ee17527bf6ee020",
+    "source": "generated (deterministic, model-free)"
+  },
+  "frozen_at": "2026-09-29T22:02:53Z",
+  "row_index": 39,
+  "schema": "agent-foundry.context_freeze_manifest.v1",
+  "state_id": "sha256:d46b95432e61b5d9db7fba76bb5683287e9f836e96ac1465ab29e8e08f0ec706",
+  "upstream": {
+    "commit": "dbca313a22b3f3bdc35f7b4f45d5fd550b22b9b9",
+    "files_sha256": {
+      "src/daisy/eca_corpus.py": "895d1096daf2c733008424356c676db44904a0a69560a2a116fda8c82369f624",
+      "src/daisy/openjev_behavior.py": "cfb3bf05c1aa3d85e89c99693f1edd67c7591e2629e371bfc8a78258ab78aee0",
+      "src/s01/protocol.py": "f1237bd1b6dbc4bd75783ba3b3ec1d09bfefd8c06687d45566c559083ba24e1a"
+    },
+    "repo": "https://github.com/biobitworks/jev-space-invaders",
+    "worktree_modified": false
+  }
+}

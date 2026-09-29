@@ -36,6 +36,38 @@ Thresholds are illustrative scenario parameters, not validated biology. A model 
 
 The breakpoint before the divergence has an identical Merkle root in both runs. In this scripted simulation the tick-10 observation vectors coincide again, yet the path divergence at tick 9 remains, along with a different downstream decision: **later endpoint equality does not erase an earlier path divergence** ([`docs/PATH_DIVERGENCE.md`](docs/PATH_DIVERGENCE.md)). G\*/ΔG\* did not explain this result (they are `NOT_COMPUTED`).
 
+## How the integrations participate
+
+| Integration | Role in Agent Foundry | What crosses the boundary | Status |
+| --- | --- | --- | --- |
+| **DuploCloud** | External development/execution substrate | workspace/resource/skill execution ↔ canonical Agent Foundry run/result | **PARTIAL** — workspace, extension, ticket creation and result write-back executed; Duplo agent dispatch failed 401 and an explicit direct-skill fallback was used |
+| **PLAUD** | Human evidence and contribution channel | exact recording/transcript metadata → contribution/design evidence | **PARTIAL** — real audio/transcript bytes independently hash-verified; real addendum/FCO/Merkle admission not executed |
+| **Neo4j** | Rebuildable graph projection and query layer | canonical FCO/FCG/run events → inspectable graph | **EXECUTED** — project-local projection/query/delete/rebuild verified |
+
+```mermaid
+flowchart LR
+    D[DuploCloud\nExecution substrate]
+    P[PLAUD\nHuman evidence]
+    AF[Agent Foundry\nProvider-neutral event stream]
+    F[FCO / FCG\nCanonical evidence + lineage]
+    N[Neo4j\nRebuildable projection]
+    M[Model / Agent execution]
+    R[Replay / Comparison]
+
+    D -->|Workspace / AgentFoundryRun / skill| AF
+    P -->|Meeting / transcript metadata| F
+    AF --> F
+    F --> N
+    N -->|Query / inspect| AF
+    AF --> M
+    M --> AF
+    AF --> R
+```
+
+**Neo4j is a rebuildable projection, not the canonical FCG. DuploCloud supplies execution context where verified. PLAUD supplies independent human evidence. Provenance relationships do not independently prove causality.**
+
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the receipt-level integration boundaries.
+
 ## Provider comparison
 
 A comparison freezes **one Vithia-produced context before inference** and gives the exact same bytes to two backends. The frozen context is 835 bytes, sha256 `0748ed93…8402` (raw control: 451 bytes, `a0098d37…5068`); both arms report the same hash.
@@ -53,7 +85,7 @@ Vithia and OpenJEV come from the operator's `biobitworks/jev-space-invaders` rep
 
 | Component | Role | Status in this repository |
 |---|---|---|
-| **Agent Foundry** | developer-facing reliability / debugging / replay product (event schema, recorder, comparison, inspector) | implemented |
+| **Agent Foundry** | developer-facing run / debugging / replay product (event schema, recorder, comparison, inspector) | implemented |
 | HydraDG | state / checkpoint / recovery engine | consumed conceptually; adapter **NOT_IMPLEMENTED** (checkpoint/replay here is native) |
 | Glasswork | evaluation / comparison engine | adapter **NOT_IMPLEMENTED** (comparison here uses Agent Foundry's own machinery) |
 | Ollarma | local model routing / execution | adapter **NOT_TESTED** (local models were called through Ollama directly) |
@@ -61,17 +93,7 @@ Vithia and OpenJEV come from the operator's `biobitworks/jev-space-invaders` rep
 | Neo4j | **rebuildable projection / query layer, not canonical provenance** | executed; delete -> rebuild verified |
 | Vithia | preprocessing / context construction in the demonstrated comparison | executed (pinned upstream) |
 
-### Integration status (executed evidence only)
-
-| Integration | Role | Status |
-|---|---|---|
-| **Neo4j** | rebuildable projection / query layer | **EXECUTED**: project-local projection, query, delete -> rebuild verified (Moddik run 91 nodes / 299 relationships; comparison projection 62 nodes / 111 relationships, FCO/FCG subgraph unchanged, 0 causal-like edges) |
-| **Liquid AI** | local reasoning backend | **EXECUTED**: real local inference receipts (LFM2.5-2.6B for the Moddik decision; LFM2.5-1.2B-Instruct in the comparison) |
-| **OpenJEV** | typed-decision backend in the comparison | **EXECUTED** on magicPRObox (verified MLX 4-bit runtime) |
-| **DuploCloud** | external development / execution substrate | **PARTIAL**: workspace, thin extension, resource/ticket creation and result write-back executed via an explicit direct-skill fallback; the Duplo **agent** dispatch failed LLM-gateway authentication (`FAILED_AUTH`, preserved). It was not part of the Moddik simulation run. |
-| **PLAUD** | independent human/audio evidence source | **PARTIAL**: a real meeting recording and transcript were independently hash-verified in a separate review pass (byte identity only, operator-attested origin; not re-verified by this author); raw private media is **not committed**; canonical addendum/FCO admission `NOT_EXECUTED`, Merkle commitment `NOT_COMPUTED`. Governed PLAUD Merkle custody is **not** claimed. |
-
-Not used: Similarweb, OpenRouter, Crusoe, Vultr, Band, Merge.dev, Nebius, Brave, UserTesting (`NOT_USED`). Receipt-level detail: [`docs/INTEGRATIONS.md`](docs/INTEGRATIONS.md) and [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md); public-safe PLAUD receipt: [`provenance/plaud/`](provenance/plaud/).
+Integrations with executed receipts include **Neo4j** (projection/rebuild/query), **Liquid AI** (real local inference), **OpenJEV** (provider comparison), and a **separate DuploCloud thin-extension path** (workspace/extension/resource creation/result write-back with explicit direct-skill fallback; Duplo agent dispatch `FAILED_AUTH`). DuploCloud was not part of the submitted Moddik run. **PLAUD** contributes the independent human-evidence lane: exact real recording/transcript bytes are hash-verified post-submission, while canonical addendum/FCO/Merkle admission remains unexecuted. Not used: Similarweb, OpenRouter, Crusoe, Vultr, Band, Merge.dev, Nebius, Brave, UserTesting (`NOT_USED`).
 
 ## Provenance discipline
 
@@ -106,8 +128,7 @@ More: [`docs/DEMO_RUNBOOK.md`](docs/DEMO_RUNBOOK.md), [`docs/MODDIK_MVP_DESIGN.m
 - IEEE DataPort "Digital Microfluidics Datasets": metadata-level admission only; **raw data `ACCESS_BLOCKED`** (login required), so no sample or frame atoms and no vector analysis (`DEFERRED_ACCESS`).
 - G\*/ΔG\* = `NOT_COMPUTED` in the path-divergence analysis; S\*, P(Γ) not computed; Anticube comparison is `UNKNOWN`/`NOT_COMPUTED` where no predicates were assessed.
 - Studio LiquidAI comparison: `NOT_TESTED`. Live ASR: `NOT_TESTED` (engine smoke on synthetic speech only, on a separate branch).
-- **PLAUD**: real recording/transcript bytes were hash-verified but are not committed; canonical FCO/addendum admission is not executed and no PLAUD Merkle root is claimed (an importer is implemented and unit-tested on synthetic bytes).
-- **DuploCloud**: the agent dispatch failed gateway authentication; the preserved successful path is an explicit direct-skill fallback.
+- **PLAUD**: an exported-audio custody importer is implemented and unit-tested. Real meeting audio/transcript exact bytes were independently hash-verified post-submission and only public-safe metadata is committed; canonical addendum/FCO admission remains `NOT_EXECUTED` and governed PLAUD Merkle custody is **not** claimed. Raw private artifacts stay outside Git.
 - No preregistered model-quality evaluation exists; comparisons are single-run behavioral observations.
 
 ## Licenses and sources
@@ -116,7 +137,7 @@ Third-party material is referenced, not vendored: Liquid AI weights (LFM Open Li
 
 ## Security
 
-No credentials are committed. Neo4j credentials are generated into a gitignored local file and never printed; the OpenJEV shim token is read in-process and never stored. Private audio/transcripts and secrets stay outside public source (raw PLAUD media is not tracked). Secret scan: see [`docs/GITLEAKS_TRIAGE.md`](docs/GITLEAKS_TRIAGE.md).
+No credentials are committed. Neo4j credentials are generated into a gitignored local file and never printed; the OpenJEV shim token is read in-process and never stored. Private audio/transcripts and secrets stay outside public source. Secret scan: see [`docs/GITLEAKS_TRIAGE.md`](docs/GITLEAKS_TRIAGE.md).
 
 ## Team
 

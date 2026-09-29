@@ -20,7 +20,7 @@
     "behind_main": 0
   },
   "final_main_sha": "NOT_EMBEDDED (self-referential; read git rev-parse origin/main and the handoff block)",
-  "readme_sha256": "db7c4e715abebda8adf473a6b495fe891338b9da261c7173310cd7add6d1aa7f",
+  "readme_sha256": "1a0ddb03831171dcf2f7397534e41cbf2d70430a75c1b7e621bda53d042a9002",
   "readme_correction": "stale 'baseline only / Nothing is implemented yet' replaced; reconciled with the concurrent integration-audit README",
   "recomputed_from_repository_bytes": {
     "context_primary": {
@@ -101,6 +101,11 @@
       "provenance/BREAKPOINT_INTEGRATION_AUDIT_CORRECTION_001.json"
     ],
     "remote_compare_branch_left_untouched": true,
-    "not_reverified_by_this_pass": "the PLAUD byte hashes (the raw audio/transcript are not present on this machine); the PLAUD receipts are treated as reported evidence of byte identity only"
+    "not_reverified_by_this_pass": "the PLAUD byte hashes (the raw audio/transcript are not present on this machine); the PLAUD receipts are treated as reported evidence of byte identity only",
+    "second_race": {
+      "observed": "origin/main advanced to bd8e2f4 (7 commits, 2026-09-29 16:17 PDT) after this pass pushed 586b017: the same session re-applied its integration edits directly on main",
+      "action": "merged origin/main into local main with a second merge commit (no force); README taken from origin/main (consistent with this pass's README; it adds the integration table and mermaid diagram); all other overlapping files were byte-identical",
+      "local_readme_from_first_merge_superseded": true
+    }
   }
 }

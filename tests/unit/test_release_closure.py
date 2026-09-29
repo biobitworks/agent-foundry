@@ -18,7 +18,7 @@ def test_readme_states_executed_reality_not_the_old_baseline():
         assert h in README
     for must in ("SIMULATED", "Physical actuation = NONE", "first 68", "10.197", "12.697", "MEDIUM_EXCHANGE_RECOMMENDED", "NO_INTERVENTION", "LEFT and STAY are a top-probability tie", "NOT_AVAILABLE",
                  "Studio LiquidAI arm remains **`NOT_TESTED`**", "OPENJEV_STUDIO_CONNECTIVITY=FAILED", "ACCESS_BLOCKED", "not canonical provenance", "0748ed93", "835 bytes",
-                 "**PARTIAL**", "FAILED_AUTH", "`NOT_EXECUTED`", "`NOT_COMPUTED`", "raw private media is **not committed**"):
+                 "**PARTIAL**", "FAILED_AUTH", "`NOT_EXECUTED`", "`NOT_COMPUTED`", "Raw private artifacts stay outside Git"):
         assert must in README, must
 
 

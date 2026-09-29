@@ -16,14 +16,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-09-29)
 
 **Core value:** Show where two runs of the same agent task first diverged, what caused it, and whether it can be replayed.
-**Current focus:** Phase 2: Two-run canonical task execution
+**Current focus:** Phase 4: Run inspector UI (Phase 2 real provider pending)
 
 ## Current Position
 
-Phase: 2 of 9 (Two-run canonical task execution)
+Phase: 4 of 9 (Run inspector UI)
 Plan: 0 of TBD in current phase
 Status: Ready to plan
-Last activity: 2026-09-29 — Phase 2 PARTIAL (fixtures executed, 19 tests; real provider pending operator decision)
+Last activity: 2026-09-29 — Phase 3 complete on fixtures (24 tests); Phase 2 real provider pending operator decision
 
 Progress: [█░░░░░░░░░] 11%
 

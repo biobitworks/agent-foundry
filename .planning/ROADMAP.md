@@ -10,7 +10,7 @@ participation, then harden the demo. Ordering follows the official P0/P1/P2 prio
 
 - [x] **Phase 1: Event schema and run recorder** - Provider-neutral event schema plus an append-only recorder (P0)
 - [ ] **Phase 2: Two-run canonical task execution** - Same task under two controlled configurations, events captured (P0)
-- [ ] **Phase 3: Comparison and first divergence** - Normalize, compare, localize the earliest divergence (P0)
+- [x] **Phase 3: Comparison and first divergence** - Normalize, compare, localize the earliest divergence (P0)
 - [ ] **Phase 4: Run inspector UI** - Side-by-side runs, divergence marker, event inspector, explanation (P0)
 - [ ] **Phase 5: Evidence and lineage** - Evidence/tool inspection, FCO/FCG references (P1)
 - [ ] **Phase 6: Checkpoint and replay** - HydraDG-compatible descriptors, real replay (P1)
@@ -115,7 +115,7 @@ Plans:
 | --- | --- | --- | --- |
 | 1. Event schema and run recorder | 1/1 | Complete (12 tests) | 2026-09-29 |
 | 2. Two-run canonical task execution | 1/1 | PARTIAL: fixtures executed; real provider NOT_TESTED (operator decision pending) | - |
-| 3. Comparison and first divergence | 0/TBD | Not started | - |
+| 3. Comparison and first divergence | 1/1 | Complete on fixture runs (24 tests) | 2026-09-29 |
 | 4. Run inspector UI | 0/TBD | Not started | - |
 | 5. Evidence and lineage | 0/TBD | Not started | - |
 | 6. Checkpoint and replay | 0/TBD | Not started | - |

@@ -53,7 +53,7 @@ Vithia and OpenJEV come from the operator's `biobitworks/jev-space-invaders` rep
 
 | Component | Role | Status in this repository |
 |---|---|---|
-| **Agent Foundry** | developer-facing run / debugging / replay product (event schema, recorder, comparison, inspector) | implemented |
+| **Agent Foundry** | developer-facing reliability / debugging / replay product (event schema, recorder, comparison, inspector) | implemented |
 | HydraDG | state / checkpoint / recovery engine | consumed conceptually; adapter **NOT_IMPLEMENTED** (checkpoint/replay here is native) |
 | Glasswork | evaluation / comparison engine | adapter **NOT_IMPLEMENTED** (comparison here uses Agent Foundry's own machinery) |
 | Ollarma | local model routing / execution | adapter **NOT_TESTED** (local models were called through Ollama directly) |
@@ -61,7 +61,17 @@ Vithia and OpenJEV come from the operator's `biobitworks/jev-space-invaders` rep
 | Neo4j | **rebuildable projection / query layer, not canonical provenance** | executed; delete -> rebuild verified |
 | Vithia | preprocessing / context construction in the demonstrated comparison | executed (pinned upstream) |
 
-Integrations that materially executed: **Neo4j** (projection/rebuild/query), **Liquid AI** (real local inference receipts), **OpenJEV** (comparison branch). **DuploCloud**: a thin extension was built and smoke-tested, the Duplo agent lane failed authentication (`FAILED_AUTH`), and it did **not** participate in the demonstrated Moddik workflow. **PLAUD**: see below. Not used: Similarweb, OpenRouter, Crusoe, Vultr, Band, Merge.dev, Nebius, Brave, UserTesting (`NOT_USED`).
+### Integration status (executed evidence only)
+
+| Integration | Role | Status |
+|---|---|---|
+| **Neo4j** | rebuildable projection / query layer | **EXECUTED**: project-local projection, query, delete -> rebuild verified (Moddik run 91 nodes / 299 relationships; comparison projection 62 nodes / 111 relationships, FCO/FCG subgraph unchanged, 0 causal-like edges) |
+| **Liquid AI** | local reasoning backend | **EXECUTED**: real local inference receipts (LFM2.5-2.6B for the Moddik decision; LFM2.5-1.2B-Instruct in the comparison) |
+| **OpenJEV** | typed-decision backend in the comparison | **EXECUTED** on magicPRObox (verified MLX 4-bit runtime) |
+| **DuploCloud** | external development / execution substrate | **PARTIAL**: workspace, thin extension, resource/ticket creation and result write-back executed via an explicit direct-skill fallback; the Duplo **agent** dispatch failed LLM-gateway authentication (`FAILED_AUTH`, preserved). It was not part of the Moddik simulation run. |
+| **PLAUD** | independent human/audio evidence source | **PARTIAL**: a real meeting recording and transcript were independently hash-verified in a separate review pass (byte identity only, operator-attested origin; not re-verified by this author); raw private media is **not committed**; canonical addendum/FCO admission `NOT_EXECUTED`, Merkle commitment `NOT_COMPUTED`. Governed PLAUD Merkle custody is **not** claimed. |
+
+Not used: Similarweb, OpenRouter, Crusoe, Vultr, Band, Merge.dev, Nebius, Brave, UserTesting (`NOT_USED`). Receipt-level detail: [`docs/INTEGRATIONS.md`](docs/INTEGRATIONS.md) and [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md); public-safe PLAUD receipt: [`provenance/plaud/`](provenance/plaud/).
 
 ## Provenance discipline
 
@@ -96,7 +106,8 @@ More: [`docs/DEMO_RUNBOOK.md`](docs/DEMO_RUNBOOK.md), [`docs/MODDIK_MVP_DESIGN.m
 - IEEE DataPort "Digital Microfluidics Datasets": metadata-level admission only; **raw data `ACCESS_BLOCKED`** (login required), so no sample or frame atoms and no vector analysis (`DEFERRED_ACCESS`).
 - G\*/ΔG\* = `NOT_COMPUTED` in the path-divergence analysis; S\*, P(Γ) not computed; Anticube comparison is `UNKNOWN`/`NOT_COMPUTED` where no predicates were assessed.
 - Studio LiquidAI comparison: `NOT_TESTED`. Live ASR: `NOT_TESTED` (engine smoke on synthetic speech only, on a separate branch).
-- **PLAUD**: an exported-audio custody importer is implemented and unit-tested on synthetic bytes. No PLAUD recording or transcript is committed or admitted here; raw private artifacts stay outside Git. Governed PLAUD Merkle custody is **not** claimed.
+- **PLAUD**: real recording/transcript bytes were hash-verified but are not committed; canonical FCO/addendum admission is not executed and no PLAUD Merkle root is claimed (an importer is implemented and unit-tested on synthetic bytes).
+- **DuploCloud**: the agent dispatch failed gateway authentication; the preserved successful path is an explicit direct-skill fallback.
 - No preregistered model-quality evaluation exists; comparisons are single-run behavioral observations.
 
 ## Licenses and sources
@@ -105,7 +116,7 @@ Third-party material is referenced, not vendored: Liquid AI weights (LFM Open Li
 
 ## Security
 
-No credentials are committed. Neo4j credentials are generated into a gitignored local file and never printed; the OpenJEV shim token is read in-process and never stored. Private audio/transcripts and secrets stay outside public source. Secret scan: see [`docs/GITLEAKS_TRIAGE.md`](docs/GITLEAKS_TRIAGE.md).
+No credentials are committed. Neo4j credentials are generated into a gitignored local file and never printed; the OpenJEV shim token is read in-process and never stored. Private audio/transcripts and secrets stay outside public source (raw PLAUD media is not tracked). Secret scan: see [`docs/GITLEAKS_TRIAGE.md`](docs/GITLEAKS_TRIAGE.md).
 
 ## Team
 

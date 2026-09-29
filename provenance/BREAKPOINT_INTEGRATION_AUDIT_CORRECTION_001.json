@@ -1,0 +1,38 @@
+{
+  "schema": "agent-foundry.turn_breakpoint.v1",
+  "id": "AGENT_FOUNDRY_INTEGRATION_AUDIT_CORRECTION_001",
+  "parent": "AGENT_FOUNDRY_INTEGRATION_AUDIT_DUPLO_PLAUD_NEO4J_001",
+  "parent_commit": "9b9dd64a480b8b055c964e4020fedc4f5cfe3e76",
+  "verified_new": [
+    "Root README, docs/ARCHITECTURE.md, integrations/duplocloud/README.md, and provenance integration audit all classify DuploCloud as PARTIAL with material platform/resource participation and FAILED_AUTH on the Duplo agent dispatch.",
+    "docs/INTEGRATIONS.md previously used the broader word EXECUTED for DuploCloud status; this successor normalizes the public status to PARTIAL without rewriting the predecessor breakpoint."
+  ],
+  "executed": [
+    "docs/INTEGRATIONS.md updated to PARTIAL wording",
+    "no code/runtime artifacts changed"
+  ],
+  "observed": [
+    "DuploCloud workspace/extension/resource creation and result write-back were executed",
+    "the Duplo agent LLM lane did not dispatch the skill because of HTTP 401",
+    "the successful path used an explicit direct-skill fallback that invoked canonical Agent Foundry"
+  ],
+  "decisions": [
+    "DUPLOCLOUD_STATUS=PARTIAL",
+    "DUPLOCLOUD_MATERIAL_TO_WORKFLOW=true",
+    "DUPLOCLOUD_AGENT_DISPATCH=FAILED_AUTH",
+    "PLAUD_STATUS=PARTIAL",
+    "NEO4J_STATUS=EXECUTED"
+  ],
+  "proposed": [],
+  "not_tested": [
+    "Duplo agent dispatch after credential repair"
+  ],
+  "failures": [
+    "Duplo agent LLM gateway auth 401 remains preserved"
+  ],
+  "unresolved": [
+    "final local full-suite/gitleaks rerun after documentation-only commits",
+    "repository public/private operator decision"
+  ],
+  "next_action": "final remote red-team check, then merge only if operator wants main advanced"
+}

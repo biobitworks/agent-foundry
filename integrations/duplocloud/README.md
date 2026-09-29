@@ -1,27 +1,48 @@
 # DuploCloud integration boundary
 
-- **Canonical product:** `biobitworks/agent-foundry` (this repo). Owns event schema, runner, comparison, replay, inspector.
-- **Wrapper:** `biobitworks/agent-foundry-duplo` (private), local `/Users/byron/projects/toolchains/agent-foundry-duplo`.
-  A clone of `duplocloud/devkit` adopted with `scripts/init-project.sh` (fresh history, origin repointed). **Never run that script here.**
-- DuploCloud is an external Hack Day execution substrate, NOT provenance authority. Pinned in `provenance/DUPLOCLOUD_UPSTREAM_LOCK.json`.
-- The wrapper must consume this product through an API/package boundary, not copy it. Smoke contract: `EXTENSION_SMOKE_SPEC.md`.
+- **Canonical product:** `biobitworks/agent-foundry`. It owns the event schema, runner, comparison, replay, inspector, and canonical evidence records.
+- **Wrapper:** `biobitworks/agent-foundry-duplo` (private), derived from `duplocloud/devkit` and pinned in `provenance/DUPLOCLOUD_UPSTREAM_LOCK.json`.
+- **DuploCloud role:** external Hack Day development/execution substrate. It is **not** the canonical provenance authority.
 
-## Mapping (PROPOSED; nothing here is EXECUTED until observed inside a running platform)
+## Current verified status
 
-| DuploCloud | Agent Foundry |
-| --- | --- |
-| Ticket | Run (`run_id`) |
-| Provider / Credential / Scope | ExecutionContext (recorded as PRESENT/ABSENT flags only, never values) |
-| Skill | Capability |
-| Persona | AgentRole |
-| Workspace (`extension-dev`) | ExecutionEnvironment |
-| MCP call | `tool` event |
-| model output | `model` event |
-| retrieval | `evidence` event |
-| checkpoint | `checkpoint` event / replay descriptor |
-| comparison | `evaluation` event |
+**PARTIAL — materially participating, with the Duplo agent lane failed.**
 
-## Status (2026-09-29)
+Preserved receipts establish that:
 
-`INSTALLED_NOT_RUNNING`. Blocked on operator: `./run.sh` in the wrapper needs a work-domain email, an admin password, and an LLM
-provider key, plus a verification-link click. `DUPLOCLOUD_PLATFORM_READY` is NOT_OBSERVED. Extension smoke: NOT_TESTED.
+- all six Duplo containers were running during the integration pass;
+- the `extension-dev` workspace was verified through the platform API;
+- extension `biobitworks.agentfoundry` v0.1.1 built and hot-loaded;
+- the container could reach the canonical Agent Foundry API;
+- creating an Agent Foundry extension resource through the Duplo API returned HTTP 201 and created a ticket/resource;
+- the Duplo agent dispatch failed with `401 Missing Authentication header` from the LLM gateway;
+- an **explicitly labeled direct-skill fallback** invoked the canonical Agent Foundry API with a real local Liquid model and wrote the result back into Duplo as `Complete`.
+
+This means DuploCloud participated as the workspace/resource/extension/result substrate, but the claim **does not** extend to successful Duplo-agent LLM dispatch.
+
+Receipts:
+
+- `provenance/BREAKPOINT_DUPLO_THIN_EXTENSION_016.json`
+- `provenance/rehearsal/duplo_rehearsal_20260929T143948Z.json`
+- `provenance/DUPLOCLOUD_UPSTREAM_LOCK.json`
+
+## Boundary mapping
+
+| DuploCloud | Agent Foundry | Status |
+| --- | --- | --- |
+| Ticket / `AgentFoundryRun` | Run boundary | EXECUTED; resource id not retained in canonical receipt |
+| Provider / scope | ExecutionContext | PARTIAL |
+| Skill | Capability | EXECUTED via direct fallback |
+| Persona | AgentRole / policy | NOT_TESTED |
+| Workspace (`extension-dev`) | ExecutionEnvironment | EXECUTED |
+| MCP call | ToolEvent | NOT_OBSERVED in canonical Duplo receipt |
+| model output | ModelEvent | EXECUTED in canonical Agent Foundry run |
+| retrieval | EvidenceEvent | NOT_TESTED |
+| checkpoint | ReplayCheckpoint | NOT_TESTED |
+| comparison | Evaluation/comparison result | EXECUTED by Agent Foundry and written back to Duplo |
+
+The wrapper stays thin: it does not reimplement comparison, Antigence, provenance, or FCO/FCG logic.
+
+## Failure preservation
+
+The failed Duplo agent dispatch remains part of the record. The direct fallback is never represented as a successful Duplo-agent execution. Credentials are represented only as presence/absence and are not retained.

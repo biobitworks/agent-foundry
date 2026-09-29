@@ -1,0 +1,97 @@
+{
+  "schema": "agent-foundry.integration_audit.v1",
+  "id": "AGENT_FOUNDRY_INTEGRATION_AUDIT_DUPLO_PLAUD_NEO4J_001",
+  "scope": "post-submission repository integration audit",
+  "canonical_rule": "FCO/FCG and canonical event artifacts remain provenance authority; external systems do not become canonical by participation",
+  "duplocloud": {
+    "role": "external Hack Day development / execution substrate",
+    "status": "PARTIAL",
+    "material_to_workflow": true,
+    "evidence": [
+      "provenance/BREAKPOINT_DUPLO_THIN_EXTENSION_016.json",
+      "provenance/rehearsal/duplo_rehearsal_20260929T143948Z.json",
+      "provenance/DUPLOCLOUD_UPSTREAM_LOCK.json",
+      "integrations/duplocloud/README.md",
+      "external wrapper biobitworks/agent-foundry-duplo at fbd47d6c0080f6a3257983138d59d33c91a1ab17"
+    ],
+    "observed_execution": [
+      "extension-dev workspace verified by DuploCloud platform API",
+      "Agent Foundry extension v0.1.1 built and hot-loaded",
+      "Duplo API create returned 201 and created an AgentFoundryRun resource/ticket",
+      "direct skill fallback invoked canonical Agent Foundry API with a real local Liquid model",
+      "result was written back to the Duplo resource as Complete"
+    ],
+    "failed_or_not_tested": [
+      "Duplo agent dispatch failed with 401 Missing Authentication header from the LLM gateway",
+      "full human UI sign-in/menu flow was NOT_TESTED",
+      "specific ticket/resource id was not preserved in the canonical Agent Foundry receipt"
+    ],
+    "normalization": {
+      "workspace": "extension-dev -> ExecutionContext / bounded execution environment (verified by platform API)",
+      "ticket_resource": "AgentFoundryRun -> Agent Foundry run boundary; specific resource id UNKNOWN_IN_CANONICAL_RECEIPT",
+      "skill": "provision-agentfoundry -> Capability; direct fallback EXECUTED",
+      "canonical_model_output": "Agent Foundry local model execution -> ModelEvent in canonical run",
+      "comparison": "canonical Agent Foundry comparison returned to Duplo result; Duplo does not recompute it",
+      "mcp_call": "NOT_OBSERVED_AS_A_DUPLO_TOOL_EVENT_IN_CANONICAL_RECEIPT",
+      "retrieval": "NOT_TESTED",
+      "checkpoint": "NOT_TESTED"
+    },
+    "claim_limit": "DuploCloud materially participated as workspace/resource/extension/result substrate, but the Duplo agent itself did not successfully dispatch the skill."
+  },
+  "plaud": {
+    "role": "independent human/audio evidence ingress",
+    "status": "PARTIAL",
+    "evidence": [
+      "docs/PLAUD_CUSTODY_RUNBOOK.md",
+      "agent_foundry/plaud_import.py",
+      "scripts/plaud_import.py",
+      "provenance/plaud/real_capture_verification_20260929.json"
+    ],
+    "observed_execution": [
+      "real audio exact bytes independently hashed",
+      "real transcript exact bytes independently hashed"
+    ],
+    "not_executed": [
+      "real PLAUD addendum import into an Agent Foundry run",
+      "FCO admission",
+      "PLAUD Merkle construction"
+    ],
+    "claim_limit": "independent human-evidence channel; not a Merkle-verified PLAUD chain of custody"
+  },
+  "neo4j": {
+    "role": "rebuildable graph projection / visualization / query substrate",
+    "status": "EXECUTED",
+    "canonical_provenance_authority": false,
+    "version": "5.26.24",
+    "project_local_instance": "127.0.0.1:7691 during the recorded rehearsal",
+    "evidence": [
+      "provenance/rehearsal/hackersquad_e2e_20260929T200636Z.json",
+      "provenance/moddik/verification_20260929T191609Z.json",
+      "provenance/context_compare/context_compare_verification_20260929T222545Z.json"
+    ],
+    "moddik_rehearsal": {
+      "delete_rebuild": "PASS",
+      "nodes": 91,
+      "relationships": 299,
+      "causal_style_edges": 0,
+      "canonical_log_unchanged": true
+    },
+    "context_compare": {
+      "delete_rebuild": "PASS",
+      "nodes_before_delete": 62,
+      "nodes_after_delete": 0,
+      "nodes_after_rebuild": 62,
+      "relationships_after_rebuild": 111,
+      "causal_style_edges": 0,
+      "fingerprint_match": true,
+      "unrelated_nodes_untouched": true
+    }
+  },
+  "corrections": [
+    {
+      "source": "demo/recorded/context_compare/eca_v01/route_failure_receipt.json",
+      "issue": "one predecessor observation contains malformed timestamp 2026-09-29T21:5x",
+      "resolution": "predecessor retained; exact time remains UNKNOWN unless recoverable from independent logs"
+    }
+  ]
+}

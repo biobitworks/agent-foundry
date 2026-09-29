@@ -20,8 +20,8 @@
     "behind_main": 0
   },
   "final_main_sha": "NOT_EMBEDDED (self-referential; read git rev-parse origin/main and the handoff block)",
-  "readme_sha256": "91575d86ccc930025f332313cd86b29f93ac1a42a37e2a2f8073895107f00382",
-  "readme_correction": "stale 'baseline only / Nothing is implemented yet' replaced with a README grounded in executed evidence",
+  "readme_sha256": "db7c4e715abebda8adf473a6b495fe891338b9da261c7173310cd7add6d1aa7f",
+  "readme_correction": "stale 'baseline only / Nothing is implemented yet' replaced; reconciled with the concurrent integration-audit README",
   "recomputed_from_repository_bytes": {
     "context_primary": {
       "bytes": 835,
@@ -49,8 +49,9 @@
     "pro_local_liquid_label": "LIQUIDAI_PRO_LOCAL_PROVISIONAL (not relabelled Studio)"
   },
   "plaud": {
-    "status": "importer IMPLEMENTED and unit-tested on synthetic bytes; no real PLAUD recording/transcript is committed or admitted; REAL_PLAUD_AUDIO=NOT_TESTED; governed PLAUD Merkle custody NOT claimed",
-    "private_artifacts_in_git": "NONE (no audio, transcript or PLAUD files tracked)"
+    "status": "PARTIAL",
+    "detail": "real meeting audio and transcript were independently hash-verified by another review pass (public-safe receipts under provenance/plaud/; byte identity only; operator-attested origin; origin_verified_via_plaud_api=false); raw private media NOT tracked in git; canonical addendum/FCO admission NOT_EXECUTED; Merkle commitment NOT_COMPUTED; governed PLAUD Merkle custody NOT claimed; this pass could not re-verify the hashes (files not on this machine)",
+    "private_artifacts_in_git": "NONE (no audio, transcript or PLAUD media tracked)"
   },
   "privacy_scan": {
     "team_emails_in_tracked_files": "NONE (addresses searched: the three named team addresses plus a generic email regex)",
@@ -59,9 +60,10 @@
   },
   "integration_claim_corrections": [
     "README architecture table marks HydraDG/Glasswork/Ollarma/FCO-FCG adapters NOT_IMPLEMENTED/NOT_TESTED",
-    "DuploCloud stated as thin-extension smoke only, agent lane FAILED_AUTH, not part of the demonstrated workflow (status notes added to docs/DEMO_ACCEPTANCE.md and docs/PRODUCT_BRIEF.md)",
-    "Similarweb, OpenRouter, Crusoe, Vultr, Band, Merge.dev, Nebius, Brave, UserTesting marked NOT_USED",
-    "Neo4j, Liquid AI, OpenJEV retained as material because executed receipts exist"
+    "DuploCloud = PARTIAL (extension/resource/write-back executed via direct-skill fallback; agent dispatch FAILED_AUTH; not part of the Moddik simulation run); status notes added to docs/DEMO_ACCEPTANCE.md and docs/PRODUCT_BRIEF.md",
+    "PLAUD = PARTIAL as above",
+    "Neo4j, Liquid AI, OpenJEV = EXECUTED",
+    "Similarweb, OpenRouter, Crusoe, Vultr, Band, Merge.dev, Nebius, Brave, UserTesting marked NOT_USED"
   ],
   "malformed_historical_timestamp": {
     "value": "2026-09-29T21:5x",
@@ -83,5 +85,22 @@
     "model quality (no preregistered evaluation)",
     "IEEE raw data (ACCESS_BLOCKED)"
   ],
-  "next_action": "independent red-team review"
+  "next_action": "independent red-team review",
+  "supersedes_earlier_version_of_this_file": "commit 586b017 (pushed to main minutes earlier); that version said no real PLAUD recording existed. Git history is preserved; this is a corrected successor version.",
+  "concurrent_session_reconciliation": {
+    "what": "another session (same operator) pushed 11 commits to compare/vithia-openjev-liquid-v01 (2af8cfb..fb76d47, 2026-09-29 16:12-16:14 PDT) after this pass fetched; main (586b017) was already pushed",
+    "action": "merged origin/compare/vithia-openjev-liquid-v01 into main with a merge commit (no force, no history rewrite); README conflict resolved by combining the required structure with that session's verified integration status",
+    "brought_in": [
+      "docs/ARCHITECTURE.md",
+      "docs/INTEGRATIONS.md",
+      "integrations/duplocloud/README.md",
+      "provenance/plaud/PLAUD_MEETING_BYTES_20260929.json",
+      "provenance/plaud/real_capture_verification_20260929.json",
+      "provenance/INTEGRATION_AUDIT_DUPLO_PLAUD_NEO4J_001.json",
+      "provenance/BREAKPOINT_INTEGRATION_AUDIT_DUPLO_PLAUD_NEO4J_001.json",
+      "provenance/BREAKPOINT_INTEGRATION_AUDIT_CORRECTION_001.json"
+    ],
+    "remote_compare_branch_left_untouched": true,
+    "not_reverified_by_this_pass": "the PLAUD byte hashes (the raw audio/transcript are not present on this machine); the PLAUD receipts are treated as reported evidence of byte identity only"
+  }
 }

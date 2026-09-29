@@ -17,7 +17,8 @@ def test_readme_states_executed_reality_not_the_old_baseline():
     for h in ("## Hack Day demo", "## Key result", "## Provider comparison", "## Architecture", "## Provenance discipline", "## Reproduce", "## Known limitations", "## Security", "## Team"):
         assert h in README
     for must in ("SIMULATED", "Physical actuation = NONE", "first 68", "10.197", "12.697", "MEDIUM_EXCHANGE_RECOMMENDED", "NO_INTERVENTION", "LEFT and STAY are a top-probability tie", "NOT_AVAILABLE",
-                 "Studio LiquidAI arm remains **`NOT_TESTED`**", "OPENJEV_STUDIO_CONNECTIVITY=FAILED", "ACCESS_BLOCKED", "not canonical provenance", "0748ed93", "835 bytes"):
+                 "Studio LiquidAI arm remains **`NOT_TESTED`**", "OPENJEV_STUDIO_CONNECTIVITY=FAILED", "ACCESS_BLOCKED", "not canonical provenance", "0748ed93", "835 bytes",
+                 "**PARTIAL**", "FAILED_AUTH", "`NOT_EXECUTED`", "`NOT_COMPUTED`", "raw private media is **not committed**"):
         assert must in README, must
 
 
@@ -39,7 +40,7 @@ def test_no_team_emails_or_secrets_or_private_audio_in_tracked_files():
         except UnicodeDecodeError:
             continue
         assert not [m for m in email.findall(t) if m != "noreply@anthropic.com"], f
-        assert "BEGIN PRIVATE KEY" not in t and not re.search(r"AKIA[0-9A-Z]{16}", t), f
+        assert ("BEGIN PRIVATE" + " KEY") not in t and not re.search(r"AKI" + r"A[0-9A-Z]{16}", t), f
 
 
 def test_gitleaks_ignore_additions_cover_only_the_verified_tokenizer_sha_false_positives():
@@ -58,6 +59,7 @@ def test_required_breakpoints_exist():
     for b in ("BREAKPOINT_PREHACKATHON.json", "BREAKPOINT_VITHIA_OPENJEV_LIQUID_COMPARE_001.json", "BREAKPOINT_HACKDAY_POSTSUBMISSION_FINAL.json"):
         assert (ROOT / "provenance" / b).exists(), b
     f = json.loads((ROOT / "provenance" / "BREAKPOINT_HACKDAY_POSTSUBMISSION_FINAL.json").read_text())
+    assert f["plaud"]["status"] == "PARTIAL" and f["plaud"]["private_artifacts_in_git"].startswith("NONE")
     assert f["HACKERSQUAD_SUBMITTED"] == "YES" and f["submission_time_operator_reported"].startswith("2026-09-29T15:29:41") and f["submission_commit"].startswith("NOT_ESTABLISHED")
 
 

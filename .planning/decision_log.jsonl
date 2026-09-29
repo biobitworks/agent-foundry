@@ -16,3 +16,4 @@
 {"ts": "2026-09-29T19:17:29Z", "decision": "project_local_neo4j_not_shared_seedgraph_instance", "rationale": "seedgraph-neo4j-local/msm-piecewise-neo4j belong to other projects; credentials generated locally into gitignored .local/, never printed"}
 {"ts": "2026-09-29T19:17:29Z", "decision": "plaud_account_path_deferred", "rationale": "official docs: MCP/CLI needs browser OAuth to the operator's PLAUD account and writes ~/.plaud tokens; presigned audio download; standing config + download need explicit operator authorization"}
 {"ts": "2026-09-29T19:17:29Z", "decision": "thresholds_declared_illustrative", "rationale": "no publication/deck basis; SCENARIO_PARAMETER=ILLUSTRATIVE stated in run_started and UI"}
+{"ts": "2026-09-29T19:28:34Z", "decision": "ignore_generic_NEO4J_env_vars_and_refuse_non_loopback", "rationale": "operator shell holds cloud Aura credentials; demo projection must only ever touch the project-local container"}

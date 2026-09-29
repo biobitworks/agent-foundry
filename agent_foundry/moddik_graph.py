@@ -16,17 +16,29 @@ CRED = Path(__file__).resolve().parent.parent / ".local" / "moddik-neo4j.credent
 PROJECTION_SCHEMA = "agent-foundry.moddik.neo4j_projection.v1"
 
 
+ENV_KEYS = {"NEO4J_URI": "AGENT_FOUNDRY_NEO4J_URI", "NEO4J_USER": "AGENT_FOUNDRY_NEO4J_USER", "NEO4J_PASSWORD": "AGENT_FOUNDRY_NEO4J_PASSWORD"}
+LOCAL_HOSTS = ("127.0.0.1", "localhost", "[::1]")
+
+
 def _creds() -> dict:
+    """Project-local credentials file, optionally overridden ONLY by AGENT_FOUNDRY_NEO4J_* variables.
+    The generic NEO4J_* variables are deliberately ignored: an operator's shell may hold credentials for an unrelated (e.g. cloud Aura) database,
+    and this demo must never clear or write into it."""
     d = {}
     if CRED.exists():
         for line in CRED.read_text().splitlines():
             if "=" in line:
                 k, v = line.split("=", 1)
                 d[k.strip()] = v.strip()
-    for k in ("NEO4J_URI", "NEO4J_USER", "NEO4J_PASSWORD"):
-        if os.environ.get(k):
-            d[k] = os.environ[k]
+    for k, env in ENV_KEYS.items():
+        if os.environ.get(env):
+            d[k] = os.environ[env]
     return d
+
+
+def _is_local(uri: str) -> bool:
+    host = uri.split("://", 1)[-1].rsplit(":", 1)[0]
+    return host in LOCAL_HOSTS
 
 
 def credential_status() -> dict:
@@ -38,6 +50,8 @@ def connect():
     d = _creds()
     if not all(d.get(k) for k in ("NEO4J_URI", "NEO4J_USER", "NEO4J_PASSWORD")):
         raise RuntimeError("Neo4j credentials not present (run scripts/moddik_neo4j.sh up)")
+    if not _is_local(d["NEO4J_URI"]) and os.environ.get("AGENT_FOUNDRY_NEO4J_ALLOW_REMOTE") != "1":
+        raise RuntimeError("refusing non-loopback Neo4j URI: this projection only writes to the project-local instance (set AGENT_FOUNDRY_NEO4J_ALLOW_REMOTE=1 to override deliberately)")
     drv = GraphDatabase.driver(d["NEO4J_URI"], auth=(d["NEO4J_USER"], d["NEO4J_PASSWORD"]))
     drv.verify_connectivity()
     return drv

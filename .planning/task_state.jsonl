@@ -17,3 +17,4 @@
 {"ts": "2026-09-29T19:17:29Z", "task": "moddik_inspector_mode", "state": "EXECUTED", "note": "3-column Moddik mode inside existing inspector; paired divergence view reused for the one-sensor-difference replay"}
 {"ts": "2026-09-29T19:17:29Z", "task": "moddik_plaud_custody_lane", "state": "PARTIAL", "note": "importer IMPLEMENTED and unit-tested on SYNTHETIC bytes only; no real PLAUD recording imported; account-linked MCP/CLI path DEFERRED (needs operator OAuth)"}
 {"ts": "2026-09-29T19:17:29Z", "task": "moddik_live_asr", "state": "NOT_TESTED", "note": "asr.py interface only; LFM2.5-Audio needs liquid-audio + multi-GB weights (operator approval pending); mic capture needs macOS mic permission"}
+{"ts": "2026-09-29T19:28:34Z", "task": "moddik_stable_presentation_rehearsal", "state": "EXECUTED", "note": "recorded + perturbed + live paths rehearsed from Terminal-panel server; live model latency 135 s under memory pressure"}

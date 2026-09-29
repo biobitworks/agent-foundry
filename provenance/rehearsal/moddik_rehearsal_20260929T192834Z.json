@@ -1,0 +1,61 @@
+{
+  "schema": "agent-foundry.moddik_rehearsal_receipt.v1",
+  "captured_at": "2026-09-29T19:28:34Z",
+  "host": "magicPRObox.local",
+  "base_commit": "eb0d1b0a811d186e4e841077b54d1b29973f42f8",
+  "server": "uvicorn started in the app Terminal panel on 127.0.0.1:8765 (not the preview sandbox); Neo4j = project-local container",
+  "url": "http://localhost:8765/?moddik=recorded:rehearsal_1",
+  "recorded_path": {
+    "state": "EXECUTED",
+    "observed": [
+      "sensor observations -> canonical leaves -> 3 HardwareBreakpoints (roots dddc7328\u2026, f56b0104\u2026, 653744ef\u2026) re-verified in the page",
+      "Neo4j projection queried: SensorEvent 77, ToolEvent 4, HardwareBreakpoint 3, ModelEvent 1, VerifierEvent 1, ActionEvent 1",
+      "route: nutrient 10.197 + waste 16.927 + policy_check (S4,S5,P1) -> LFM2.5-2.6B -> verifier PASS -> MEDIUM_EXCHANGE_RECOMMENDED, actuation NONE"
+    ],
+    "timing_ms": {
+      "run_view_api": 81,
+      "neo4j_graph_query_api": 157,
+      "pair_api": 65,
+      "page_load_to_rendered_upper_bound": 1500,
+      "play_stream_client_side_replay": 7200
+    }
+  },
+  "perturbed_replay": {
+    "state": "EXECUTED",
+    "perturbation": "nutrient@tick9 +2.5 mM",
+    "identical_prefix_events": 68,
+    "prefix_content_ids_equal": true,
+    "first_divergence_index": 68,
+    "first_divergent_event": "nutrient tick 9",
+    "changed_fields": [
+      "payload.value 10.197 -> 12.697",
+      "payload.content_digest"
+    ],
+    "changed_without_declared_dependency": 0,
+    "downstream_differences": "72 checkpoint (decision-state root differs), 75/77 tool, 78 model, 79 evaluation, 80 decision(control) vs abstention(variant: NO_INTERVENTION, criteria_met=False), 88 checkpoint (payload differs; its tick-10 root is identical), 89 run_completed",
+    "false_divergence_from_occurrence_ids": false
+  },
+  "live_path": {
+    "state": "EXECUTED",
+    "via": "inspector button 'Run live now'",
+    "model_latency_ms": 135006,
+    "eval_count": 1042,
+    "end_to_end_s_upper_bound": 148,
+    "result": "MEDIUM_EXCHANGE_RECOMMENDED, verifier PASS",
+    "vs_recorded_control": "compare_runs DIVERGENCE=NULL (third independent execution, n=3, byte-identical content)",
+    "note": "same 1042 tokens took 47 s on 2026-09-29 12:10 and 135 s here: swap was ~19.3 of 20 GB used; latency is memory-pressure dependent"
+  },
+  "failures": [
+    {
+      "what": "first rehearsal load: Neo4j 'UNAVAILABLE' from the terminal-panel server",
+      "cause": "the operator login shell exports generic NEO4J_* variables for a cloud Aura database and moddik_graph._creds() let them override the project-local credentials",
+      "impact": "DNS failure, so nothing was sent; had it resolved the demo would have cleared/written its run projection in that database",
+      "fix": "generic NEO4J_* ignored; only AGENT_FOUNDRY_NEO4J_* honored; non-loopback URIs refused; 2 regression tests",
+      "credential_values": "NOT_CAPTURED"
+    }
+  ],
+  "not_a_claim": [
+    "presentation readiness for the live model step is conditional on memory pressure",
+    "recorded path is the reliable fallback"
+  ]
+}

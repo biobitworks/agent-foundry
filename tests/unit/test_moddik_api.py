@@ -46,3 +46,24 @@ def test_graph_endpoint_degrades_honestly_without_neo4j(monkeypatch):
     monkeypatch.setattr(g, "connect", lambda: (_ for _ in ()).throw(RuntimeError("down")))
     r = c.get("/api/moddik/graph/recorded:rehearsal_1").json()
     assert r["backend"] == "UNAVAILABLE" and "canonical" in r["reason"] and r["credentials"]["VALUE"] == "NOT_CAPTURED"
+
+
+def test_generic_neo4j_env_vars_never_override_the_project_local_instance(monkeypatch):
+    """Regression: a shell holding NEO4J_* for an unrelated cloud database must not redirect the projection there."""
+    from agent_foundry import moddik_graph as g
+    monkeypatch.setenv("NEO4J_URI", "neo4j+s://someone-elses.databases.neo4j.io")
+    monkeypatch.setenv("NEO4J_USER", "x")
+    monkeypatch.setenv("NEO4J_PASSWORD", "x")
+    assert "databases.neo4j.io" not in g._creds().get("NEO4J_URI", "")
+
+
+def test_non_loopback_neo4j_uri_is_refused(monkeypatch):
+    import pytest
+    from agent_foundry import moddik_graph as g
+    monkeypatch.setenv("AGENT_FOUNDRY_NEO4J_URI", "neo4j+s://x.databases.neo4j.io:7687")
+    monkeypatch.setenv("AGENT_FOUNDRY_NEO4J_USER", "u")
+    monkeypatch.setenv("AGENT_FOUNDRY_NEO4J_PASSWORD", "p")
+    monkeypatch.delenv("AGENT_FOUNDRY_NEO4J_ALLOW_REMOTE", raising=False)
+    with pytest.raises(RuntimeError, match="non-loopback"):
+        g.connect()
+    assert g._is_local("bolt://127.0.0.1:7691") and g._is_local("bolt://localhost:7687") and not g._is_local("neo4j+s://x.databases.neo4j.io:7687")

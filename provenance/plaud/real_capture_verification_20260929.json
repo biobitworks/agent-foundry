@@ -1,0 +1,63 @@
+{
+  "schema": "agent-foundry.plaud_real_capture_verification.v1",
+  "id": "PLAUD_REAL_CAPTURE_VERIFICATION_20260929_001",
+  "verification_scope": "exact operator-provided attachment bytes available to the independent review environment",
+  "source_attribution": "operator states the audio is a PLAUD export; device/platform provenance is not independently verified by this hash operation",
+  "audio": {
+    "filename": "2026-09-29_11_05_13.mp3",
+    "byte_count": 15224876,
+    "sha256": "bf9bb0284597f8820981b54292127104875b5a27f5d3f673ad28791db49fe55d",
+    "duration_seconds": 5074.884,
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "exact_bytes_hash_verified": true,
+    "public_raw_bytes": false
+  },
+  "transcript": {
+    "filename": "09-29_Developing_a_Deterministic_AI_Framework_for_Automated_Biological_Research-transcript.txt",
+    "byte_count": 77153,
+    "sha256": "49ec64d89419aea86a91373e8c6f159c31db595c926b3627f89d2939a40fee15",
+    "exact_bytes_hash_verified": true,
+    "public_raw_bytes": false
+  },
+  "contribution_segment_candidates": [
+    {
+      "start": "00:14:48",
+      "end": "00:18:50",
+      "topic": "hardware architecture and custody",
+      "speaker_identity_policy": "preserve transcript labels; do not infer unnamed speakers"
+    },
+    {
+      "start": "00:19:37",
+      "end": "00:23:20",
+      "topic": "protocol-to-circuit/module workflow",
+      "speaker_identity_policy": "preserve transcript labels; do not infer unnamed speakers"
+    },
+    {
+      "start": "00:27:00",
+      "end": "00:30:10",
+      "topic": "Neo4j/modular hardware graph discussion",
+      "speaker_identity_policy": "preserve transcript labels; do not infer unnamed speakers"
+    },
+    {
+      "start": "00:51:27",
+      "end": "00:54:10",
+      "topic": "Agent Foundry MVP/demo design",
+      "speaker_identity_policy": "preserve transcript labels; do not infer unnamed speakers"
+    }
+  ],
+  "claim_limits": [
+    "sha256 proves identity of the reviewed bytes, not authorship, semantic truth, recorder authenticity, or clock synchronization",
+    "real PLAUD addendum import into the canonical Agent Foundry run was not executed in this review",
+    "no FCO admission is claimed by this receipt",
+    "no PLAUD Merkle root is claimed"
+  ],
+  "status": {
+    "PLAUD_CAPTURE": "OBSERVED_REAL_FILES",
+    "PLAUD_AUDIO_HASH_VERIFIED": true,
+    "PLAUD_TRANSCRIPT_HASH_VERIFIED": true,
+    "PLAUD_FCO_ADMISSION": "NOT_EXECUTED",
+    "PLAUD_MERKLE": "NOT_COMPUTED",
+    "PLAUD_PUBLIC_SAFE": true
+  }
+}

@@ -313,6 +313,45 @@ def moddik_execute(req: ModdikRunRequest):
     return {"source": f"live:{tag}", "summary": res["summary"]}
 
 
+DS = RECORDED / "external_datasets"
+
+
+@app.get("/api/dataset/{name}")
+def dataset_view(name: str, graph: int = 0):
+    """External-dataset admission (metadata level): canonical FCO/FCG + the recorded Agent Foundry run, re-verified on load. graph=1 also queries the Neo4j PROJECTION."""
+    if not re.fullmatch(r"[a-z0-9_]+", name):
+        raise HTTPException(400, "bad name")
+    d = DS / name
+    if not (d / "manifest.json").exists():
+        raise HTTPException(404, "no such dataset admission")
+    import hashlib
+    from agent_foundry import dataset_fco as dfco, dataset_graph as dg
+    man = json.loads((d / "manifest.json").read_text())
+    events = read_run(d / man["run_file"])
+    fcos, edges = dfco.load_canonical()
+    hashes_ok = all(dfco.verify_fco_hash(f) for f in fcos.values())
+    start = next(h for h, f in fcos.items() if f["object_type"] == "DatasetFile")
+    out = {"source": "RECORDED_REAL_EXECUTION", "manifest": man, "run_sha256_matches_manifest": hashlib.sha256((d / man["run_file"]).read_bytes()).hexdigest() == man["run_sha256"],
+           "fco_hashes_recomputed": hashes_ok, "events": events, "fcos": list(fcos.values()), "edges": edges, "canonical_trace": dfco.trace(fcos, edges, start),
+           "capture": json.loads((ROOT / "fco" / "manifests" / "ieee_dmf_v01_source_capture.json").read_text())}
+    if graph:
+        from agent_foundry import moddik_graph as mg
+        try:
+            drv = mg.connect()
+        except Exception as e:
+            out["neo4j"] = {"backend": "UNAVAILABLE", "reason": type(e).__name__}
+            return out
+        try:
+            aid = "ieee_dmf_fco_v01"
+            if dg.counts(drv, aid)["nodes"] == 0:  # projection missing: rebuild it from the canonical files + run log
+                dg.project(drv, aid, fcos, edges, events)
+                out["neo4j_rebuilt_from_canonical"] = True
+            out["neo4j"] = {"backend": "neo4j", "counts": dg.counts(drv, aid), "trace": dg.trace(drv, aid, start)["paths"]}
+        finally:
+            drv.close()
+    return out
+
+
 @app.get("/")
 def index():
     return FileResponse(ROOT / "app" / "index.html")

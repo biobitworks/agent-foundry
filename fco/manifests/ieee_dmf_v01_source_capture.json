@@ -1,0 +1,34 @@
+{
+  "DATASET_PAYLOAD_HASH": "NOT_COMPUTED",
+  "SOURCE_BYTES_HASH": "sha256:e5ebbfbd9568ffc6223b8ef5a740041a8037448e96c364ee6ed541d6c88f504e",
+  "SOURCE_BYTES_HASH_SCOPE": "exact saved PAGE bytes only; NOT the dataset payload",
+  "bytes_location": "outside git (.local/sources/ieee_dmf/); redistribution of the page bytes not assessed",
+  "dataset_merkle_root": "NOT_COMPUTED (no raw bytes; no governed dataset-admission breakpoint pattern for metadata-only intake)",
+  "doi": "10.21227/g22f-3b37",
+  "gates": {
+    "COMMERCIAL_USE_STATUS": "UNKNOWN",
+    "DATA_BYTES_ACCESS": "ACCESS_BLOCKED (login required; no credentials used; no account created)",
+    "DERIVATIVE_USE_ALLOWED": "UNKNOWN",
+    "LICENSE": "DECLARED_CC_BY_4.0_IN_PAGE_JSON_LD_UNVERIFIED (not shown in visible page text)",
+    "RAW_PAYLOAD_COMMITTED_TO_GIT": false,
+    "REDISTRIBUTION_ALLOWED": "UNKNOWN",
+    "SOURCE_PAGE_ACCESS": "PUBLIC (HTTP 200 anonymous)"
+  },
+  "http_status": 200,
+  "response_headers": {
+    "Content-Length": "55577",
+    "Content-Type": "text/html; charset=UTF-8",
+    "Date": "Tue, 29 Sep 2026 20:45:48 GMT",
+    "Etag": "W/\"1790714730\"",
+    "Last-Modified": "Tue, 29 Sep 2026 20:45:30 GMT",
+    "Server": "nginx"
+  },
+  "retrieval_method": "HTTP GET via Python urllib, anonymous, no cookies, no login, no credentials",
+  "retrieval_timestamp_utc": "2026-09-29T20:45:47Z",
+  "saved_filename": "page_20260929T204547Z.html",
+  "schema": "agent-foundry.external_source_capture.v1",
+  "source_byte_length": 55577,
+  "source_id": "IEEE_DATAPORT_DIGITAL_MICROFLUIDICS_DATASET",
+  "source_type": "source_page_html",
+  "source_url": "https://ieee-dataport.org/documents/digital-microfluidics-datasets"
+}

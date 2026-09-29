@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Minimum Fractal Custody Object",
+  "type": "object",
+  "required": [
+    "fco_version",
+    "object_type",
+    "object_id",
+    "content_hash",
+    "created_at",
+    "project_id",
+    "run_id",
+    "source_or_derivative",
+    "anticube_state",
+    "claim_ceiling",
+    "status"
+  ],
+  "properties": {
+    "fco_version": {
+      "type": "string"
+    },
+    "object_type": {
+      "type": "string"
+    },
+    "object_id": {
+      "type": "string"
+    },
+    "canonicalization_method": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "parent_hashes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "actor_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "device_or_instrument_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "authorization_basis": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "anticube_state": {
+      "type": "object",
+      "required": [
+        "identity",
+        "safety"
+      ],
+      "properties": {
+        "identity": {
+          "enum": [
+            "self",
+            "non-self",
+            "unknown"
+          ]
+        },
+        "safety": {
+          "enum": [
+            "safe",
+            "non-safe",
+            "unknown"
+          ]
+        }
+      }
+    },
+    "source_or_derivative": {
+      "enum": [
+        "source",
+        "derivative",
+        "composite"
+      ]
+    },
+    "software_hash": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "environment_hash": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "signature": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "encryption": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "claim_ceiling": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "accepted",
+        "rejected",
+        "quarantined",
+        "superseded",
+        "released"
+      ]
+    },
+    "supersedes": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "notes": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

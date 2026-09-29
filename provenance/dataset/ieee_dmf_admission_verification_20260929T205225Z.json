@@ -1,0 +1,74 @@
+{
+  "schema": "agent-foundry.dataset_admission_verification.v1",
+  "admission_id": "ieee_dmf_fco_v01",
+  "checks": {
+    "fco_schema_valid": true,
+    "fco_content_hashes_recomputed": true,
+    "snapshot_hash_equals_capture_manifest": true,
+    "snapshot_bytes_present_locally_and_rehash": true,
+    "edges_resolve_and_not_causal": true,
+    "edge_types_declared": {
+      "derived_from": "FCG_ONTOLOGY_V1.3.0",
+      "licensed_under": "FCG_ONTOLOGY_V1.3.0",
+      "part_of": "PROPOSED_EXTENSION (not in v1.3.0 ontology list)"
+    },
+    "no_raw_payload_atoms_created": true,
+    "canonical_trace": {
+      "chain_types": [
+        "DatasetFile",
+        "DatasetSource",
+        "SourcePageSnapshot"
+      ],
+      "chain": [
+        "sha256:c5bfc17cdbfa4a514d543d4fa8308a8fb895542a50c70f125c3e90797e95c861",
+        "sha256:f9ae17e2544b9c775a1c68c937c9d74a93128ee06b2acc1aba0973675815fddf",
+        "sha256:e5ebbfbd9568ffc6223b8ef5a740041a8037448e96c364ee6ed541d6c88f504e"
+      ],
+      "source_url": "https://ieee-dataport.org/documents/digital-microfluidics-datasets",
+      "reaches_authoritative_url": true
+    },
+    "run_log_integrity": true,
+    "run_manifest_hash": true,
+    "events_reference_fco_content_hashes": true,
+    "neo4j": {
+      "nodes_before_delete": 14,
+      "nodes_after_delete": 0,
+      "nodes_after_rebuild": 14,
+      "relationships_after_rebuild": 29,
+      "by_label": {
+        "EvidenceEvent": 4,
+        "FCO": 4,
+        "Run": 1,
+        "RunEvent": 2,
+        "ToolEvent": 2,
+        "VerifierEvent": 1
+      },
+      "by_rel": {
+        "DECLARED_DEPENDENCY": 12,
+        "DERIVED_FROM": 2,
+        "LICENSED_UNDER": 1,
+        "OBSERVED_IN": 9,
+        "PART_OF": 1,
+        "PROJECTED_FROM": 4
+      },
+      "rebuilt_fco_fcg_subgraph_identical_to_before": true,
+      "counts_identical": true,
+      "unrelated_nodes_untouched": true,
+      "causal_like_edges": 0,
+      "neo4j_trace_chain_equals_canonical": true,
+      "neo4j_trace_types": [
+        "DatasetFile",
+        "DatasetSource",
+        "SourcePageSnapshot"
+      ],
+      "neo4j_trace_rels": [
+        "PART_OF",
+        "DERIVED_FROM"
+      ],
+      "neo4j_terminal_source_url": "https://ieee-dataport.org/documents/digital-microfluidics-datasets"
+    },
+    "dataset_merkle_root": "NOT_COMPUTED"
+  },
+  "PASS": true,
+  "verified_at": "2026-09-29T20:52:25+00:00"
+}

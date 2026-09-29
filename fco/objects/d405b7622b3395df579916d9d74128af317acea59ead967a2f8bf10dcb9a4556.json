@@ -1,0 +1,38 @@
+{
+  "actor_id": "agent-foundry-dataset-intake",
+  "anticube_state": {
+    "identity": "non-self",
+    "safety": "unknown"
+  },
+  "authorization_basis": "operator task IEEE_DIGITAL_MICROFLUIDICS_DATASET_FCO_ADMISSION_001 (metadata-level intake; no credentials used)",
+  "body": {
+    "applicability_to_data_bytes": "UNKNOWN",
+    "custody_state": "METADATA_ONLY",
+    "declared_in": "page JSON-LD (schema.org Dataset.license)",
+    "declared_license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "raw_bytes_state": "NOT_APPLICABLE",
+    "site_terms_url": "https://www.ieee.org/about/help/site-terms-conditions.html",
+    "verification": "NOT_VERIFIED",
+    "visible_in_page_text": false
+  },
+  "canonicalization_method": "agent_foundry.ids.canonical_json(sorted keys, compact separators, UTF-8) over {object_type, body}",
+  "claim_ceiling": "source-declared metadata only; does not establish the dataset payload, its scientific validity, or the validity/applicability of the declared license",
+  "content_hash": "sha256:d405b7622b3395df579916d9d74128af317acea59ead967a2f8bf10dcb9a4556",
+  "created_at": "2026-09-29T20:45:47Z",
+  "device_or_instrument_id": null,
+  "encryption": null,
+  "environment_hash": null,
+  "fco_version": "1.3.0",
+  "notes": "a machine-readable page declaration, not a verified grant; redistribution/derivative/commercial status remain UNKNOWN",
+  "object_id": "fco:sha256:d405b7622b3395df579916d9d74128af317acea59ead967a2f8bf10dcb9a4556",
+  "object_type": "LicenseDeclaration",
+  "parent_hashes": [
+    "sha256:e5ebbfbd9568ffc6223b8ef5a740041a8037448e96c364ee6ed541d6c88f504e"
+  ],
+  "project_id": "agent-foundry",
+  "run_id": "ieee-dmf-v01-intake",
+  "signature": null,
+  "software_hash": "sha256:b1fdc6efdb53184d0d5f46ded998ad09b01b13737f296c73e6855e0ceccfe6f0",
+  "source_or_derivative": "derivative",
+  "status": "draft"
+}

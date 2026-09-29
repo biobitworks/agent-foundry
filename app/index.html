@@ -46,6 +46,7 @@ pre{margin:0;background:#0a0d12;border:1px solid var(--line);border-radius:6px;p
   </select>
   <button id="go" class="primary">Compare runs</button>
   <button id="mdOpen" title="Moddik local-simulation evidence demo">Moddik plate demo</button>
+  <button id="dsOpen" title="External dataset custody (FCO/FCG), metadata level">Dataset custody (IEEE DMF)</button>
 </header>
 <div class="card" style="margin:14px 22px 0;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
   <b>Live:</b><span class="muted">type any input; the Antigence deterministic core and a local Liquid model screen it for prompt injection, then Agent Foundry compares the two runs.</span>
@@ -74,6 +75,12 @@ pre{margin:0;background:#0a0d12;border:1px solid var(--line);border-radius:6px;p
     <div class="card"><h3 class="muted" style="margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.8px">Selected event</h3><div id="mdInsp" class="muted">Select an event or a step.</div></div>
     <div class="card note" id="mdProv"></div>
   </div>
+</div>
+<div id="dsPanel" hidden style="padding:14px 22px">
+  <div class="sim">EXTERNAL DATASET &middot; METADATA-LEVEL ADMISSION &middot; raw dataset bytes ACCESS_BLOCKED (login required, no credentials used) &middot; license declared in page JSON-LD, UNVERIFIED &middot; FCG edges declare relationships, not causality &middot; Neo4j is a rebuildable projection</div>
+  <div class="card" style="margin-top:12px"><b id="dsTitle"></b><div id="dsTrace" class="mono" style="margin-top:8px"></div><div style="margin-top:8px"><button id="dsGraph">Query Neo4j projection</button> <span id="dsGraphOut" class="note"></span></div></div>
+  <div class="grid"><div class="card"><h3 class="muted" style="margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.8px">Agent Foundry run (EXTERNAL_DATASET_REPLAY)</h3><div id="dsEvents"></div></div>
+  <div class="card"><h3 class="muted" style="margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.8px">Selected FCO / event</h3><div id="dsInsp" class="muted">Select an event or an FCO.</div></div></div>
 </div>
 <main>
   <div id="status" class="note" style="margin-bottom:10px">Pick a scenario and compare two runs of the same canonical task.</div>
@@ -363,7 +370,7 @@ async function mdGraph(){
   catch(e){o.className='err';o.textContent='Error: '+e.message}
 }
 async function mdOpen(){
-  $('mdOpen').disabled=true;$('moddik').hidden=false;$('out').hidden=true;
+  $('mdOpen').disabled=true;$('moddik').hidden=false;$('out').hidden=true;$('dsPanel').hidden=true;
   const srcs=await mdSources();$('mdOpen').disabled=false;
   if(!srcs.length){$('mdStatus').textContent='No Moddik runs yet: press "Run live now".';return}
   const rec=srcs.find(x=>x.kind==='RECORDED_REAL_EXECUTION')||srcs[0];$('mdSrc').value=rec.id;mdLoad(rec.id)
@@ -384,6 +391,19 @@ $('mdOpen').addEventListener('click',mdOpen);$('mdLoad').addEventListener('click
 $('mdTick').addEventListener('input',e=>mdTick(Number(e.target.value)));
 $('mdPlay').addEventListener('click',()=>{if(MD.timer){clearInterval(MD.timer);MD.timer=null;$('mdPlay').textContent='Play stream';return}
   let i=0;$('mdPlay').textContent='Stop';MD.timer=setInterval(()=>{mdTick(i);i++;if(i>=MD.d.view.ticks.length){clearInterval(MD.timer);MD.timer=null;$('mdPlay').textContent='Play stream'}},600)});
+const DS={d:null};
+async function dsOpen(withGraph){
+  $('moddik').hidden=true;$('out').hidden=true;$('dsPanel').hidden=false;
+  const r=await fetch('/api/dataset/ieee_dmf_v01'+(withGraph?'?graph=1':''));if(!r.ok){$('dsTitle').textContent='Error: '+(await r.json()).detail;return}
+  const d=await r.json();DS.d=d;const t=d.canonical_trace,fc={};d.fcos.forEach(f=>fc[f.content_hash]=f);
+  $('dsTitle').textContent='Trace: '+t.chain_types.join(' → ')+' → '+t.source_url+' · FCO hashes recomputed: '+d.fco_hashes_recomputed+' · run log matches manifest: '+d.run_sha256_matches_manifest;
+  const tr=$('dsTrace');tr.replaceChildren();t.chain.forEach((h,i)=>{const row=el('div','mono',(i?'  '+t.hops[i-1].rel+' → ':'')+fc[h].object_type+' '+h);row.style.cursor='pointer';row.addEventListener('click',()=>dsShow(fc[h]));tr.append(row)});
+  tr.append(el('div','note','Edges declare relationships; they do not prove causality. part_of is a PROPOSED ontology extension (not in FCG ontology v1.3.0). Dataset Merkle root: NOT_COMPUTED. Raw payload: ACCESS_BLOCKED.'));
+  const ev=$('dsEvents');ev.replaceChildren();d.events.forEach((e,i)=>{const r=el('div','ev');r.append(el('div','seq',String(i)),el('div','typ',e.event_type));const b=el('div');b.append(el('div','sum',e.payload.fco_object_type?e.payload.fco_object_type+' · '+e.payload.custody_state+' · '+e.payload.fco_content_hash.slice(0,23)+'…':(e.payload.tool||e.payload.metric||e.payload.task_id||e.payload.status)+(e.payload.result?' → '+e.payload.result:'')));r.append(b);r.addEventListener('click',()=>{$('dsInsp').classList.remove('muted');$('dsInsp').replaceChildren(el('div','note','event '+i+' · '+e.event_id),jsonBlock({event_type:e.event_type,state:e.state,payload:e.payload,meta:e.meta}))});ev.append(r)});
+  if(d.neo4j){$('dsGraphOut').textContent=d.neo4j.backend==='neo4j'?'Neo4j projection'+(d.neo4j_rebuilt_from_canonical?' (rebuilt now from canonical)':'')+': '+d.neo4j.counts.nodes+' nodes, '+d.neo4j.counts.relationships+' relationships; trace '+d.neo4j.trace[0].types.join(' → ')+' via '+d.neo4j.trace[0].rels.join(', ')+'; causal-like edges '+d.neo4j.counts.causal_like_edges:d.neo4j.backend+': '+d.neo4j.reason}
+}
+function dsShow(f){const b=$('dsInsp');b.classList.remove('muted');b.replaceChildren(el('div','note',f.object_type+' · '+f.object_id+' · status '+f.status),jsonBlock(f))}
+$('dsOpen').addEventListener('click',()=>dsOpen(false));$('dsGraph').addEventListener('click',()=>dsOpen(true));
 $('rpVerify').addEventListener('click',()=>doReplay(null));$('liveGo').addEventListener('click',liveGo);$('lineageBtn').addEventListener('click',exportLineage);
 $('rpBranch').addEventListener('click',()=>{const [p,m]=$('rpAlt').value.split('|');doReplay({provider:p,model:m})});
 (async()=>{

@@ -1,0 +1,47 @@
+{
+  "actor_id": "agent-foundry-dataset-intake",
+  "anticube_state": {
+    "identity": "non-self",
+    "safety": "unknown"
+  },
+  "authorization_basis": "operator task IEEE_DIGITAL_MICROFLUIDICS_DATASET_FCO_ADMISSION_001 (metadata-level intake; no credentials used)",
+  "body": {
+    "byte_length": 55577,
+    "bytes_in_git": false,
+    "custody_state": "PAGE_BYTES_RETAINED_OUTSIDE_GIT",
+    "hash_scope": "the exact saved HTML response bytes of the source PAGE; NOT the dataset payload hash",
+    "http_status": 200,
+    "local_pointer": ".local/sources/ieee_dmf/page_20260929T204547Z.html",
+    "raw_bytes_state": "NOT_APPLICABLE (page snapshot)",
+    "response_headers": {
+      "Content-Length": "55577",
+      "Content-Type": "text/html; charset=UTF-8",
+      "Date": "Tue, 29 Sep 2026 20:45:48 GMT",
+      "Etag": "W/\"1790714730\"",
+      "Last-Modified": "Tue, 29 Sep 2026 20:45:30 GMT",
+      "Server": "nginx"
+    },
+    "retrieval_method": "HTTP GET via Python urllib, anonymous, no cookies, no login, no credentials",
+    "retrieval_timestamp_utc": "2026-09-29T20:45:47Z",
+    "saved_filename": "page_20260929T204547Z.html",
+    "source_url": "https://ieee-dataport.org/documents/digital-microfluidics-datasets",
+    "user_agent": "agent-foundry-provenance-test/0.1 (+https://github.com/biobitworks/agent-foundry)"
+  },
+  "canonicalization_method": "sha256 over the exact saved response bytes",
+  "claim_ceiling": "identity of the captured page bytes only; not the dataset payload; not the truth of the page's claims",
+  "content_hash": "sha256:e5ebbfbd9568ffc6223b8ef5a740041a8037448e96c364ee6ed541d6c88f504e",
+  "created_at": "2026-09-29T20:45:47Z",
+  "device_or_instrument_id": null,
+  "encryption": null,
+  "environment_hash": null,
+  "fco_version": "1.3.0",
+  "object_id": "fco:sha256:e5ebbfbd9568ffc6223b8ef5a740041a8037448e96c364ee6ed541d6c88f504e",
+  "object_type": "SourcePageSnapshot",
+  "parent_hashes": [],
+  "project_id": "agent-foundry",
+  "run_id": "ieee-dmf-v01-intake",
+  "signature": null,
+  "software_hash": "sha256:b1fdc6efdb53184d0d5f46ded998ad09b01b13737f296c73e6855e0ceccfe6f0",
+  "source_or_derivative": "source",
+  "status": "draft"
+}

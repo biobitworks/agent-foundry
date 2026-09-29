@@ -1,0 +1,13 @@
+{
+  "schema": "agent-foundry.external_dataset_recording.v1",
+  "kind": "REAL_EXECUTION_RECORDED",
+  "admission_id": "ieee_dmf_fco_v01",
+  "level": "METADATA_LEVEL",
+  "run_file": "ieee-dmf-v01.jsonl",
+  "run_sha256": "4f653d49aeb1c7dd2e12104097e3e4c8449a6ad2ecc91111bf1d1f7029ee0181",
+  "limits": [
+    "no raw dataset bytes obtained (ACCESS_BLOCKED)",
+    "no samples/frames atomized",
+    "no Merkle root computed (NOT_COMPUTED)"
+  ]
+}

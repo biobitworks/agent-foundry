@@ -1,0 +1,88 @@
+{
+  "actor_id": "agent-foundry-dataset-intake",
+  "anticube_state": {
+    "identity": "non-self",
+    "safety": "unknown"
+  },
+  "authorization_basis": "operator task IEEE_DIGITAL_MICROFLUIDICS_DATASET_FCO_ADMISSION_001 (metadata-level intake; no credentials used)",
+  "body": {
+    "abstract": "Digital microfluidics are a unique technique for operation of nano-to-micro liter droplets based on electrowetting on dielectric. It has great application potential in the field on clinic diagnosis, life science and environment monitoring. Due to the fast droplet moving speed and high degree of freedom for droplet manipulation, it is urgent to develop automated and intelligent approaches for droplet monitoring and control.",
+    "access": {
+      "data_bytes": "ACCESS_BLOCKED (login required; no credentials used)",
+      "file_folder_marked_restricted": true,
+      "files_require_login": true,
+      "source_page": "PUBLIC (HTTP 200 anonymous)"
+    },
+    "associated_publication": "UNKNOWN (page cites 'our previous research' without a reference)",
+    "camera_declared": "DAVIS346",
+    "citation_authors": [
+      "Boyi Feng"
+    ],
+    "custody_state": "METADATA_ONLY",
+    "data_format_declared": "*.npz",
+    "dataset_label_on_page": "Standard Dataset",
+    "date_created_utc": "2025-04-10T15:29:45+00:00",
+    "declared_files": [
+      {
+        "name": "DMFDataset.zip",
+        "size_text": "1.67 MB"
+      }
+    ],
+    "declared_license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "declared_structure": {
+      "data_points": 4832,
+      "frames_per_sample": 16,
+      "samples": 302,
+      "split_test": 61,
+      "split_train": 211,
+      "split_validation": 30
+    },
+    "doi": "10.21227/g22f-3b37",
+    "doi_resolver": "https://dx.doi.org/10.21227/g22f-3b37",
+    "domain": "digital_microfluidics",
+    "instructions_excerpt": "A dataset of droplet splitting, merging and movement on the digital microfluidic system was recorded using the platform with an integrated event camera (DAVIS346). The dataset comprises 302 samples, each represented as a 16-frame multidimensional array, resulting in a total of 4,832 data points. The dataset is divided into three subsets: 61 test samples, 211 training samples, and 30 validation samples. The distribution of samples follows an approximate 2:7:1 ratio. The microfluidic chip utilized in this study is based on the design proposed in our previous research",
+    "json_ld_creator": "Zhen Gu",
+    "last_updated_utc": "2025-04-10T15:29:45+00:00",
+    "license_flags": {
+      "COMMERCIAL_USE_STATUS": "UNKNOWN",
+      "DERIVATIVE_USE_ALLOWED": "UNKNOWN",
+      "REDISTRIBUTION_ALLOWED": "UNKNOWN"
+    },
+    "license_status": "DECLARED_IN_PAGE_JSON_LD_UNVERIFIED",
+    "operations_declared": "droplet splitting, merging and movement",
+    "publisher_repository": "IEEE DataPort",
+    "raw_bytes_identity": "NOT_COMPUTED",
+    "raw_bytes_state": "ACCESS_BLOCKED",
+    "semantic_name": "IEEE_DATAPORT_DIGITAL_MICROFLUIDICS_DATASET",
+    "source_discrepancies": [
+      "JSON-LD creator (Zhen Gu) differs from the visible Citation Author (Boyi Feng); Zhen Gu is the submitter",
+      "JSON-LD citation URL is empty ('https://dx.doi.org/')",
+      "page 'Data Format' is *.npz but the only listed file is DMFDataset.zip (relation unverified)"
+    ],
+    "source_url": "https://ieee-dataport.org/documents/digital-microfluidics-datasets",
+    "submitted_by": "Zhen Gu",
+    "title": "Digital Microfluidics Datasets",
+    "version": "UNKNOWN (no version field on the page)"
+  },
+  "canonicalization_method": "agent_foundry.ids.canonical_json(sorted keys, compact separators, UTF-8) over {object_type, body}",
+  "claim_ceiling": "source-declared metadata only; does not establish the dataset payload, its scientific validity, or the validity/applicability of the declared license",
+  "content_hash": "sha256:f9ae17e2544b9c775a1c68c937c9d74a93128ee06b2acc1aba0973675815fddf",
+  "created_at": "2026-09-29T20:45:47Z",
+  "device_or_instrument_id": null,
+  "encryption": null,
+  "environment_hash": null,
+  "fco_version": "1.3.0",
+  "notes": "views/downloads counters appear only in the rendered DOM and are volatile; deliberately excluded from identity",
+  "object_id": "fco:sha256:f9ae17e2544b9c775a1c68c937c9d74a93128ee06b2acc1aba0973675815fddf",
+  "object_type": "DatasetSource",
+  "parent_hashes": [
+    "sha256:e5ebbfbd9568ffc6223b8ef5a740041a8037448e96c364ee6ed541d6c88f504e",
+    "sha256:d405b7622b3395df579916d9d74128af317acea59ead967a2f8bf10dcb9a4556"
+  ],
+  "project_id": "agent-foundry",
+  "run_id": "ieee-dmf-v01-intake",
+  "signature": null,
+  "software_hash": "sha256:b1fdc6efdb53184d0d5f46ded998ad09b01b13737f296c73e6855e0ceccfe6f0",
+  "source_or_derivative": "derivative",
+  "status": "draft"
+}

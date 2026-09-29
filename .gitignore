@@ -9,3 +9,8 @@ __pycache__/
 .venv/
 .DS_Store
 .gitleaks-report.json
+
+# GSD Core is an EXTERNAL dev tool (see provenance/GSD_UPSTREAM_LOCK.json); reinstall from the pin, do not vendor.
+.claude/*
+!.claude/gsd-file-manifest.json
+!.claude/gsd-install-state.json

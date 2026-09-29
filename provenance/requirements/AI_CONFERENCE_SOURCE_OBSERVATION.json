@@ -1,0 +1,39 @@
+{
+  "schema": "agent-foundry.source_observation.v1",
+  "source_id": "SRC:AI_CONFERENCE_OFFICIAL:48ba581a56501c4d",
+  "url": "https://aiconference.com/#hackday",
+  "source_role": "OFFICIAL_EVENT_SOURCE",
+  "operator_stated_retrieval_date": "2026-09-28",
+  "independently_observed_at": "2026-09-29T05:03:58Z",
+  "method": "Claude built-in browser, rendered DOM read (innerText, JSON-LD, collapsed accordion content) on magicPRObox. Page text is NOT committed; only element hashes and short atoms.",
+  "page_innerText_sha256": "1409f06746cf4a2c38cf71e0475ad7b2866d89a0496ad5357794236381e42ba1",
+  "operator_claims_verified": {
+    "EVENT_DATE": true,
+    "EVENT_LOCATION": true,
+    "SHIP_WORKING_PRODUCT": true,
+    "EXECUTION_CRITERION": true,
+    "PRODUCT_CLARITY_CRITERION": true,
+    "REAL_WORLD_VIABILITY_CRITERION": true,
+    "CUSTOMER_USEFULNESS_TEST": true,
+    "CUSTOMER_WILLINGNESS_TO_PAY_TEST": true,
+    "WINNER_MAIN_STAGE_PITCH": true,
+    "AGENDA_MUTABILITY": true
+  },
+  "caveats": [
+    "Criteria and winner-pitch text live in COLLAPSED accordions, not the default visible text; they were located via the DOM.",
+    "Location comes from the Day ZERO JSON-LD location.name; the visible body text does not repeat it.",
+    "The 2026-09-30 date for the Startup Showdown is derived from the main-conference JSON-LD; the accordion says only 'the next day'.",
+    "Would-they-pay is verified as a viability test only; the page defines no pricing or revenue metric.",
+    "Judging panel, rubric weights, submission format, deadlines, demo length: NOT_OBSERVED on this page (UNKNOWN).",
+    "'Hack Day support provided by' sponsors are logos; sponsor names NOT_EXTRACTED. DuploCloud's sponsor role is NOT verified by this source.",
+    "Apply link (Luma event) and https://aiconference.com/agenda/ were NOT_RETRIEVED."
+  ],
+  "mutable_fields": ["agenda", "hours", "venue details"],
+  "recheck_before_event": "REQUIRED",
+  "recheck_done": false,
+  "requirement_sets": {
+    "AI_CONFERENCE_REQUIREMENTS": "provenance/requirements/AI_CONFERENCE_REQUIREMENTS.jsonl",
+    "DUPLOCLOUD_REQUIREMENTS": "provenance/requirements/DUPLOCLOUD_REQUIREMENTS.jsonl"
+  },
+  "identity_rule": "AI_CONFERENCE_REQUIREMENTS != DUPLOCLOUD_REQUIREMENTS; separate source_id, no merged atoms"
+}

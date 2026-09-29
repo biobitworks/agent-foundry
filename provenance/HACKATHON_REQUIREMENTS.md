@@ -1,5 +1,12 @@
 # Hack Day requirements
 
+> **SUPERSEDED IN PART (2026-09-29).** The official source has since been retrieved and atomized into
+> `requirements/AI_CONFERENCE_REQUIREMENTS.jsonl` (OFFICIAL_EVENT_SOURCE) and
+> `requirements/DUPLOCLOUD_REQUIREMENTS.jsonl` (OPERATOR_STATED). These sets are distinct and must not be merged.
+> The list below remains the operator-stated product plan from baseline commit `ff8120d`.
+> "Official rules NOT_RETRIEVED" no longer holds for the AI Conference page. What that page still does
+> NOT specify (judges, rubric weights, deadlines) is in `requirements/AI_CONFERENCE_SOURCE_OBSERVATION.json`.
+
 Event: AI Conference Hack Day, 2026-09-29.
 
 ## Provenance of this list

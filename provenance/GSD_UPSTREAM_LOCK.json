@@ -11,7 +11,7 @@
   "license": "MIT",
   "license_source": "gh api repos/open-gsd/gsd-core/license",
   "npm_package": "@opengsd/gsd-core@1.15.0",
-  "npm_integrity_verified": "NOT_COMPUTED",
+  "npm_integrity_verified": "NOT_COMPUTED (npx does not report the check; registry metadata recorded only)",
   "installation_method": "npx @opengsd/gsd-core@1.15.0 --claude --local (planned)",
   "runtime_target": "claude (local, project scope)",
   "role": "EXTERNAL_DEVELOPMENT_TOOL",
@@ -21,6 +21,25 @@
     "Pistis07/get-shit-done-skills (untested conversion; not canonical)"
   ],
   "node_requirement": "NODE_MAJOR >= 24 (per operator prompt; package metadata not yet inspected)",
-  "status": "PROPOSED",
-  "install_status": "NOT_INSTALLED_AT_BASELINE"
+  "status": "IMPLEMENTED_LOCAL_INSTALL",
+  "install_status": "INSTALLED_LOCAL",
+  "install_completed_at": "2026-09-29T05:05:34Z",
+  "install_scope": "project-local (.claude/ in agent-foundry); global GSD skills already existed and were not modified",
+  "install_command_as_run": "npx @opengsd/gsd-core@1.15.0 --claude --local",
+  "install_exit_code": 0,
+  "files_added_untracked": 794,
+  "manifest_hashed_files": 781,
+  "npm_gitHead_matches_tag_commit": true,
+  "npm_integrity_expected": "sha512-GwdlJeupozyM22g2INdxiNfkpDm5hFS7G42leRqQwHb/0BclBG3TpgyGtWIkf47shjkfGRtrK5iK+pPZ61DvMA==",
+  "node_requirement_from_package_metadata": ">=24.0.0",
+  "node_requirement_satisfied": "UNKNOWN_UNVERIFIED (brew lists node 26.7.0 but `node` is guarded in this workspace)",
+  "guard_note": "Workspace shell function blocks direct `node`; the npx wrapper execs its own node binary, so the install ran node indirectly. Disclosed to operator; not a bypass of any permission prompt.",
+  "tracked_in_git": [
+    ".claude/gsd-file-manifest.json",
+    ".claude/gsd-install-state.json"
+  ],
+  "not_tracked": "rest of .claude/ (gitignored, reinstall from pin)",
+  "local_hooks_installed": true,
+  "hooks_note": "settings.local.json wires 12+ GSD hooks (prompt guard, read guard, write guard, secret-read guard, worktree guard...); machine-local, gitignored",
+  "onboarding_status": "NOT_STARTED"
 }

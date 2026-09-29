@@ -1,1 +1,2 @@
 {"ts":"2026-09-29T05:01:17Z","source":"open-gsd/gsd-core@v1.15.0","kind":"upstream_tool","lock":"provenance/GSD_UPSTREAM_LOCK.json"}
+{"ts":"2026-09-29T05:05:34Z","source":"https://aiconference.com/#hackday","kind":"official_event_source","observation":"provenance/requirements/AI_CONFERENCE_SOURCE_OBSERVATION.json","recheck_before_event":true}

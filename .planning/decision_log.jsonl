@@ -1,1 +1,2 @@
 {"ts":"2026-09-29T05:01:17Z","decision":"own_git_repo_not_nested_in_parent","rationale":"parent /Users/byron/projects/active is dirty with unrelated origin"}
+{"ts":"2026-09-29T05:03:58Z","decision":"do_not_vendor_gsd","rationale":"GSD is external tool; track only file manifest + install state; reinstall from pin on magicSTUDIObox"}

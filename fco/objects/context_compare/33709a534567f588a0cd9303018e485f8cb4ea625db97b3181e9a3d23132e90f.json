@@ -1,0 +1,40 @@
+{
+  "actor_id": "agent-foundry-context-compare",
+  "anticube_state": {
+    "identity": "non-self",
+    "safety": "unknown"
+  },
+  "authorization_basis": "operator task IEEE_DIGITAL_MICROFLUIDICS_DATASET_FCO_ADMISSION_001 (metadata-level intake; no credentials used)",
+  "body": {
+    "arm": "control",
+    "backend_label": "OPENJEV (project runtime, MLX 4-bit, NON_TYPESAFE_JEV)",
+    "byte_length": 3562,
+    "choice": "LEFT",
+    "context_content_id": "sha256:a0098d3793f0bd47602040f9d866742182aecd9bb6ed4f80362e2be49ca85068",
+    "custody_state": "RESULT_FILE_COMMITTED",
+    "executed": true,
+    "file": "demo/recorded/context_compare/eca_v01/arm_openjev_pro_control.json",
+    "host": "magicPRObox.local",
+    "raw_bytes_state": "PRESENT",
+    "sha256": "33709a534567f588a0cd9303018e485f8cb4ea625db97b3181e9a3d23132e90f"
+  },
+  "canonicalization_method": "sha256 over the exact arm-result file bytes",
+  "claim_ceiling": "behavioral comparison of two backends on one frozen context; a model choice is behavior, not ground truth; no quality claim without a preregistered evaluation; G*/DeltaG* are NOT_COMPUTED and are not used",
+  "content_hash": "sha256:33709a534567f588a0cd9303018e485f8cb4ea625db97b3181e9a3d23132e90f",
+  "created_at": "2026-09-29T22:15:57Z",
+  "device_or_instrument_id": null,
+  "encryption": null,
+  "environment_hash": null,
+  "fco_version": "1.3.0",
+  "object_id": "fco:sha256:33709a534567f588a0cd9303018e485f8cb4ea625db97b3181e9a3d23132e90f",
+  "object_type": "ArmResultFCO",
+  "parent_hashes": [
+    "sha256:a0098d3793f0bd47602040f9d866742182aecd9bb6ed4f80362e2be49ca85068"
+  ],
+  "project_id": "agent-foundry",
+  "run_id": "eca-v01-control",
+  "signature": null,
+  "software_hash": null,
+  "source_or_derivative": "derivative",
+  "status": "draft"
+}

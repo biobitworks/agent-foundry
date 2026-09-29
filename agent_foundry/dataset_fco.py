@@ -185,7 +185,12 @@ def load_canonical_sub(sub: str, directory: Path = None):
     edges = []
     for p in sorted((d / "fcg" / "edges" / sub).glob("*.jsonl")):
         edges += [json.loads(l) for l in p.read_text().splitlines() if l.strip()]
-    return fcos, edges
+    seen, uniq = set(), []
+    for e in edges:  # an edge is identified by its content-derived edge_id
+        if e["edge_id"] not in seen:
+            seen.add(e["edge_id"])
+            uniq.append(e)
+    return fcos, uniq
 
 
 def closure(edges: list, start: str, rels=("derived_from",)) -> set:

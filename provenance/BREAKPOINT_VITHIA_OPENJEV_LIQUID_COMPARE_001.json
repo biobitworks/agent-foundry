@@ -1,0 +1,78 @@
+{
+  "schema": "agent-foundry.turn_breakpoint.v1",
+  "id": "AGENT_FOUNDRY_VITHIA_OPENJEV_LIQUID_COMPARE_001",
+  "parent": "AGENT_FOUNDRY_TWO_ENDPOINT_PATH_DIVERGENCE_001",
+  "created_at": "2026-09-29T22:25:46Z",
+  "base_head": "5417780cdfdceac06a31a772e15c627a7038511c",
+  "branch": "compare/vithia-openjev-liquid-v01",
+  "freeze_commit": "7c1370a40546d2e7ae098830e95c5704e244013c",
+  "verification_receipt": "provenance/context_compare/context_compare_verification_20260929T222545Z.json",
+  "context": {
+    "primary": {
+      "arm": "A5_VITA01_FULL",
+      "byte_count": 835,
+      "content_id": "sha256:0748ed93c648903e64aa5295bc75cd4c5c979b089065a2447e250e06d5f88402",
+      "fco_content_hash": "sha256:0748ed93c648903e64aa5295bc75cd4c5c979b089065a2447e250e06d5f88402",
+      "file": "context_primary.json",
+      "sha256": "0748ed93c648903e64aa5295bc75cd4c5c979b089065a2447e250e06d5f88402"
+    },
+    "control": {
+      "arm": "A0_RAW",
+      "byte_count": 451,
+      "content_id": "sha256:a0098d3793f0bd47602040f9d866742182aecd9bb6ed4f80362e2be49ca85068",
+      "fco_content_hash": "sha256:a0098d3793f0bd47602040f9d866742182aecd9bb6ed4f80362e2be49ca85068",
+      "file": "context_control.json",
+      "sha256": "a0098d3793f0bd47602040f9d866742182aecd9bb6ed4f80362e2be49ca85068"
+    },
+    "frozen_at": "2026-09-29T22:02:53Z",
+    "state_id": "sha256:d46b95432e61b5d9db7fba76bb5683287e9f836e96ac1465ab29e8e08f0ec706",
+    "upstream_commit": "dbca313a22b3f3bdc35f7b4f45d5fd550b22b9b9",
+    "corpus_sha256": "989de222cddd3f5a3b075f9709d45149cf07d2041dfb83267ee17527bf6ee020"
+  },
+  "verified_new": [
+    "premise corrections: Vithia preprocessing = jev-space-invaders src/daisy/eca_corpus.arm_context (arms A0_RAW..A5), not the cloudmer invariants module; OpenJEV is a non-generative typed-decision model with an existing pinned MLX 4-bit runtime on both machines; LongevityBench not found locally; E1R/Daisy corpora exist in the jev-space-invaders repo",
+    "OPENJEV runtime verified on magicPRObox (all 7 load checks; MLX 0.32.2 / mlx-lm 0.31.3 / transformers 5.17.0; weights hash-matched to the pinned identity)",
+    "corpus rows.jsonl bytes match their own manifest sha256"
+  ],
+  "executed": [
+    "EvidenceSet -> Vithia arm_context (once per arm) -> frozen context bytes 835 / 451, committed and pushed BEFORE any model ran",
+    "OpenJEV on magicPRObox: primary LEFT (p LEFT .4242 / STAY .4242 / RIGHT .1515; 98.3 s), control LEFT (p .7301 / .1448 / .125; 174.1 s)",
+    "LiquidAI PROVISIONAL on magicPRObox (LFM2.5-1.2B-Instruct Q4_K_M): primary STAY (21.6 s), control STAY (7.3 s)",
+    "identity checks PASS for both comparisons; first behavioral divergence = DecisionEvent.choice (both contexts); raw stream divergence = ModelEvent actor (the backend, by design)",
+    "provider-neutral streams; route failure preserved; Neo4j project -> delete -> rebuild identical (62 nodes); 118 tests"
+  ],
+  "observed": [
+    "on the primary context OpenJEV's own probabilities tie LEFT and STAY, so its LEFT is a tie-break; the divergence from Liquid's STAY sits inside that tie",
+    "neither backend has a citation channel: evidence used = NOT_AVAILABLE for both; Liquid returns no probabilities",
+    "OpenJEV on this 16 GB Mac took 98-174 s per single question under heavy swap (Studio recorded 6.4 s for a smoke earlier)"
+  ],
+  "decisions": [
+    "the Studio LiquidAI arm is operator-executed (ssh guarded, tunnels down); a Pro-local arm is labelled PROVISIONAL and is not called the Studio arm",
+    "OPENJEV_STUDIO_CONNECTIVITY=FAILED preserved as a receipt (operator-declared; agent-observed tunnel refusal; prior repo evidence separated)",
+    "no quality claim: corpus reference labels were never shown to a model and no preregistered evaluation exists",
+    "G*/DeltaG* not used"
+  ],
+  "proposed": [
+    "operator runs docs/STUDIO_ARM_RUNBOOK.md on magicSTUDIObox and pushes the arm files; then compare --name studio_primary/studio_control and re-verify",
+    "merge this branch to main after review (main untouched; HackerSquad demo unaffected)"
+  ],
+  "not_tested": [
+    "Studio LiquidAI arm (PENDING_OPERATOR)",
+    "OpenJEV on Studio (FAILED per operator; cause UNKNOWN)",
+    "LongevityBench (not found locally)",
+    "E1R_ALL256 as an evidence set (present in the jev-space-invaders repo, not used)",
+    "repeat runs / nondeterminism (n=1 per arm)",
+    "any quality evaluation"
+  ],
+  "failures": [
+    "OPENJEV_STUDIO_CONNECTIVITY=FAILED (preserved)",
+    "first comparison attempt: partial artifacts after an FCO write refusal; fixed with idempotent stream writing",
+    "my first draft (Moddik-based) was built on a wrong premise and was replaced"
+  ],
+  "unresolved": [
+    "Studio arm execution",
+    "stray untracked files because rm is guarded: comparison dir 'primary_pro_openjev_vs_pro_liquid_provisional', tests/unit/test_backend_compare.py.bak, stale FCO/edge files (excluded from git via .git/info/exclude)",
+    "OpenJEV shim stopped; ollama qwen2.5:1.5b unloaded; both reloadable"
+  ],
+  "next_action": "operator executes the Studio arm; then import + verify; VIDEO_SAFE for the Studio-topology wording only after that"
+}

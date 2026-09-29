@@ -1,0 +1,37 @@
+{
+  "OPENJEV_STUDIO_CONNECTIVITY": "FAILED",
+  "consequence": "not demo-blocking; alternate topology used",
+  "observations": [
+    {
+      "cause": "UNKNOWN",
+      "observed_by": "operator",
+      "statement": "OpenJEV cannot connect to magicSTUDIObox",
+      "verified_by_agent": false,
+      "when": "2026-09-29 (message during this session)"
+    },
+    {
+      "check": "tunnel ports 21434 (Studio Ollama), 18484 (Studio Ollarma), 18000 (Studio Watchtower) on this machine",
+      "note": "the operator-managed SSH tunnel is not up",
+      "observed_by": "agent",
+      "result": "connection refused on all three",
+      "utc": "2026-09-29T21:5x"
+    },
+    {
+      "check": "ssh magicSTUDIObox from this workspace",
+      "observed_by": "agent",
+      "result": "blocked by the workspace security guard (Security: ssh blocked in workspace); not attempted by other means",
+      "utc": "2026-09-29"
+    },
+    {
+      "observed_by": "prior evidence (jev-space-invaders evidence/openjev/STUDIO_DISK_RECEIPT.json, 2026-09-28)",
+      "statement": "an earlier Studio shim launch failed (missing openai), then stopped at the MLX shim's targeted-readout capability gate: M4B_STOPPED_NOT_TESTED"
+    },
+    {
+      "observed_by": "prior evidence (same repo RUNTIME_MANIFEST.json)",
+      "statement": "OPENJEV_LOADED=YES was once recorded on magicSTUDIObox.local (2026-09-29T00:19Z), so the current failure is not explained by absence of weights"
+    }
+  ],
+  "recorded_utc": "2026-09-29T22:08:46Z",
+  "run": "eca-v01-route-attempts.jsonl",
+  "schema": "agent-foundry.route_failure_receipt.v1"
+}

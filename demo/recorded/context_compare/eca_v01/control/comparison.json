@@ -1,0 +1,186 @@
+{
+  "CONTEXT_IDENTITY_MATCH": "PASS",
+  "FIRST_DIVERGENT_EVENT": "DecisionEvent",
+  "FIRST_DIVERGENT_FIELD": "choice",
+  "arm_a": {
+    "end_utc": "2026-09-29T22:15:57Z",
+    "executed": true,
+    "host": "magicPRObox.local",
+    "label": "OPENJEV (project runtime, MLX 4-bit, NON_TYPESAFE_JEV)",
+    "latency_ms": 174101.5,
+    "model": "openjev-MLX-4bit T=0.85 noul=1.829074,0.0 flags={\"perms\":1,\"stagger\":true,\"loop_break\":false,\"compact\":false,\"compact_cap\":0,\"layout\":\"\",\"pad\":0,\"targeted\":true,\"instr_style\":\"pyrepr\"} shim=shim.py@81a22f1b1b89",
+    "normalized": {
+      "choice": "LEFT",
+      "confidence": 0.5952,
+      "fallback": false,
+      "fallback_reason": null,
+      "format_error": null,
+      "format_valid": true,
+      "probabilities": {
+        "LEFT": 0.7301,
+        "RIGHT": 0.125,
+        "STAY": 0.1448
+      },
+      "tokens": {
+        "input": 181,
+        "output": 0
+      },
+      "top_probability_tie": []
+    },
+    "result_file_sha256": "33709a534567f588a0cd9303018e485f8cb4ea625db97b3181e9a3d23132e90f",
+    "runtime": {
+      "engine": {
+        "mlx": "0.32.2",
+        "mlx_lm": "0.31.3",
+        "transformers": "5.17.0"
+      },
+      "port": 8766,
+      "python": "3.12.12",
+      "runtime_verified_on_this_host": true,
+      "serve_env": {
+        "READOUT_INSTR_STYLE": "pyrepr",
+        "READOUT_NOUL_BIAS": "0",
+        "READOUT_NOUL_T": "1.829074",
+        "READOUT_T": "0.85",
+        "READOUT_TARGETED": "1",
+        "SHIM_STAGGER": "1"
+      }
+    },
+    "start_utc": "2026-09-29T22:13:03Z"
+  },
+  "arm_b": {
+    "end_utc": "2026-09-29T22:16:58Z",
+    "executed": true,
+    "host": "magicPRObox.local",
+    "label": "LIQUIDAI_PRO_LOCAL_PROVISIONAL",
+    "latency_ms": 7343.4,
+    "model": "hf.co/LiquidAI/LFM2.5-1.2B-Instruct-GGUF:Q4_K_M",
+    "normalized": {
+      "choice": "STAY",
+      "confidence": "NOT_AVAILABLE",
+      "fallback": false,
+      "fallback_reason": null,
+      "format_error": null,
+      "format_valid": true,
+      "probabilities": "NOT_AVAILABLE",
+      "tokens": {
+        "input": 189,
+        "output": 11
+      }
+    },
+    "result_file_sha256": "52fbdb46c0f7767fbb066c45e9396f0aab528962b875b48236cace98bc8de648",
+    "runtime": "Ollama (loopback)",
+    "start_utc": "2026-09-29T22:16:50Z"
+  },
+  "behavior_comparison": {
+    "evidence_used_arm_a": "NOT_AVAILABLE (typed choice; no citation channel)",
+    "evidence_used_arm_b": "NOT_AVAILABLE (typed choice; no citation channel)",
+    "expected_backend_differences": [
+      "backend/provider/model identity",
+      "machine and runtime (context, not evidence)",
+      "quantization / weight file",
+      "request encoding (typed /v1/systemone vs Ollama JSON-schema generate)",
+      "latency and token counts"
+    ],
+    "first_behavioral_divergence": {
+      "arm_a": "LEFT",
+      "arm_b": "STAY",
+      "event": "DecisionEvent",
+      "field": "choice"
+    },
+    "notes": [],
+    "rows": [
+      {
+        "arm_a": true,
+        "arm_b": true,
+        "event": "VerifierEvent",
+        "field": "format_valid",
+        "status": "SAME"
+      },
+      {
+        "arm_a": "LEFT",
+        "arm_b": "STAY",
+        "event": "DecisionEvent",
+        "field": "choice",
+        "status": "DIFFERENT"
+      },
+      {
+        "arm_a": {
+          "LEFT": 0.7301,
+          "RIGHT": 0.125,
+          "STAY": 0.1448
+        },
+        "arm_b": "NOT_AVAILABLE",
+        "event": "ModelEvent",
+        "field": "probabilities",
+        "status": "NOT_AVAILABLE_ON_AT_LEAST_ONE_ARM"
+      },
+      {
+        "arm_a": 0.5952,
+        "arm_b": "NOT_AVAILABLE",
+        "event": "ModelEvent",
+        "field": "confidence",
+        "status": "NOT_AVAILABLE_ON_AT_LEAST_ONE_ARM"
+      },
+      {
+        "arm_a": false,
+        "arm_b": false,
+        "event": "VerifierEvent",
+        "field": "fallback",
+        "status": "SAME"
+      }
+    ]
+  },
+  "context_byte_count": 451,
+  "context_content_id": "sha256:a0098d3793f0bd47602040f9d866742182aecd9bb6ed4f80362e2be49ca85068",
+  "identity_checks": {
+    "BOTH_ARMS_SELF_REPORT_IDENTITY_PASS": true,
+    "REQUESTS_DERIVED_FROM_FROZEN_BYTES": true,
+    "SAME_CONTEXT_BYTES": true,
+    "SAME_CONTEXT_HASH": true,
+    "SAME_EVIDENCE_ORDER": true,
+    "SAME_QUESTION": true
+  },
+  "interpretation_limits": [
+    "a model choice is behavior, not ground truth; no quality claim without a preregistered evaluation",
+    "machine difference is context, not evidence difference; the machines are not identical environments",
+    "neither backend has a citation channel: evidence USED is NOT_AVAILABLE for both; only evidence SUPPLIED is recorded"
+  ],
+  "name": "control",
+  "neo4j_projection": {
+    "by_label": {
+      "CanonicalContextFrozen": 2,
+      "ContextEvent": 6,
+      "DecisionEvent": 7,
+      "EvidenceEvent": 2,
+      "EvidenceUseEvent": 6,
+      "FCO": 8,
+      "FailureEvent": 1,
+      "ModelEvent": 6,
+      "ModelStartEvent": 6,
+      "QuestionEvent": 6,
+      "Run": 8,
+      "RunEvent": 16,
+      "VerifierEvent": 6,
+      "VithiaPreprocessEvent": 2
+    },
+    "by_rel": {
+      "COMPARED_WITH": 2,
+      "DECLARED_DEPENDENCY": 72,
+      "DERIVED_FROM": 7,
+      "OBSERVED_IN": 66,
+      "PROJECTED_FROM": 2
+    },
+    "causal_like_edges": 0,
+    "nodes": 82,
+    "relationships": 149
+  },
+  "raw_stream_first_divergence": {
+    "control_event": "model",
+    "index": 4,
+    "kind": "actor",
+    "note": "the first content-level divergence of the two provider-neutral streams; the backend is the intentional independent variable"
+  },
+  "schema": "agent-foundry.backend_comparison.v1",
+  "which": "control"
+}

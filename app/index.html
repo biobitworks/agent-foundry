@@ -46,6 +46,7 @@ pre{margin:0;background:#0a0d12;border:1px solid var(--line);border-radius:6px;p
   </select>
   <button id="go" class="primary">Compare runs</button>
   <button id="mdOpen" title="Moddik local-simulation evidence demo">Moddik plate demo</button>
+  <button id="cmpOpen" title="Same frozen Vithia context, two backends">Compare backends</button>
   <button id="dsOpen" title="External dataset custody (FCO/FCG), metadata level">Dataset custody (IEEE DMF)</button>
 </header>
 <div class="card" style="margin:14px 22px 0;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
@@ -81,6 +82,15 @@ pre{margin:0;background:#0a0d12;border:1px solid var(--line);border-radius:6px;p
   <div class="card" style="margin-top:12px"><b id="dsTitle"></b><div id="dsTrace" class="mono" style="margin-top:8px"></div><div style="margin-top:8px"><button id="dsGraph">Query Neo4j projection</button> <span id="dsGraphOut" class="note"></span></div></div>
   <div class="grid"><div class="card"><h3 class="muted" style="margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.8px">Agent Foundry run (EXTERNAL_DATASET_REPLAY)</h3><div id="dsEvents"></div></div>
   <div class="card"><h3 class="muted" style="margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.8px">Selected FCO / event</h3><div id="dsInsp" class="muted">Select an event or an FCO.</div></div></div>
+</div>
+<div id="cmpPanel" hidden style="padding:14px 22px">
+  <div class="sim" id="cmpBanner"></div>
+  <div class="card" style="margin-top:12px"><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><b>Context</b><select id="cmpWhich"></select><span id="cmpStatus" class="note"></span></div>
+    <div id="cmpCtx" class="mono" style="margin-top:8px"></div></div>
+  <div class="grid"><div class="card"><h3 id="cmpTitleA" class="muted" style="margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.8px"></h3><div id="cmpA"></div></div>
+  <div class="card"><h3 id="cmpTitleB" class="muted" style="margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.8px"></h3><div id="cmpB"></div></div></div>
+  <div class="card" id="cmpDiv"></div>
+  <div class="card note" id="cmpNotes"></div>
 </div>
 <main>
   <div id="status" class="note" style="margin-bottom:10px">Pick a scenario and compare two runs of the same canonical task.</div>
@@ -370,7 +380,7 @@ async function mdGraph(){
   catch(e){o.className='err';o.textContent='Error: '+e.message}
 }
 async function mdOpen(){
-  $('mdOpen').disabled=true;$('moddik').hidden=false;$('out').hidden=true;$('dsPanel').hidden=true;
+  $('mdOpen').disabled=true;$('moddik').hidden=false;$('out').hidden=true;$('dsPanel').hidden=true;$('cmpPanel').hidden=true;
   const srcs=await mdSources();$('mdOpen').disabled=false;
   if(!srcs.length){$('mdStatus').textContent='No Moddik runs yet: press "Run live now".';return}
   const rec=srcs.find(x=>x.kind==='RECORDED_REAL_EXECUTION')||srcs[0];$('mdSrc').value=rec.id;mdLoad(rec.id)
@@ -393,7 +403,7 @@ $('mdPlay').addEventListener('click',()=>{if(MD.timer){clearInterval(MD.timer);M
   let i=0;$('mdPlay').textContent='Stop';MD.timer=setInterval(()=>{mdTick(i);i++;if(i>=MD.d.view.ticks.length){clearInterval(MD.timer);MD.timer=null;$('mdPlay').textContent='Play stream'}},600)});
 const DS={d:null};
 async function dsOpen(withGraph){
-  $('moddik').hidden=true;$('out').hidden=true;$('dsPanel').hidden=false;
+  $('moddik').hidden=true;$('out').hidden=true;$('cmpPanel').hidden=true;$('dsPanel').hidden=false;
   const r=await fetch('/api/dataset/ieee_dmf_v01'+(withGraph?'?graph=1':''));if(!r.ok){$('dsTitle').textContent='Error: '+(await r.json()).detail;return}
   const d=await r.json();DS.d=d;const t=d.canonical_trace,fc={};d.fcos.forEach(f=>fc[f.content_hash]=f);
   $('dsTitle').textContent='Trace: '+t.chain_types.join(' → ')+' → '+t.source_url+' · FCO hashes recomputed: '+d.fco_hashes_recomputed+' · run log matches manifest: '+d.run_sha256_matches_manifest;
@@ -404,6 +414,43 @@ async function dsOpen(withGraph){
 }
 function dsShow(f){const b=$('dsInsp');b.classList.remove('muted');b.replaceChildren(el('div','note',f.object_type+' · '+f.object_id+' · status '+f.status),jsonBlock(f))}
 $('dsOpen').addEventListener('click',()=>dsOpen(false));$('dsGraph').addEventListener('click',()=>dsOpen(true));
+const CMP={d:null};
+function cmpRow(e,idx,divKind){
+  const p=e.payload,k=p.normalized_kind||e.event_type;const r=el('div','ev'+(k===divKind?' div':''));r.append(el('div','seq',String(idx)),el('div','typ',k));
+  const b=el('div');let t='';
+  if(k==='QuestionEvent')t=(p.excerpt||'').slice(0,110)+'…';
+  else if(k==='ContextEvent')t='context '+p.context_content_id.slice(7,19)+'… · '+p.byte_count+' bytes · arm saw '+p.context_sha256_seen_by_arm.slice(0,12)+'…';
+  else if(k==='ModelStartEvent')t='model start (same for both arms)';
+  else if(k==='ModelEvent')t='raw response recorded ('+p.request.contract.slice(0,44)+')';
+  else if(k==='EvidenceUseEvent')t='supplied '+p.supplied_evidence_ids.length+' evidence ids · used: '+p.used_evidence_ids;
+  else if(k==='VerifierEvent')t=p.metric+' → '+p.result;
+  else if(k==='DecisionEvent')t='choice '+p.choice+(p.probabilities&&p.probabilities!=='NOT_AVAILABLE'?' · p='+JSON.stringify(p.probabilities):' · probabilities NOT_AVAILABLE');
+  else if(k==='FailureEvent')t=p.error_type+': '+p.message;
+  else t=e.event_type+(p.status?' '+p.status:'');
+  b.append(el('div','sum',t));r.append(b);r.addEventListener('click',()=>{$('cmpNotes').replaceChildren(el('div','note','event '+idx+' · '+e.event_id+(e.meta&&e.meta.machine?' · machine (context, not evidence): '+e.meta.machine.host+' · '+e.meta.machine.runtime+' · '+e.meta.machine.latency_ms+' ms':'')),jsonBlock({event_type:e.event_type,state:e.state,actor:e.actor,payload:e.payload}))});return r}
+async function cmpOpen(){
+  $('moddik').hidden=true;$('out').hidden=true;$('dsPanel').hidden=true;$('cmpPanel').hidden=false;
+  const r=await fetch('/api/compare/eca_v01');if(!r.ok){$('cmpStatus').textContent='Error: '+(await r.json()).detail;return}
+  CMP.d=await r.json();const sel=$('cmpWhich');sel.replaceChildren();Object.entries(CMP.d.comparisons).sort((x,y)=>(y[0].startsWith('studio')-x[0].startsWith('studio'))||(x[1].receipt.which==='primary'?-1:1)).forEach(([k,v])=>{const o=el('option','',(v.receipt.which==='primary'?'Vithia context (A5_VITA01_FULL)':'RAW control (A0_RAW)')+' · '+v.receipt.arm_b.label);o.value=k;sel.append(o)});cmpRender()}
+function cmpRender(){
+  const d=CMP.d,w=$('cmpWhich').value,c=d.comparisons[w];if(!c){$('cmpStatus').textContent='not executed';return}const ctx=d.contexts[c.receipt.which];
+  const R=c.receipt,ok=R.CONTEXT_IDENTITY_MATCH==='PASS';
+  $('cmpBanner').textContent='SAME EVIDENCE · SAME VITHIA CONTEXT · DIFFERENT BACKEND · DIFFERENT EXECUTION PATH · machines are not identical environments · a model choice is behavior, not ground truth';
+  $('cmpStatus').textContent='Studio LiquidAI arm: '+d.studio_liquid_arm.status;
+  $('cmpCtx').replaceChildren(el('div','','CanonicalContextFCO · '+ctx.byte_count+' bytes · sha256 '+ctx.sha256+' · frozen '+d.manifest.frozen_at+' before any model ran · bytes verified now: '+ctx.bytes_verified),
+    el('div','',(ok?'HASH = SAME on both arms: ':'HASH MISMATCH: ')+Object.entries(R.identity_checks).map(([k,v])=>k+'='+(v?'PASS':'FAIL')).join(' · ')));
+  const t=(A)=>A.label+' · '+A.host;
+  $('cmpTitleA').textContent='ARM A · '+t(R.arm_a);$('cmpTitleB').textContent='ARM B · '+t(R.arm_b)+(R.arm_b.label.includes('PROVISIONAL')?'  (Studio run pending)':'');
+  const dv=R.behavior_comparison.first_behavioral_divergence,dk=typeof dv==='object'?dv.event:null;
+  const fill=(id,ev)=>{const b=$(id);b.replaceChildren();ev.forEach((e,i)=>{if(['run_started','run_completed'].includes(e.event_type))return;b.append(cmpRow(e,i,dk))})};
+  fill('cmpA',c.stream_a);fill('cmpB',c.stream_b);
+  const box=$('cmpDiv');box.replaceChildren();box.append(el('h2','',typeof dv==='object'?'FIRST DIVERGENCE: '+dv.event+' · field '+dv.field:'No divergence in comparable fields'));
+  if(typeof dv==='object')box.append(el('div','',R.arm_a.label.split(' ')[0]+' → '+JSON.stringify(dv.arm_a)+'    vs    '+R.arm_b.label.split(' ')[0]+' → '+JSON.stringify(dv.arm_b)));
+  box.append(el('div','note','Evidence USED: NOT_AVAILABLE for both (typed choice has no citation channel); evidence SUPPLIED is identical. '+(R.behavior_comparison.notes||[]).join(' ')));
+  box.append(el('div','note','Raw stream divergence: '+(typeof R.raw_stream_first_divergence==='object'?R.raw_stream_first_divergence.control_event+' ('+R.raw_stream_first_divergence.kind+') — the backend is the intentional independent variable':'none')));
+  const rf=d.route_failure;if(rf)box.append(el('div','note','Preserved failure: OPENJEV_STUDIO_CONNECTIVITY='+rf.OPENJEV_STUDIO_CONNECTIVITY+' — not demo-blocking; alternate topology used (OpenJEV on magicPRObox, LiquidAI against the same frozen bytes).'));
+  $('cmpNotes').replaceChildren(el('div','muted','Click an event to inspect it.'))}
+$('cmpOpen').addEventListener('click',cmpOpen);$('cmpWhich').addEventListener('change',cmpRender);
 $('rpVerify').addEventListener('click',()=>doReplay(null));$('liveGo').addEventListener('click',liveGo);$('lineageBtn').addEventListener('click',exportLineage);
 $('rpBranch').addEventListener('click',()=>{const [p,m]=$('rpAlt').value.split('|');doReplay({provider:p,model:m})});
 (async()=>{

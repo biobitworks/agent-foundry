@@ -4,3 +4,10 @@
 .claude/gsd-file-manifest.json:generic-api-key:235
 .claude/gsd-file-manifest.json:generic-api-key:278
 .claude/gsd-file-manifest.json:generic-api-key:753
+# Context-compare arm results: JSON key 'tokenizer.json' holds the sha256 (64 hex) of the pinned OpenJEV tokenizer file; verified equal to UPSTREAM_IDENTITY (06b95093...). See docs/GITLEAKS_TRIAGE.md
+demo/recorded/context_compare/eca_v01/arm_openjev_pro_control.json:generic-api-key:24
+demo/recorded/context_compare/eca_v01/arm_openjev_pro_primary.json:generic-api-key:24
+demo/recorded/context_compare/eca_v01/control/eca-v01-control-a.jsonl:generic-api-key:3
+demo/recorded/context_compare/eca_v01/control/eca-v01-control-a.jsonl:generic-api-key:5
+demo/recorded/context_compare/eca_v01/primary/eca-v01-primary-a.jsonl:generic-api-key:3
+demo/recorded/context_compare/eca_v01/primary/eca-v01-primary-a.jsonl:generic-api-key:5

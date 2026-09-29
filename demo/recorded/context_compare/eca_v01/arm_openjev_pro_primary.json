@@ -1,0 +1,90 @@
+{
+  "backend": {
+    "family": "openjev",
+    "label": "OPENJEV (project runtime, MLX 4-bit, NON_TYPESAFE_JEV)",
+    "model": "openjev-MLX-4bit T=0.85 noul=1.829074,0.0 flags={\"perms\":1,\"stagger\":true,\"loop_break\":false,\"compact\":false,\"compact_cap\":0,\"layout\":\"\",\"pad\":0,\"targeted\":true,\"instr_style\":\"pyrepr\"} shim=shim.py@81a22f1b1b89",
+    "model_identity": {
+      "checks": {
+        "endpoint_responds": true,
+        "engine_opened_weights": true,
+        "files_exist": true,
+        "hashes_match": true,
+        "resident_process": true,
+        "served_model_recorded": true,
+        "smoke_schema_ok": true
+      },
+      "repo": "openjev/openjev-MLX-4bit",
+      "revision": "c59bf1eed7d8de0eb88105a0d5517c9b4a858e16",
+      "runtime_manifest_host": "magicPRObox.local",
+      "runtime_manifest_utc": "2026-09-29T22:07:29+00:00",
+      "weights_sha256": {
+        "model-00001-of-00003.safetensors": "41ac78b0ff39215bf3b5caabaf3ee44a00f539d848be1b659842ae549b34c201",
+        "model-00002-of-00003.safetensors": "60791b9935e89509526d1384b07c95faef63766ad3c4a4cf70424364c8d1a8ef",
+        "model-00003-of-00003.safetensors": "d0d069de67993deed480796cac2a61cf4556b4d2ee1aeaaad7490d0c043e577e",
+        "tokenizer.json": "06b9509352d2af50381ab2247e083b80d32d5c0aba91c272ca9ff729b6a0e523"
+      }
+    },
+    "note": "non-generative typed-decision model; answers with option probabilities",
+    "provider": "openjev",
+    "provider_kind": "real",
+    "runtime": {
+      "engine": {
+        "mlx": "0.32.2",
+        "mlx_lm": "0.31.3",
+        "transformers": "5.17.0"
+      },
+      "port": 8766,
+      "python": "3.12.12",
+      "runtime_verified_on_this_host": true,
+      "serve_env": {
+        "READOUT_INSTR_STYLE": "pyrepr",
+        "READOUT_NOUL_BIAS": "0",
+        "READOUT_NOUL_T": "1.829074",
+        "READOUT_T": "0.85",
+        "READOUT_TARGETED": "1",
+        "SHIM_STAGGER": "1"
+      }
+    }
+  },
+  "context_byte_count_seen": 835,
+  "context_file": "demo/recorded/context_compare/eca_v01/context_primary.json",
+  "context_identity_match": "PASS",
+  "context_sha256_seen": "0748ed93c648903e64aa5295bc75cd4c5c979b089065a2447e250e06d5f88402",
+  "end_utc": "2026-09-29T22:09:59Z",
+  "executed": true,
+  "expected_byte_count": 835,
+  "expected_sha256": "0748ed93c648903e64aa5295bc75cd4c5c979b089065a2447e250e06d5f88402",
+  "host": "magicPRObox.local",
+  "latency_ms": 98314.4,
+  "params": {
+    "readout": "shim serve_env (targeted readout); no sampling parameters"
+  },
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "request_body_len": 894,
+  "request_contract": "POST /v1/systemone {state, model, questions:{move}} (typed choice)",
+  "request_sha256": "085a146070936c0267cdd77d3561e83f59ab8745442689bd7aff7f2e004d12a0",
+  "response": {
+    "answers": {
+      "move": {
+        "choice": "LEFT",
+        "confidence": 0.1363,
+        "probabilities": {
+          "LEFT": 0.4242,
+          "RIGHT": 0.1515,
+          "STAY": 0.4242
+        },
+        "type": "choice"
+      }
+    },
+    "id": "shim-1790719799548",
+    "model": "openjev-MLX-4bit T=0.85 noul=1.829074,0.0 flags={\"perms\":1,\"stagger\":true,\"loop_break\":false,\"compact\":false,\"compact_cap\":0,\"layout\":\"\",\"pad\":0,\"targeted\":true,\"instr_style\":\"pyrepr\"} shim=shim.py@81a22f1b1b89",
+    "usage": {
+      "input_tokens": 368,
+      "output_tokens": 0
+    }
+  },
+  "schema": "agent-foundry.arm_result.v1",
+  "start_utc": "2026-09-29T22:08:21Z",
+  "topology": "OpenJEV on magicPRObox against the frozen bytes",
+  "which": "primary"
+}

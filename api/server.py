@@ -373,6 +373,31 @@ def path_divergence_view(name: str):
             "states": [f for f in fcos.values() if f["object_type"] == "EndpointState"], "run_logs": [f for f in fcos.values() if f["object_type"] == "RunLog"], "edges": edges, "events": events}
 
 
+CMPDIR = RECORDED / "context_compare"
+
+
+@app.get("/api/compare/{name}")
+def compare_view(name: str):
+    """Same frozen Vithia context -> two backends. Re-verifies every run log and file hash on load; Studio arm status is reported, never assumed."""
+    if not re.fullmatch(r"[a-z0-9_]+", name):
+        raise HTTPException(400, "bad name")
+    d = CMPDIR / name
+    if not (d / "context_manifest.json").exists():
+        raise HTTPException(404, "no such comparison")
+    import hashlib
+    man = json.loads((d / "context_manifest.json").read_text())
+    ctx = {k: {**v, "bytes_verified": hashlib.sha256((d / v["file"]).read_bytes()).hexdigest() == v["sha256"] and len((d / v["file"]).read_bytes()) == v["byte_count"], "text": (d / v["file"]).read_text()} for k, v in man["contexts"].items()}
+    comps = {}
+    for cp in sorted(d.glob("*/comparison.json")):
+        rc = json.loads(cp.read_text())
+        if re.fullmatch(r"(studio_)?(primary|control)", rc.get("name") or "") and (cp.parent / f"eca-v01-{rc['name']}-a.jsonl").exists():
+            comps[rc["name"]] = {"receipt": rc, "stream_a": read_run(cp.parent / f"eca-v01-{rc['name']}-a.jsonl"), "stream_b": read_run(cp.parent / f"eca-v01-{rc['name']}-b.jsonl")}
+    route = json.loads((d / "route_failure_receipt.json").read_text()) if (d / "route_failure_receipt.json").exists() else None
+    studio = sorted(p.name for p in d.glob("arm_liquid_studio*.json"))
+    return {"source": "RECORDED_REAL_EXECUTION", "manifest": {k: man[k] for k in ("frozen_at", "upstream", "row_index", "state_id")}, "dataset": man["dataset"], "contexts": ctx, "comparisons": comps, "route_failure": route,
+            "prep_events": read_run(d / "eca-v01-prep.jsonl"), "studio_liquid_arm": {"present": bool(studio), "files": studio, "status": "IMPORTED" if studio else "PENDING_OPERATOR_EXECUTION_ON_MAGICSTUDIOBOX"}}
+
+
 @app.get("/")
 def index():
     return FileResponse(ROOT / "app" / "index.html")

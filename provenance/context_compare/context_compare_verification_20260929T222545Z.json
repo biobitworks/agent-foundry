@@ -1,0 +1,58 @@
+{
+  "schema": "agent-foundry.context_compare_verification.v1",
+  "checks": {
+    "fco_schema_valid": true,
+    "frozen_context_bytes_match_manifest_and_fco": true,
+    "fco_content_ids_recomputed": true,
+    "context_fco_hash_is_sha256_of_exact_bytes": true,
+    "arm_result_fcos_match_files": true,
+    "edges_ontology_and_non_causal": true,
+    "freeze_precedes_every_arm_execution": true,
+    "every_arm_saw_the_frozen_bytes": true,
+    "openjev_arms_ran_on_verified_runtime_host": true,
+    "comparisons": {
+      "control": {
+        "identity_all_pass": true,
+        "context_identity_match": "PASS",
+        "FIRST_DIVERGENT_EVENT": "DecisionEvent",
+        "FIRST_DIVERGENT_FIELD": "choice",
+        "streams_verified": true
+      },
+      "primary": {
+        "identity_all_pass": true,
+        "context_identity_match": "PASS",
+        "FIRST_DIVERGENT_EVENT": "DecisionEvent",
+        "FIRST_DIVERGENT_FIELD": "choice",
+        "streams_verified": true
+      }
+    },
+    "route_failure_preserved": true,
+    "neo4j": {
+      "nodes_before_delete": 62,
+      "nodes_after_delete": 0,
+      "nodes_after_rebuild": 62,
+      "relationships_after_rebuild": 111,
+      "rebuilt_fco_fcg_subgraph_identical": true,
+      "unrelated_nodes_untouched": true,
+      "causal_like_edges": 0,
+      "by_label": {
+        "CanonicalContextFrozen": 2,
+        "ContextEvent": 4,
+        "DecisionEvent": 5,
+        "EvidenceEvent": 2,
+        "EvidenceUseEvent": 4,
+        "FCO": 8,
+        "FailureEvent": 1,
+        "ModelEvent": 4,
+        "ModelStartEvent": 4,
+        "QuestionEvent": 4,
+        "Run": 6,
+        "RunEvent": 12,
+        "VerifierEvent": 4,
+        "VithiaPreprocessEvent": 2
+      }
+    }
+  },
+  "PASS": true,
+  "verified_at": "2026-09-29T22:25:45Z"
+}

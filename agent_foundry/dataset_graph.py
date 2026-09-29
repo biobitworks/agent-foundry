@@ -8,8 +8,9 @@ from . import moddik_graph as base
 
 REL_MAP = {"derived_from": "DERIVED_FROM", "part_of": "PART_OF", "licensed_under": "LICENSED_UNDER", "compared_with": "COMPARED_WITH"}
 LABEL_MAP = {"SourcePageSnapshot": "SourcePageSnapshot", "DatasetSource": "DatasetSource", "DatasetFile": "DatasetFile", "LicenseDeclaration": "LicenseDeclaration",
-             "EndpointState": "EndpointState", "PathDivergenceFCO": "PathDivergence", "RunLog": "RunLog"}
-EVENT_LABEL = {"evidence": "EvidenceEvent", "tool": "ToolEvent", "evaluation": "VerifierEvent", "run_started": "RunEvent", "run_completed": "RunEvent", "failure": "FailureEvent"}
+             "EndpointState": "EndpointState", "PathDivergenceFCO": "PathDivergence", "RunLog": "RunLog",
+             "SourceDatasetFile": "SourceDatasetFile", "EvidenceSetFCO": "EvidenceSet", "CanonicalContextFCO": "CanonicalContext", "ArmResultFCO": "ArmResult"}
+EVENT_LABEL = {"artifact": "ArtifactEvent", "agent": "AgentEvent", "model": "ModelEvent", "decision": "DecisionEvent", "abstention": "AbstentionEvent", "evidence": "EvidenceEvent", "tool": "ToolEvent", "evaluation": "VerifierEvent", "run_started": "RunEvent", "run_completed": "RunEvent", "failure": "FailureEvent"}
 
 
 def clear_admission(drv, admission_id: str):
@@ -25,7 +26,7 @@ def project(drv, admission_id: str, fcos: dict, edges: list, events: list = None
             props = {"content_hash": f["content_hash"], "object_id": f["object_id"], "object_type": f["object_type"], "status": f["status"], "claim_ceiling": f["claim_ceiling"],
                      "source_or_derivative": f["source_or_derivative"], "admission_id": admission_id, "run_id": admission_id}
             for k in ("source_url", "doi", "title", "declared_name", "custody_state", "raw_bytes_state", "declared_license_url", "byte_length", "tick", "sim_time_s", "horizon", "role", "run_id_of_log",
-                      "start_state_id", "predicted_end_state_id", "observed_end_state_id", "predicted_path_id", "observed_path_id", "diagnosis_primary"):
+                      "start_state_id", "predicted_end_state_id", "observed_end_state_id", "predicted_path_id", "observed_path_id", "diagnosis_primary", "sha256", "arm", "backend_label", "host", "choice", "context_content_id"):
                 if k in b and isinstance(b[k], (str, int, float, bool)):
                     props[k] = b[k]
             for k in ("predicted_path", "observed_path"):
@@ -42,7 +43,7 @@ def project(drv, admission_id: str, fcos: dict, edges: list, events: list = None
             rid = events[0]["run_id"]
             s.run("MERGE (r:Run {run_id:$r, admission_id:$a}) SET r.run_type=$rt, r.event_count=$n", r=rid, a=admission_id, n=len(events), rt=events[0]["payload"].get("run_type", "UNKNOWN"))
             for ev in events:
-                lab = EVENT_LABEL.get(ev["event_type"], "Event")
+                lab = ev["payload"].get("normalized_kind") or EVENT_LABEL.get(ev["event_type"], "Event")
                 p = {"event_id": ev["event_id"], "content_id": ev["content_id"], "run_id": rid, "seq": ev["seq"], "state": ev["state"], "event_type": ev["event_type"], "admission_id": admission_id}
                 if ev["payload"].get("fco_content_hash"):
                     p["fco_content_hash"] = ev["payload"]["fco_content_hash"]

@@ -121,8 +121,10 @@ def normalize(arm: dict) -> dict:
         ans = (r.get("answers") or {}).get("move") or {}
         choice = ans.get("choice")
         ok = choice in ACTIONS
+        pr = ans.get("probabilities")
+        tie = sorted(k for k, v in pr.items() if v == max(pr.values())) if isinstance(pr, dict) and pr else []
         return {"format_valid": ok, "format_error": None if ok else "choice_not_in_action_set", "choice": choice if ok else NC, "probabilities": ans.get("probabilities", NA), "confidence": ans.get("confidence", NA),
-                "fallback": not ok, "fallback_reason": None if ok else "choice_not_in_action_set", "tokens": {"input": (r.get("usage") or {}).get("input_tokens"), "output": (r.get("usage") or {}).get("output_tokens")}}
+                "top_probability_tie": tie if len(tie) > 1 else [], "fallback": not ok, "fallback_reason": None if ok else "choice_not_in_action_set", "tokens": {"input": (r.get("usage") or {}).get("input_tokens"), "output": (r.get("usage") or {}).get("output_tokens")}}
     try:
         ans = json.loads(r.get("response") or "{}")
     except (ValueError, TypeError):
@@ -148,5 +150,9 @@ def compare_behavior(a: dict, b: dict) -> dict:
             if status == "DIFFERENT" and first is None:
                 first = {"event": ev, "field": f, "arm_a": va, "arm_b": vb}
         rows.append({"field": f, "event": ev, "arm_a": va, "arm_b": vb, "status": status})
-    return {"rows": rows, "first_behavioral_divergence": first or "NONE_IN_COMPARABLE_FIELDS", "expected_backend_differences": EXPECTED_BACKEND_DIFFERENCES,
+    notes = []
+    for side, n in (("arm_a", a), ("arm_b", b)):
+        if n.get("top_probability_tie"):
+            notes.append(f"{side}'s own probabilities rate {n['top_probability_tie']} equally; its choice ({n['choice']}) is a tie-break" + (" and the compared choice differs from the other arm" if first and first["field"] == "choice" else ""))
+    return {"rows": rows, "notes": notes, "first_behavioral_divergence": first or "NONE_IN_COMPARABLE_FIELDS", "expected_backend_differences": EXPECTED_BACKEND_DIFFERENCES,
             "evidence_used_arm_a": NA + " (typed choice; no citation channel)", "evidence_used_arm_b": NA + " (typed choice; no citation channel)"}

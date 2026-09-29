@@ -1,0 +1,39 @@
+{
+  "schema": "agent-foundry.gsd_test_matrix.v1",
+  "status": "NOT_TESTED",
+  "cases": [
+    {
+      "id": "GSD-T1",
+      "what": "gsd-tools runtime-identity == @opengsd/gsd-core 1.15.0",
+      "state": "EXECUTED",
+      "result": "PASS (observed)"
+    },
+    {
+      "id": "GSD-T2",
+      "what": "init onboard --fast projection resolves worktree root to agent-foundry",
+      "state": "EXECUTED",
+      "result": "PASS (observed)"
+    },
+    {
+      "id": "GSD-T3",
+      "what": "state.json + roadmap.analyze parse authored artifacts (9 phases)",
+      "state": "EXECUTED",
+      "result": "PASS (observed)"
+    },
+    {
+      "id": "GSD-T4",
+      "what": "plan-phase / execute-phase run end to end under pinned workflows",
+      "state": "NOT_TESTED"
+    },
+    {
+      "id": "GSD-T5",
+      "what": "GSD writes nothing outside agent-foundry during a phase",
+      "state": "NOT_TESTED"
+    },
+    {
+      "id": "GSD-T6",
+      "what": "phase-boundary ReplayCheckpoint emitted to HydraDG adapter",
+      "state": "NOT_TESTED"
+    }
+  ]
+}

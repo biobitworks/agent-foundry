@@ -1,2 +1,4 @@
 {"ts":"2026-09-29T05:01:17Z","decision":"own_git_repo_not_nested_in_parent","rationale":"parent /Users/byron/projects/active is dirty with unrelated origin"}
 {"ts":"2026-09-29T05:03:58Z","decision":"do_not_vendor_gsd","rationale":"GSD is external tool; track only file manifest + install state; reinstall from pin on magicSTUDIObox"}
+{"ts":"2026-09-29T05:12:48Z","decision":"scoped_node_guard_bypass_for_gsd_tools_only","authorized_by":"operator via AskUserQuestion this session","node_bin":"/opt/homebrew/bin/node","scope":"gsd-tools.cjs invocations only; guard remains for all other use","not_covered":["ssh","curl"]}
+{"ts":"2026-09-29T05:14:57Z","decision":"follow_pinned_local_gsd_workflows_not_global_skill","rationale":"global skill is 1.8.0, local pin is 1.15.0"}

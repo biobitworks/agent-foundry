@@ -1,0 +1,58 @@
+{
+  "schema": "agent-foundry.prehackathon_state.v1",
+  "captured_at": "2026-09-29T05:01:07Z",
+  "host": "magicPRObox",
+  "event_date": "2026-09-29",
+  "agent_foundry": {
+    "github_repo_existed_before_bootstrap": false,
+    "github_check": "gh repo view biobitworks/agent-foundry -> could not resolve (authenticated as biobitworks)",
+    "local_dir": "/Users/byron/projects/active/agent-foundry",
+    "local_dir_state_before": "empty directory, no .git, nested inside dirty parent repo /Users/byron/projects/active (parent untouched)",
+    "product_code_at_baseline": "NONE"
+  },
+  "tooling_observed": {
+    "git": "2.50.1",
+    "gh": "2.100.0 (authed biobitworks)",
+    "python3": "3.13.9",
+    "npm": "10.9.2",
+    "claude": "2.1.212",
+    "docker": "29.4.0",
+    "docker_compose": "5.1.2",
+    "jq": "1.8.1",
+    "gitleaks": "8.30.1",
+    "node": {
+      "executed_version": "NOT_COMPUTED",
+      "reason": "workspace shell guard function blocks `node` and `curl` (~/.claude/shell-snapshots)",
+      "brew_reported": "node 26.7.0 (list only; not executed)",
+      "NODE_MAJOR_ge_24": "UNKNOWN_UNVERIFIED_BY_EXECUTION"
+    }
+  },
+  "states": {
+    "IMPLEMENTED": [],
+    "EXECUTED": [],
+    "OBSERVED": [
+      "repo absence on GitHub",
+      "tool versions above",
+      "predecessor HEADs (see SOURCE_COMMITS.json)"
+    ],
+    "SUPPORTED": [],
+    "FAILED": [],
+    "NULL": [],
+    "NEGATIVE": [],
+    "DEFERRED": [],
+    "NOT_TESTED": [
+      "Ollarma comparator",
+      "DuploCloud runtime",
+      "HydraDG replay",
+      "GSD install"
+    ],
+    "UNKNOWN": [
+      "node major via execution",
+      "LongHorizon canonical/local checkout",
+      "official Hack Day rules"
+    ],
+    "NOT_COMPUTED": [
+      "predecessor local-vs-origin ahead/behind"
+    ]
+  }
+}

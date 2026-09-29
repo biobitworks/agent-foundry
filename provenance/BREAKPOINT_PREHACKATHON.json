@@ -1,0 +1,38 @@
+{
+  "schema": "agent-foundry.turn_breakpoint.v1",
+  "id": "AGENT_FOUNDRY_PREHACKATHON_BASELINE",
+  "parent": "AGENT_FOUNDRY_BOOTSTRAP_001",
+  "created_at": "2026-09-29T05:01:07Z",
+  "verified_new": [
+    "GitHub repo absent before bootstrap",
+    "GSD v1.15.0 tag resolves to b10ab3fd… (matches prompt), MIT",
+    "DuploCloud devkit/mcp upstream heads recorded",
+    "predecessor HEADs + dirtiness recorded"
+  ],
+  "executed": [],
+  "observed": [
+    "nested-repo hazard: agent-foundry/ sat inside dirty parent repo with unrelated origin",
+    "node/curl blocked by workspace shell guard"
+  ],
+  "decisions": [
+    "own git repo for Agent Foundry",
+    "parent repo untouched",
+    "LongHorizon recorded, not imported (license UNKNOWN)"
+  ],
+  "proposed": [
+    "all hackathon features"
+  ],
+  "not_tested": [
+    "GSD install",
+    "Ollarma comparator",
+    "DuploCloud runtime",
+    "HydraDG replay"
+  ],
+  "failures": [],
+  "unresolved": [
+    "node >=24 verification blocked by guard",
+    "official Hack Day rules",
+    "LongHorizon canonical repo"
+  ],
+  "next_action": "push baseline, verify head==origin, then GSD local install"
+}

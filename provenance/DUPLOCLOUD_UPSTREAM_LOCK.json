@@ -1,0 +1,34 @@
+{
+  "schema": "agent-foundry.upstream_lock.v1",
+  "role": "EXTERNAL_EXECUTION_SUBSTRATE",
+  "retrieved_at": "2026-09-29T05:01:07Z",
+  "retrieval_method": "gh api (read-only)",
+  "canonical_provenance_authority": "NO",
+  "product_component": "NO",
+  "upstreams": [
+    {
+      "repository": "duplocloud/devkit",
+      "description": "Developer kit for building Agents on DuploCloud (docker compose platform + /duplo-extension authoring)",
+      "default_branch": "main",
+      "resolved_head": "e9f016fd90a67611907fcf673701351669eaa47d",
+      "latest_release": "v0.2.0 (2026-09-28T16:33:13Z)",
+      "release_tag_commit": "NOT_COMPUTED",
+      "license": "Apache-2.0",
+      "installed": false,
+      "status": "NOT_TESTED",
+      "notes": "README states first run requires a work-domain email + emailed verification link and an LLM provider -> likely HUMAN_ACTION_REQUIRED for runtime."
+    },
+    {
+      "repository": "duplocloud/mcp",
+      "description": "MCP server for the DuploCloud API",
+      "default_branch": "main",
+      "resolved_head": "2aeedda378480ed087c03bea202e8c825eea69a9",
+      "latest_release": "v0.1.4 (2026-03-12)",
+      "license": "MIT",
+      "installed": false,
+      "status": "NOT_TESTED"
+    }
+  ],
+  "tenant_credentials": "UNKNOWN / not recorded; never committed",
+  "status": "NOT_TESTED"
+}

@@ -1,0 +1,26 @@
+{
+  "schema": "agent-foundry.upstream_lock.v1",
+  "retrieved_at": "2026-09-29T05:01:07Z",
+  "repository": "open-gsd/gsd-core",
+  "release_tag": "v1.15.0",
+  "tag_object_type": "commit (lightweight tag)",
+  "resolved_commit": "b10ab3fdeb6274b373859ccd6e99b7e1cf17388e",
+  "expected_commit_from_prompt": "b10ab3fdeb6274b373859ccd6e99b7e1cf17388e",
+  "resolved_equals_expected": true,
+  "resolution_method": "gh api repos/open-gsd/gsd-core/git/ref/tags/v1.15.0 (independent of prompt)",
+  "license": "MIT",
+  "license_source": "gh api repos/open-gsd/gsd-core/license",
+  "npm_package": "@opengsd/gsd-core@1.15.0",
+  "npm_integrity_verified": "NOT_COMPUTED",
+  "installation_method": "npx @opengsd/gsd-core@1.15.0 --claude --local (planned)",
+  "runtime_target": "claude (local, project scope)",
+  "role": "EXTERNAL_DEVELOPMENT_TOOL",
+  "canonical_provenance_authority": "NO",
+  "product_component": "NO_UNLESS_EXPLICITLY_PROMOTED_LATER",
+  "rejected_alternatives": [
+    "Pistis07/get-shit-done-skills (untested conversion; not canonical)"
+  ],
+  "node_requirement": "NODE_MAJOR >= 24 (per operator prompt; package metadata not yet inspected)",
+  "status": "PROPOSED",
+  "install_status": "NOT_INSTALLED_AT_BASELINE"
+}

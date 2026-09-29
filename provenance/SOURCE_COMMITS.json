@@ -1,0 +1,84 @@
+{
+  "schema": "agent-foundry.source_commits.v1",
+  "retrieved_at": "2026-09-29T05:01:07Z",
+  "retrieved_on_host": "magicPRObox",
+  "method": "local git rev-parse (read-only) + gh api commits/main; no fetch/pull/checkout performed in predecessor repos",
+  "note": "HEADs recorded, not reconstructed from memory. Local HEAD != origin main for 3 of 4 local checkouts; relation (ahead/behind/diverged) NOT_COMPUTED. Local dirty state means these are NOT clean release identities.",
+  "sources": [
+    {
+      "name": "HydraDG",
+      "local_path": "/Users/byron/projects/active/hydradg",
+      "github_repo": "biobitworks/hydradg",
+      "local_head": "88f743b9ab8718e5932613288e254cc69bbc3a33",
+      "local_branch": "cursor/dual-host-reconnect-vcc-resume-3685",
+      "local_head_commit_date": "2026-09-02T18:32:46-07:00",
+      "local_head_subject": "Add Tailscale-first Studio remote wrappers and Wi-Fi migration audit.",
+      "origin_main_head": "27f110b05605df404ff3ed8c656afeda9d97f4a9",
+      "origin_main_commit_present_locally": true,
+      "local_dirty_entries": 9,
+      "local_equals_origin_main": false,
+      "mutated_by_this_bootstrap": false
+    },
+    {
+      "name": "Ollarma",
+      "local_path": "/Users/byron/projects/active/ollarma",
+      "github_repo": "biobitworks/ollarma",
+      "local_head": "c0128541b1d842221cccf0c8459da3edc69fc685",
+      "local_branch": "exp/fco-006-fresh-testset-prep",
+      "local_head_commit_date": "2026-09-02T18:33:00-07:00",
+      "local_head_subject": "Record Wi-Fi migration and dual-host CFOS/SGLang stress receipts.",
+      "origin_main_head": "ebfada0722d65c63879d17b833ccd2a0e84301aa",
+      "origin_main_commit_present_locally": true,
+      "local_dirty_entries": 2,
+      "local_equals_origin_main": false,
+      "mutated_by_this_bootstrap": false
+    },
+    {
+      "name": "FCO_FCG",
+      "local_path": "/Users/byron/projects/active/fractal-custody-objects",
+      "github_repo": "biobitworks/fractal-custody-objects",
+      "local_head": "0b604d031783b1c9d76d42b7e83b0ecfbb78c929",
+      "local_branch": "main",
+      "local_head_commit_date": "2026-09-18T16:48:17-07:00",
+      "local_head_subject": "bank: preserve DAISY-PFCO-006 independent replication",
+      "origin_main_head": "0eeffd3b6334a8eede309c5b7fdfba1a2ff1ba48",
+      "origin_main_commit_present_locally": true,
+      "local_dirty_entries": 43,
+      "local_equals_origin_main": false,
+      "mutated_by_this_bootstrap": false
+    },
+    {
+      "name": "Glasswork",
+      "local_path": "/Users/byron/projects/_folded_from_home_20260716/glasswork-scratchpad-2026-07-11/glasswork-repo",
+      "github_repo": "biobitworks/glasswork",
+      "local_head": "dede15004711bd250132b17ae4296dca19c28ca7",
+      "local_branch": "main",
+      "local_head_commit_date": "2026-07-10T20:55:02-07:00",
+      "local_head_subject": "site: host glasswork.pipe + link it from the RocketRide card",
+      "origin_main_head": "dede15004711bd250132b17ae4296dca19c28ca7",
+      "origin_main_commit_present_locally": true,
+      "local_dirty_entries": 1,
+      "local_equals_origin_main": true,
+      "mutated_by_this_bootstrap": false
+    }
+  ],
+  "longhorizon": {
+    "role": "sibling prior work (NOT a dependency, NOT imported)",
+    "local_checkout": "UNKNOWN (none found under /Users/byron/projects/active or depth<=3 of /Users/byron/projects)",
+    "candidates": [
+      {
+        "github_repo": "biobitworks/vithia-verifiable-long-horizon-agents",
+        "origin_main_head": "3489da0e17ffb1a4b62b5549486b2240088a1a1d",
+        "visibility": "public",
+        "license": "UNKNOWN (GitHub reports none)"
+      },
+      {
+        "github_repo": "biobitworks/vithia-longhorizon-hackathon-2026",
+        "origin_main_head": "5a81410f69de015b442556c8af2c726f6999d263",
+        "visibility": "public",
+        "license": "UNKNOWN (GitHub reports none)"
+      }
+    ],
+    "canonical_candidate": "UNKNOWN"
+  }
+}

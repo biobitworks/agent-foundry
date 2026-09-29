@@ -1,0 +1,44 @@
+{
+  "schema": "agent-foundry.turn_breakpoint.v1",
+  "id": "AGENT_FOUNDRY_MAIN_INTEGRATION_AUDIT_001",
+  "parent": "AGENT_FOUNDRY_HACKDAY_POSTSUBMISSION_FINAL_001",
+  "verified_new": [
+    "DuploCloud wrapper and canonical receipts establish material thin-extension/resource participation with explicit direct-skill fallback; Duplo agent dispatch remained FAILED_AUTH",
+    "exact real PLAUD audio and transcript bytes independently hash-verified; only public-safe metadata added to Git",
+    "Neo4j execution/rebuild evidence reconciled across the Moddik rehearsal and provider-comparison receipts"
+  ],
+  "executed": [
+    "root README updated with receipt-bounded integration table and Mermaid architecture",
+    "docs/INTEGRATIONS.md and docs/ARCHITECTURE.md added",
+    "public-safe PLAUD byte-identity receipt added",
+    "integration audit record added"
+  ],
+  "observed": [
+    "DuploCloud participated in a separate Hack Day integration path, not the submitted Moddik video",
+    "PLAUD real bytes are identified but canonical addendum/FCO/Merkle admission is not executed",
+    "Neo4j remains a rebuildable non-canonical projection"
+  ],
+  "decisions": [
+    "DUPLOCLOUD_STATUS=PARTIAL",
+    "DUPLOCLOUD_MATERIAL_TO_WORKFLOW=true",
+    "DUPLOCLOUD_AGENT_DISPATCH=FAILED_AUTH",
+    "PLAUD_STATUS=PARTIAL",
+    "NEO4J_STATUS=EXECUTED",
+    "FCO/FCG remains canonical"
+  ],
+  "proposed": [],
+  "not_tested": [
+    "Duplo agent dispatch after credential repair",
+    "PLAUD MCP/API origin verification",
+    "PLAUD canonical FCO admission",
+    "fresh runtime re-execution during this independent review"
+  ],
+  "failures": [
+    "Duplo agent LLM gateway FAILED_AUTH remains preserved",
+    "Remote Desktop Commander fresh-runtime audit unavailable because monthly tool-call quota was exhausted"
+  ],
+  "unresolved": [
+    "repository remains PRIVATE unless operator changes visibility"
+  ],
+  "next_action": "independent remote GitHub consistency check; no feature development required"
+}

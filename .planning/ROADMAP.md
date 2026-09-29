@@ -8,7 +8,7 @@ participation, then harden the demo. Ordering follows the official P0/P1/P2 prio
 
 ## Phases
 
-- [ ] **Phase 1: Event schema and run recorder** - Provider-neutral event schema plus an append-only recorder (P0)
+- [x] **Phase 1: Event schema and run recorder** - Provider-neutral event schema plus an append-only recorder (P0)
 - [ ] **Phase 2: Two-run canonical task execution** - Same task under two controlled configurations, events captured (P0)
 - [ ] **Phase 3: Comparison and first divergence** - Normalize, compare, localize the earliest divergence (P0)
 - [ ] **Phase 4: Run inspector UI** - Side-by-side runs, divergence marker, event inspector, explanation (P0)
@@ -28,7 +28,10 @@ participation, then harden the demo. Ordering follows the official P0/P1/P2 prio
   1. Event JSON Schemas validate sample events of every declared type.
   2. A recorded run is an ordered JSONL log with distinct CONTENT_ID, OCCURRENCE_ID and RUN_ID.
   3. A failure and an abstention event are recorded and read back intact.
-**Plans**: TBD
+**Plans**: 1 plan
+
+Plans:
+- [x] 01-01: Event schema, recorder, verifier, tests
 
 ### Phase 2: Two-run canonical task execution
 **Goal**: One canonical task is executed as run A and run B under controlled configurations with events captured.
@@ -110,7 +113,7 @@ participation, then harden the demo. Ordering follows the official P0/P1/P2 prio
 
 | Phase | Plans Complete | Status | Completed |
 | --- | --- | --- | --- |
-| 1. Event schema and run recorder | 0/TBD | Not started | - |
+| 1. Event schema and run recorder | 1/1 | Complete (12 tests) | 2026-09-29 |
 | 2. Two-run canonical task execution | 0/TBD | Not started | - |
 | 3. Comparison and first divergence | 0/TBD | Not started | - |
 | 4. Run inspector UI | 0/TBD | Not started | - |

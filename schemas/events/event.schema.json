@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/biobitworks/agent-foundry/schemas/events/event.schema.json",
+  "title": "Agent Foundry event (provider-neutral)",
+  "type": "object",
+  "required": ["schema_version", "event_id", "content_id", "run_id", "seq", "ts", "event_type", "state", "actor", "payload", "deps"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "agent-foundry.event.v1"},
+    "event_id": {"type": "string", "pattern": "^occ:sha256:[0-9a-f]{64}$", "description": "OCCURRENCE_ID"},
+    "content_id": {"type": "string", "pattern": "^cid:sha256:[0-9a-f]{64}$", "description": "CONTENT_ID of {event_type, actor, payload}"},
+    "run_id": {"type": "string", "minLength": 1},
+    "phase_id": {"type": "string"},
+    "seq": {"type": "integer", "minimum": 0},
+    "prev_event_id": {"type": ["string", "null"]},
+    "ts": {"type": "string", "format": "date-time"},
+    "event_type": {"enum": ["run_started", "run_completed", "agent", "model", "tool", "evidence", "decision", "failure", "abstention", "checkpoint", "artifact", "claim", "evaluation"]},
+    "state": {"enum": ["PROPOSED", "IMPLEMENTED", "EXECUTED", "OBSERVED", "SUPPORTED", "FAILED", "NULL", "NEGATIVE", "DEFERRED", "NOT_TESTED", "UNKNOWN", "NOT_COMPUTED"]},
+    "actor": {
+      "type": "object",
+      "required": ["kind", "name"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {"enum": ["model", "tool", "agent", "human", "system"]},
+        "name": {"type": "string", "minLength": 1},
+        "provider": {"type": "string"},
+        "model": {"type": "string"},
+        "provider_kind": {"enum": ["real", "fixture"], "description": "fixture runs are never presented as real model runs"}
+      }
+    },
+    "payload": {"type": "object"},
+    "deps": {"type": "array", "items": {"type": "string", "pattern": "^occ:sha256:[0-9a-f]{64}$"}, "description": "declared dependencies (event_ids in the same run)"},
+    "meta": {"type": "object", "description": "non-hashed: latency, tokens, host, etc."}
+  },
+  "allOf": [
+    {"if": {"properties": {"event_type": {"const": "run_started"}}}, "then": {"properties": {"payload": {"required": ["task_id", "config"], "properties": {"task_id": {"type": "string"}, "config": {"type": "object"}, "label": {"enum": ["CONTROL_RUN", "VARIANT_RUN", "REPLAY_RUN"]}, "variable": {"type": "string"}}}}}},
+    {"if": {"properties": {"event_type": {"const": "run_completed"}}}, "then": {"properties": {"payload": {"required": ["status"], "properties": {"status": {"enum": ["completed", "failed", "abstained", "aborted"]}}}}}},
+    {"if": {"properties": {"event_type": {"const": "agent"}}}, "then": {"properties": {"payload": {"required": ["agent_id", "action"], "properties": {"agent_id": {"type": "string"}, "role": {"type": "string"}, "action": {"type": "string"}}}}}},
+    {"if": {"properties": {"event_type": {"const": "model"}}}, "then": {"properties": {"actor": {"required": ["provider", "model", "provider_kind"]}, "payload": {"required": ["request", "response"], "properties": {"request": {"type": "object"}, "response": {"type": "object"}, "params": {"type": "object"}}}}}},
+    {"if": {"properties": {"event_type": {"const": "tool"}}}, "then": {"properties": {"payload": {"required": ["tool", "arguments", "ok"], "properties": {"tool": {"type": "string"}, "arguments": {"type": "object"}, "ok": {"type": "boolean"}}}}}},
+    {"if": {"properties": {"event_type": {"const": "evidence"}}}, "then": {"properties": {"payload": {"required": ["source_ref", "content_digest"], "properties": {"source_ref": {"type": "string"}, "content_digest": {"type": "string"}, "excerpt": {"type": "string"}}}}}},
+    {"if": {"properties": {"event_type": {"const": "decision"}}}, "then": {"properties": {"payload": {"required": ["decision"], "properties": {"decision": {"type": "string"}, "rationale": {"type": "string"}}}}}},
+    {"if": {"properties": {"event_type": {"const": "failure"}}}, "then": {"properties": {"state": {"const": "FAILED"}, "payload": {"required": ["where", "error_type", "message"], "properties": {"where": {"type": "string"}, "error_type": {"type": "string"}, "message": {"type": "string"}, "recoverable": {"type": "boolean"}}}}}},
+    {"if": {"properties": {"event_type": {"const": "abstention"}}}, "then": {"properties": {"state": {"const": "NOT_COMPUTED"}, "payload": {"required": ["reason"], "properties": {"reason": {"type": "string"}, "about": {"type": "string"}}}}}},
+    {"if": {"properties": {"event_type": {"const": "checkpoint"}}}, "then": {"properties": {"payload": {"required": ["checkpoint_id"], "properties": {"checkpoint_id": {"type": "string"}, "descriptor": {"type": "object"}}}}}},
+    {"if": {"properties": {"event_type": {"const": "artifact"}}}, "then": {"properties": {"payload": {"required": ["artifact_type", "ref"], "properties": {"artifact_type": {"type": "string"}, "ref": {"type": "string"}, "digest": {"type": "string"}}}}}},
+    {"if": {"properties": {"event_type": {"const": "claim"}}}, "then": {"properties": {"payload": {"required": ["claim_id", "text"], "properties": {"claim_id": {"type": "string"}, "text": {"type": "string"}}}}}},
+    {"if": {"properties": {"event_type": {"const": "evaluation"}}}, "then": {"properties": {"payload": {"required": ["metric", "result"], "properties": {"metric": {"type": "string"}, "result": {}, "expected": {}, "observed": {}}}}}}
+  ]
+}

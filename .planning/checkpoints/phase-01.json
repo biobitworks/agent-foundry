@@ -1,0 +1,21 @@
+{
+  "schema": "agent-foundry.phase_checkpoint.v1",
+  "phase": "01",
+  "hydradg_compatible": "UNKNOWN (HydraDG descriptor schema not inspected; descriptor is Agent Foundry native)",
+  "checkpoint_before": {
+    "git_head": "ee8b433a57f7769ad63add27c93cfa8a14645d3c"
+  },
+  "checkpoint_after": {
+    "git_head": "see commit that adds this file (self-reference avoided)"
+  },
+  "inputs": [
+    "schemas/events/event.schema.json (new)"
+  ],
+  "outputs": [
+    "agent_foundry/{ids,events,recorder}.py",
+    "tests/unit/test_events_recorder.py",
+    "schemas/events/event.schema.json"
+  ],
+  "failure_state": "none",
+  "replayability": "NOT_TESTED"
+}

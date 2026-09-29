@@ -19,9 +19,6 @@ def run_task(task: dict, config: dict, run_id: str, out_dir, label=None, variabl
     # config/label/variable are the controlled INPUT: recorded in non-hashed meta so they never register as a behavioral divergence
     start = rec.record("run_started", SYS, {"task_id": task["task_id"]}, meta={"config": config, **({"label": label} if label else {}), **({"variable": variable} if variable else {})})
     plan = rec.record("agent", AGENT, {"agent_id": "support-agent", "role": "answerer", "action": "plan: retrieve policy then answer"}, deps=[start["event_id"]])
-    provider = get_provider(config)
-    actor = {"kind": "model", "name": provider.model, "provider": provider.name, "model": provider.model, "provider_kind": provider.provider_kind}
-
     doc = task["corpus"].get(config.get("evidence"))
     if doc is None:
         tool = rec.record("tool", TOOL, {"tool": task["tool"], "arguments": {"query": task["query"]}, "ok": False}, deps=[plan["event_id"]])
@@ -31,7 +28,14 @@ def run_task(task: dict, config: dict, run_id: str, out_dir, label=None, variabl
     tool = rec.record("tool", TOOL, {"tool": task["tool"], "arguments": {"query": task["query"]}, "ok": True}, deps=[plan["event_id"]])
     ev = rec.record("evidence", TOOL, {"source_ref": f"{doc['doc_id']}@{doc['version']}", "content_digest": _digest(doc["text"]), "excerpt": doc["text"]}, deps=[tool["event_id"]])
 
-    request = {"prompt": task["prompt"], "evidence": [{"text": doc["text"]}]}
+    return answer(rec, task, config, ev, doc["text"])
+
+
+def answer(rec: RunRecorder, task: dict, config: dict, ev: dict, evidence_text: str) -> RunRecorder:
+    """Everything after evidence retrieval. Used by run_task and by checkpoint resume (replay)."""
+    provider = get_provider(config)
+    actor = {"kind": "model", "name": provider.model, "provider": provider.name, "model": provider.model, "provider_kind": provider.provider_kind}
+    request = {"prompt": task["prompt"], "evidence": [{"text": evidence_text}]}
     try:
         out = provider.complete(request)
     except ProviderError as e:
@@ -39,7 +43,7 @@ def run_task(task: dict, config: dict, run_id: str, out_dir, label=None, variabl
         rec.record("run_completed", SYS, {"status": "failed"}, state="EXECUTED", deps=[fail["event_id"]])
         return rec
     model = rec.record("model", actor, {"request": request, "response": {"text": out["text"]}, "params": {"temperature": 0}}, deps=[ev["event_id"]], meta=out.get("meta"))
-    if out.get("meta", {}).get("abstained") or out["text"].startswith("ABSTAIN"):
+    if out.get("meta", {}).get("abstained") or out["text"].strip().upper().startswith("ABSTAIN"):
         ab = rec.record("abstention", actor, {"reason": out["text"], "about": "refund eligibility"}, deps=[model["event_id"]])
         rec.record("run_completed", SYS, {"status": "abstained"}, state="EXECUTED", deps=[ab["event_id"]])
         return rec

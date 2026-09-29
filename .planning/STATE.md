@@ -3,10 +3,10 @@ gsd_state_version: '1.0'
 status: planning
 progress:
   total_phases: 9
-  completed_phases: 4
-  total_plans: 4
-  completed_plans: 4
-  percent: 44
+  completed_phases: 5
+  total_plans: 5
+  completed_plans: 5
+  percent: 56
 ---
 
 # Project State
@@ -23,9 +23,9 @@ See: .planning/PROJECT.md (updated 2026-09-29)
 Phase: 5 of 9 (Evidence and lineage)
 Plan: 0 of TBD in current phase
 Status: Ready to plan
-Last activity: 2026-09-29 — Phases 1-4 done; real local-model runs captured; inspector UI verified
+Last activity: 2026-09-29 — Phases 1-4 and 6 done; real replay verified (n=1)
 
-Progress: [████░░░░░░] 44%
+Progress: [█████░░░░░] 56%
 
 ## Accumulated Context
 

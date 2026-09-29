@@ -10,6 +10,7 @@ from pydantic import BaseModel
 
 from agent_foundry.compare import compare_runs
 from agent_foundry.recorder import read_run
+from agent_foundry.replay import replay as do_replay
 from agent_foundry.runner import run_pair
 from agent_foundry.scenarios import SCENARIOS, TASK
 
@@ -76,6 +77,34 @@ def get_pair(tag: str):
     except FileNotFoundError:
         raise HTTPException(404, "no such pair")
     return {"tag": tag, "control": ca, "variant": cb, "comparison": compare_runs(ca, cb)}
+
+
+class ReplayRequest(BaseModel):
+    source: str  # "recorded:<scenario>" or a live pair tag
+    side: str = "control"
+    override: dict | None = None  # e.g. {"provider": "fixture", "model": "fixture-b"} => branch under another provider
+
+
+@app.post("/api/replay")
+def replay_endpoint(req: ReplayRequest):
+    """Resume from a checkpoint taken after the evidence event. Executes the remaining steps again (a real execution)."""
+    if req.side not in ("control", "variant"):
+        raise HTTPException(400, "side must be control or variant")
+    m = re.fullmatch(r"recorded:([a-z_]+)", req.source)
+    if m and m.group(1) in SCENARIOS:
+        path = RECORDED / m.group(1) / f"{req.side}.jsonl"
+    elif re.fullmatch(r"p[0-9a-f]{8}", req.source):
+        path = RUNS / f"{req.source}-{req.side}.jsonl"
+    else:
+        raise HTTPException(400, "bad source")
+    try:
+        events = read_run(path)
+    except FileNotFoundError:
+        raise HTTPException(404, "no such run")
+    try:
+        return {"source": req.source, "side": req.side, "original": events, **do_replay(TASK, events, RUNS, "rp" + uuid.uuid4().hex[:8], override=req.override)}
+    except ValueError as e:
+        raise HTTPException(400, str(e))
 
 
 @app.get("/")

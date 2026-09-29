@@ -13,7 +13,7 @@ participation, then harden the demo. Ordering follows the official P0/P1/P2 prio
 - [x] **Phase 3: Comparison and first divergence** - Normalize, compare, localize the earliest divergence (P0)
 - [x] **Phase 4: Run inspector UI** - Side-by-side runs, divergence marker, event inspector, explanation (P0)
 - [ ] **Phase 5: Evidence and lineage** - Evidence/tool inspection, FCO/FCG references (P1)
-- [ ] **Phase 6: Checkpoint and replay** - HydraDG-compatible descriptors, real replay (P1)
+- [x] **Phase 6: Checkpoint and replay** - HydraDG-compatible descriptors, real replay (P1)
 - [ ] **Phase 7: DuploCloud integration** - DuploCloud participates in the live run (P1)
 - [ ] **Phase 8: Demo fixtures and controls** - Offline fixtures, failure/abstention controls
 - [ ] **Phase 9: Rehearsal and evidence bundle** - Rehearsed demo, customer/willingness-to-pay narrative, bundle
@@ -118,7 +118,7 @@ Plans:
 | 3. Comparison and first divergence | 1/1 | Complete on fixture runs (24 tests) | 2026-09-29 |
 | 4. Run inspector UI | 1/1 | Complete (browser-verified; API tests) | 2026-09-29 |
 | 5. Evidence and lineage | 0/TBD | Not started | - |
-| 6. Checkpoint and replay | 0/TBD | Not started | - |
+| 6. Checkpoint and replay | 1/1 | Complete (1 real replay verified; HydraDG bridge NOT_IMPLEMENTED) | 2026-09-29 |
 | 7. DuploCloud integration | 0/TBD | Not started | - |
 | 8. Demo fixtures and controls | 0/TBD | Not started | - |
 | 9. Rehearsal and evidence bundle | 0/TBD | Not started | - |

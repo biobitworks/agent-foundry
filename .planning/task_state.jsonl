@@ -6,3 +6,4 @@
 {"ts":"2026-09-29T05:18:33Z","task":"phase_2_two_run_execution","state":"EXECUTED_PARTIAL","note":"fixtures only; ollama adapter NOT_TESTED; 19 tests pass"}
 {"ts":"2026-09-29T05:19:52Z","task":"phase_3_compare","state":"EXECUTED","note":"24 tests; native comparison, Glasswork adapter NOT_IMPLEMENTED"}
 {"ts":"2026-09-29T05:36:52Z","task":"phase_4_inspector_ui","state":"EXECUTED","note":"UI browser-verified; 32 tests; 2 real captures recorded; defects fixed: replicate pair, stale UI"}
+{"ts":"2026-09-29T05:41:56Z","task":"phase_6_checkpoint_replay","state":"EXECUTED","note":"40 tests; 1 real replay verified n=1; REPLAY_FAILED classification added after finding misclassification risk"}

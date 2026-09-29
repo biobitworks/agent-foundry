@@ -58,13 +58,25 @@ pre{margin:0;background:#0a0d12;border:1px solid var(--line);border-radius:6px;p
       <div class="card"><h3 class="muted" style="margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.8px">Affected downstream claims</h3><div id="claims"></div></div>
       <div class="card"><h3 class="muted" style="margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.8px">Failures and abstentions</h3><div id="fails"></div></div>
     </div>
+    <div class="card" id="replayCard">
+      <h3 class="muted" style="margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.8px">Checkpoint and replay</h3>
+      <div class="note" style="margin-bottom:8px">Checkpoint = state after the evidence event. Replay resumes there using the <b>recorded</b> evidence and executes the remaining steps again. A run is marked replayable only if the re-execution matches the original.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <select id="rpSide"><option value="control">Control run</option><option value="variant">Variant run</option></select>
+        <button id="rpVerify">Replay same config (verify)</button>
+        <select id="rpAlt"><option value="fixture|fixture-b">fixture-b</option><option value="fixture|fixture-a">fixture-a</option><option value="ollama|qwen2.5:7b">ollama qwen2.5:7b</option><option value="ollama|llama3.2:3b">ollama llama3.2:3b</option></select>
+        <button id="rpBranch">Replay under another provider/model (branch)</button>
+        <span id="rpStatus" class="note"></span>
+      </div>
+      <div id="rpOut" style="margin-top:12px"></div>
+    </div>
     <div class="card note" id="prov"></div>
   </div>
 </main>
 <script>
 const $=id=>document.getElementById(id);
 const el=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e};
-let scenarios=[];
+let scenarios=[];let current=null;
 const short=(s,n=150)=>s&&s.length>n?s.slice(0,n)+'…':s;
 
 function summarize(ev){
@@ -130,6 +142,7 @@ function inspect(i,ctrl,vari,cmp){
 }
 
 function render(data){
+  current=data;$('rpOut').replaceChildren();$('rpStatus').textContent='';
   const {control:ctrl,variant:vari,comparison:cmp}=data;
   $('out').hidden=false;
   const vd=$('verdict');vd.replaceChildren();
@@ -178,6 +191,30 @@ async function go(){
   }catch(e){$('status').className='err';$('status').textContent='Error: '+e.message}
   $('go').disabled=false;
 }
+async function doReplay(override){
+  if(!current)return;
+  const side=$('rpSide').value,src=current.tag;
+  $('rpVerify').disabled=$('rpBranch').disabled=true;$('rpOut').replaceChildren();
+  $('rpStatus').textContent='Replaying (executes the remaining steps again; a cold local model can take 1–2 minutes)…';
+  try{
+    const r=await fetch('/api/replay',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({source:src,side,override})});
+    if(!r.ok)throw new Error((await r.json()).detail||r.statusText);
+    const d=await r.json();$('rpStatus').textContent='';
+    const box=$('rpOut'),cmp=d.comparison_vs_original;
+    const head=el('div');head.style.marginBottom='8px';
+    const good=d.replay_state==='EXECUTED',branch=d.mode==='branch',failed=d.replay_state==='REPLAY_FAILED';
+    head.append(el('span','chip '+(good?'grn':branch?'acc':failed?'amb':'red'),branch?'BRANCH from checkpoint':good?'REPLAY VERIFIED':failed?'REPLAY FAILED (provider error)':'REPLAY DIVERGED'),el('span','',' '+(failed?'The provider errored during re-execution, so reproducibility is UNKNOWN. This is not evidence of divergence.':branch?'Resumed from the same checkpoint under a different provider/model. This is a new variant, not a verification.':good?'Re-execution matched the original (DIVERGENCE=NULL). replayable = true for this run, n=1.':'Re-execution did NOT match the original. replayable = false. Shown, not hidden.')));
+    box.append(head);
+    box.append(el('div','note','Checkpoint '+d.checkpoint.checkpoint_id+' · at event '+d.checkpoint.at_seq+' · prefix '+(d.prefix_identical?'identical':'DIFFERENT')+' · prefix digest '+d.checkpoint.prefix_digest.slice(0,22)+'…'));
+    box.append(el('p','',cmp.explanation));
+    const rc=d.replay_run.find(e=>e.event_type==='claim'||e.event_type==='failure'||e.event_type==='abstention');
+    if(rc)box.append(el('div','sum','Replay outcome: '+rc.event_type+' — '+summarize(rc)));
+    box.append(el('div','note',d.limits.join(' · ')));
+  }catch(e){$('rpStatus').className='err';$('rpStatus').textContent='Error: '+e.message}
+  $('rpVerify').disabled=$('rpBranch').disabled=false;
+}
+$('rpVerify').addEventListener('click',()=>doReplay(null));
+$('rpBranch').addEventListener('click',()=>{const [p,m]=$('rpAlt').value.split('|');doReplay({provider:p,model:m})});
 (async()=>{
   const r=await (await fetch('/api/scenarios')).json();scenarios=r.scenarios;
   const s=$('scenario');scenarios.forEach(x=>{const o=el('option','',(x.recorded?'● ':'')+x.title);o.value=x.id;s.append(o)});

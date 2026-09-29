@@ -1,0 +1,26 @@
+{
+  "schema": "agent-foundry.recorded_replay.v1",
+  "kind": "REAL_REPLAY_EXECUTED_ONCE",
+  "captured_at": "2026-09-29T05:41:56Z",
+  "host": "magicPRObox",
+  "replay_of": "demo/recorded/local_evidence/control.jsonl",
+  "original_sha256": "f6b1e5b5d33d11acfc7a05ced310edd3a4612251fe479133d1c5e55f778548bf",
+  "replay_sha256": "30cc16411601e33868d0d0a93343cb88c1e00e2e527f360b10dd101fe5e66615",
+  "checkpoint": "cp:local_evidence-control@3",
+  "mode": "verify",
+  "provider": "ollama",
+  "model": "qwen2.5:7b",
+  "ollama_model_id": "845dbda0ea48",
+  "result": {
+    "replay_state": "EXECUTED",
+    "replayable": true,
+    "scope": "this run only, n=1",
+    "comparison": "DIVERGENCE=NULL across 7 events, prefix identical"
+  },
+  "triggered_by": "inspector UI (POST /api/replay), server running the pre-REPLAY_FAILED-classification code; outcome unaffected because no provider error occurred",
+  "limits": [
+    "one execution; nondeterminism NOT_COMPUTED beyond n=2 spot repeats earlier",
+    "system was under heavy memory pressure; model load was slow but output identical",
+    "identity of files only; not a claim of answer correctness"
+  ]
+}

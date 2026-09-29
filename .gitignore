@@ -14,3 +14,6 @@ __pycache__/
 .claude/*
 !.claude/gsd-file-manifest.json
 !.claude/gsd-install-state.json
+
+# run outputs (regenerable)
+runs/

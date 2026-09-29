@@ -114,7 +114,7 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 | --- | --- | --- | --- |
 | 1. Event schema and run recorder | 1/1 | Complete (12 tests) | 2026-09-29 |
-| 2. Two-run canonical task execution | 0/TBD | Not started | - |
+| 2. Two-run canonical task execution | 1/1 | PARTIAL: fixtures executed; real provider NOT_TESTED (operator decision pending) | - |
 | 3. Comparison and first divergence | 0/TBD | Not started | - |
 | 4. Run inspector UI | 0/TBD | Not started | - |
 | 5. Evidence and lineage | 0/TBD | Not started | - |

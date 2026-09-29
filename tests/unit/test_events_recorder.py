@@ -12,7 +12,7 @@ TOOL = {"kind": "tool", "name": "search"}
 
 def make_run(tmp_path, run_id="run-a", meta=None, answer="42"):
     r = RunRecorder(run_id, tmp_path)
-    s = r.record("run_started", SYS, {"task_id": "t1", "config": {"model": "fx-1"}, "label": "CONTROL_RUN"})
+    s = r.record("run_started", SYS, {"task_id": "t1"}, meta={"config": {"model": "fx-1"}, "label": "CONTROL_RUN"})
     t = r.record("tool", TOOL, {"tool": "search", "arguments": {"q": "x"}, "ok": True}, deps=[s["event_id"]], meta=meta)
     ev = r.record("evidence", TOOL, {"source_ref": "doc://1", "content_digest": "abc"}, deps=[t["event_id"]])
     m = r.record("model", MODEL, {"request": {"p": "q"}, "response": {"text": answer}}, deps=[ev["event_id"]])
@@ -23,7 +23,7 @@ def make_run(tmp_path, run_id="run-a", meta=None, answer="42"):
 def test_every_event_type_validates_and_roundtrips(tmp_path):
     r = RunRecorder("run-all", tmp_path)
     samples = [
-        ("run_started", SYS, {"task_id": "t", "config": {}}),
+        ("run_started", SYS, {"task_id": "t"}),
         ("agent", {"kind": "agent", "name": "a"}, {"agent_id": "a1", "action": "plan"}),
         ("decision", SYS, {"decision": "use tool"}),
         ("checkpoint", SYS, {"checkpoint_id": "cp1"}),
@@ -33,7 +33,7 @@ def test_every_event_type_validates_and_roundtrips(tmp_path):
         ("run_completed", SYS, {"status": "completed"}),
     ]
     for et, actor, payload in samples:
-        r.record(et, actor, payload, state="OBSERVED")
+        r.record(et, actor, payload, state="OBSERVED", meta={"config": {}} if et == "run_started" else None)
     assert len(read_run(r.path)) == len(samples)
 
 
@@ -61,7 +61,7 @@ def test_payload_change_changes_content_id(tmp_path):
 
 def test_failure_and_abstention_are_first_class_and_kept(tmp_path):
     r = RunRecorder("run-f", tmp_path)
-    r.record("run_started", SYS, {"task_id": "t", "config": {}})
+    r.record("run_started", SYS, {"task_id": "t"}, meta={"config": {}})
     f = r.record("failure", MODEL, {"where": "model_call", "error_type": "Timeout", "message": "provider timed out", "recoverable": True})
     ab = r.record("abstention", SYS, {"reason": "insufficient evidence", "about": "claim c1"}, deps=[f["event_id"]])
     r.record("run_completed", SYS, {"status": "abstained"}, state="EXECUTED")

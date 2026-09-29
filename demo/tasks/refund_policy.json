@@ -1,0 +1,10 @@
+{
+  "task_id": "refund-policy-v1",
+  "prompt": "A customer bought a plan 20 days ago and asks: can I still get a refund?",
+  "tool": "lookup_policy",
+  "query": "refund window",
+  "corpus": {
+    "policy-v1": {"doc_id": "refund-policy", "version": "v1", "text": "Refunds are available within 30 days of purchase."},
+    "policy-v2": {"doc_id": "refund-policy", "version": "v2", "text": "Refunds are available within 14 days of purchase."}
+  }
+}

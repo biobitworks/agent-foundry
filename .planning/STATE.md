@@ -23,7 +23,7 @@ See: .planning/PROJECT.md (updated 2026-09-29)
 Phase: 2 of 9 (Two-run canonical task execution)
 Plan: 0 of TBD in current phase
 Status: Ready to plan
-Last activity: 2026-09-29 — Phase 1 complete (12 tests pass)
+Last activity: 2026-09-29 — Phase 2 PARTIAL (fixtures executed, 19 tests; real provider pending operator decision)
 
 Progress: [█░░░░░░░░░] 11%
 
@@ -36,5 +36,6 @@ Progress: [█░░░░░░░░░] 11%
 
 ### Blockers
 
+- Phase 2 real providers: operator must choose providers/credentials (session ANTHROPIC_* env not reused).
 - magicSTUDIObox sync: `ssh` guarded in this workspace (HUMAN_ACTION_REQUIRED).
 - DuploCloud runtime: not tested; devkit first run needs a work-domain email verification (HUMAN_ACTION_REQUIRED).

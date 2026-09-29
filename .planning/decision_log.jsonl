@@ -2,3 +2,5 @@
 {"ts":"2026-09-29T05:03:58Z","decision":"do_not_vendor_gsd","rationale":"GSD is external tool; track only file manifest + install state; reinstall from pin on magicSTUDIObox"}
 {"ts":"2026-09-29T05:12:48Z","decision":"scoped_node_guard_bypass_for_gsd_tools_only","authorized_by":"operator via AskUserQuestion this session","node_bin":"/opt/homebrew/bin/node","scope":"gsd-tools.cjs invocations only; guard remains for all other use","not_covered":["ssh","curl"]}
 {"ts":"2026-09-29T05:14:57Z","decision":"follow_pinned_local_gsd_workflows_not_global_skill","rationale":"global skill is 1.8.0, local pin is 1.15.0"}
+{"ts":"2026-09-29T05:18:33Z","decision":"run_started_config_moved_to_meta","rationale":"hashing config/label made every run pair diverge at seq 0; config is controlled input, not behavior. Amends Phase 1 schema."}
+{"ts":"2026-09-29T05:18:33Z","decision":"do_not_reuse_session_anthropic_credentials","rationale":"ANTHROPIC_* env belongs to Claude Code harness; product provider credentials require explicit operator approval"}

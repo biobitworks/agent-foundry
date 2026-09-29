@@ -115,9 +115,10 @@
         "provider_kind": {
           "enum": [
             "real",
-            "fixture"
+            "fixture",
+            "deterministic"
           ],
-          "description": "fixture runs are never presented as real model runs"
+          "description": "fixture = stand-in, never presented as a real model run; deterministic = rule-based component (e.g. Antigence antibodies), not a model"
         }
       }
     },

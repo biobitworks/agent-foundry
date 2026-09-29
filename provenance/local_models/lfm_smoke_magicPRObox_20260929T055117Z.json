@@ -1,0 +1,48 @@
+{
+  "schema": "agent-foundry.local_model_smoke.v1",
+  "host": "magicPRObox.local",
+  "ollama_host": "http://127.0.0.1:11434",
+  "captured_at": "2026-09-29T05:48:03+00:00",
+  "prompt": "Return only JSON:\n{\"model_ready\":true,\"marker\":\"AGENT_FOUNDRY_LOCAL_TEST\"}",
+  "expected": {
+    "model_ready": true,
+    "marker": "AGENT_FOUNDRY_LOCAL_TEST"
+  },
+  "options": {
+    "temperature": 0,
+    "seed": 1,
+    "num_predict": 64
+  },
+  "results": {
+    "hf.co/LiquidAI/LFM2.5-2.6B-GGUF:Q4_K_M": {
+      "MODEL_PRESENT": true,
+      "MODEL_ID": "26d07caa2ddb",
+      "INFERENCE_EXECUTED": true,
+      "OUTPUT_VALID": false,
+      "LATENCY_S": 65.8,
+      "FAILURE": "not valid JSON: Expecting value",
+      "raw_output": "The user wants me to return only JSON with specific keys: \"model_ready\" set to true and \"marker\" set to \"AGENT_FOUNDRY_LOCAL_TEST\". This is a straightforward request to output valid JSON. I need to ensure the response contains only the JSON object and nothing else.</think>",
+      "READY": false
+    },
+    "hf.co/LiquidAI/LFM2.5-350M-GGUF:Q4_K_M": {
+      "MODEL_PRESENT": true,
+      "MODEL_ID": "1f41ea409551",
+      "INFERENCE_EXECUTED": true,
+      "OUTPUT_VALID": true,
+      "LATENCY_S": 95.2,
+      "FAILURE": null,
+      "raw_output": "{\"model_ready\":true,\"marker\":\"AGENT_FOUNDRY_LOCAL_TEST\"}",
+      "READY": true
+    },
+    "hf.co/LiquidAI/LFM2.5-1.2B-Instruct-GGUF:Q4_K_M": {
+      "MODEL_PRESENT": true,
+      "MODEL_ID": "5791ac70d52d",
+      "INFERENCE_EXECUTED": true,
+      "OUTPUT_VALID": true,
+      "LATENCY_S": 33.4,
+      "FAILURE": null,
+      "raw_output": "{\n  \"model_ready\": true,\n  \"marker\": \"AGENT_FOUNDRY_LOCAL_TEST\"\n}",
+      "READY": true
+    }
+  }
+}

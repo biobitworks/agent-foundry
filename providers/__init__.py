@@ -9,4 +9,7 @@ def get_provider(cfg: dict):
     if kind == "ollama":
         from .ollama import OllamaProvider
         return OllamaProvider(cfg["model"], cfg.get("host", "http://127.0.0.1:11434"))
+    if kind == "antigence":
+        from .antigence import AntigenceProvider
+        return AntigenceProvider()
     raise ValueError(f"unknown provider: {kind}")

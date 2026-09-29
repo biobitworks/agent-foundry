@@ -36,6 +36,9 @@ def answer(rec: RunRecorder, task: dict, config: dict, ev: dict, evidence_text: 
     provider = get_provider(config)
     actor = {"kind": "model", "name": provider.model, "provider": provider.name, "model": provider.model, "provider_kind": provider.provider_kind}
     request = {"prompt": task["prompt"], "evidence": [{"text": evidence_text}]}
+    if task.get("instruction"):  # tasks with a constrained output format; absent for the refund task so its hashes are unchanged
+        request["instruction"] = task["instruction"]
+    claim_id, about = task.get("claim_id", "refund-eligibility"), task.get("about", "refund eligibility")
     try:
         out = provider.complete(request)
     except ProviderError as e:
@@ -44,10 +47,17 @@ def answer(rec: RunRecorder, task: dict, config: dict, ev: dict, evidence_text: 
         return rec
     model = rec.record("model", actor, {"request": request, "response": {"text": out["text"]}, "params": {"temperature": 0}}, deps=[ev["event_id"]], meta=out.get("meta"))
     if out.get("meta", {}).get("abstained") or out["text"].strip().upper().startswith("ABSTAIN"):
-        ab = rec.record("abstention", actor, {"reason": out["text"], "about": "refund eligibility"}, deps=[model["event_id"]])
+        ab = rec.record("abstention", actor, {"reason": out["text"], "about": about}, deps=[model["event_id"]])
         rec.record("run_completed", SYS, {"status": "abstained"}, state="EXECUTED", deps=[ab["event_id"]])
         return rec
-    claim = rec.record("claim", AGENT, {"claim_id": "refund-eligibility", "text": out["text"]}, state="OBSERVED", deps=[model["event_id"], ev["event_id"]])
+    if task.get("output_validator"):
+        from .validators import VALIDATORS
+        err = VALIDATORS[task["output_validator"]](out["text"])
+        if err:
+            fail = rec.record("failure", actor, {"where": "output_validation", "error_type": "InvalidOutput", "message": err, "recoverable": False}, deps=[model["event_id"]])
+            rec.record("run_completed", SYS, {"status": "failed"}, state="EXECUTED", deps=[fail["event_id"]])
+            return rec
+    claim = rec.record("claim", AGENT, {"claim_id": claim_id, "text": out["text"]}, state="OBSERVED", deps=[model["event_id"], ev["event_id"]])
     rec.record("run_completed", SYS, {"status": "completed"}, state="EXECUTED", deps=[claim["event_id"]])
     return rec
 

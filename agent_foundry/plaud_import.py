@@ -12,6 +12,9 @@ Relationship semantics (never upgraded):
 """
 import hashlib
 import json
+import shutil
+import subprocess
+from datetime import datetime, timezone
 from pathlib import Path
 
 from .ids import canonical_json
@@ -30,10 +33,25 @@ def sha256_file(path) -> tuple:
     return h.hexdigest(), n
 
 
+def probe_media(path) -> dict:
+    """Descriptive container metadata via ffprobe (NOT identity; identity is the sha256 of the exact bytes). {} if ffprobe is unavailable or the file is not media."""
+    if not shutil.which("ffprobe"):
+        return {"available": False}
+    r = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=format_name,duration:stream=codec_name,sample_rate,channels", "-of", "json", str(path)], capture_output=True, text=True, timeout=30)
+    try:
+        j = json.loads(r.stdout or "{}")
+        st = (j.get("streams") or [{}])[0]
+        return {"available": True, "is_media": bool(j.get("format")), "container": (j.get("format") or {}).get("format_name"), "duration_s": float((j.get("format") or {}).get("duration") or 0) or None,
+                "codec": st.get("codec_name"), "sample_rate": st.get("sample_rate"), "channels": st.get("channels")}
+    except (ValueError, TypeError):
+        return {"available": True, "is_media": False}
+
+
 def audio_artifact_payload(path, *, capture: str, exported_via: str = None, recording_id: str = None, transcript: dict = None, parallel_capture_of: str = None) -> dict:
     """Payload for an `artifact` event. digest = sha256 of the exact file bytes as they sit on disk."""
     digest, size = sha256_file(path)
-    p = {"artifact_type": "audio", "ref": Path(path).name, "digest": f"sha256:{digest}", "size_bytes": size, "capture": capture}
+    p = {"artifact_type": "audio", "ref": Path(path).name, "source_filename": Path(path).name, "digest": f"sha256:{digest}", "size_bytes": size, "capture": capture,
+         "imported_at": datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"), "media_probe": probe_media(path)}
     if exported_via:
         p["exported_via"] = exported_via
     if recording_id:
@@ -63,7 +81,7 @@ def load_transcript_json(path, recording_id: str = None, audio_name: str = None)
 
 
 def import_into_addendum(parent_run_path, audio_path, out_dir, *, recording_id: str = None, transcript_json=None, exported_via: str = "operator-supplied file export (PLAUD app/MCP/CLI)",
-                         parallel_capture_of_content_id: str = None, addendum_id: str = None) -> dict:
+                         parallel_capture_of_content_id: str = None, addendum_id: str = None, attest_plaud_export: bool = False, session_note: str = None) -> dict:
     """Creates <parent>-plaud-<n>.jsonl. The parent log is never modified."""
     parent = read_run(parent_run_path)  # verifies the parent
     parent_sha = hashlib.sha256(Path(parent_run_path).read_bytes()).hexdigest()
@@ -74,6 +92,12 @@ def import_into_addendum(parent_run_path, audio_path, out_dir, *, recording_id: 
                        meta={"config": {"source": "operator_supplied_export"}, "label": "CONTROL_RUN"})
     tr = load_transcript_json(transcript_json, recording_id, Path(audio_path).name) if transcript_json else None
     payload = audio_artifact_payload(audio_path, capture="PLAUD_DEVICE", exported_via=exported_via, recording_id=recording_id, transcript=tr, parallel_capture_of=parallel_capture_of_content_id)
+    payload["relation_to_parent_run"] = "PARALLEL_CAPTURE/SAME_SESSION (operator-declared; not verified)"
+    payload["same_bytes_as_local_capture"] = False if parallel_capture_of_content_id else "NOT_APPLICABLE (no local audio capture in the parent run; it used typed operator text)"
+    payload["operator_attestation"] = "operator attests this file was exported from a PLAUD recording" if attest_plaud_export else "NOT_ATTESTED"
+    if session_note:
+        payload["session_note"] = session_note
     art = rec.record("artifact", PLAUD_ACTOR, payload, state="OBSERVED", deps=[start["event_id"]])
     rec.record("run_completed", SYSTEM, {"status": "completed"}, state="EXECUTED", deps=[art["event_id"]])
-    return {"run_path": str(rec.path), "digest": payload["digest"], "size_bytes": payload["size_bytes"], "artifact_event_id": art["event_id"], "transcript_relationship": tr and tr["relationship_to_recording"]}
+    return {"run_path": str(rec.path), "digest": payload["digest"], "size_bytes": payload["size_bytes"], "artifact_event_id": art["event_id"], "transcript_relationship": tr and tr["relationship_to_recording"], "source_filename": payload["source_filename"], "attested": attest_plaud_export,
+            "status": "PLAUD_EXPORTED_AUDIO_CUSTODY=PASS_CANDIDATE (operator-attested exact-bytes import; scoped: no MCP/SDK/API/live-integration claim)" if attest_plaud_export and payload["media_probe"].get("is_media") else "IMPORTED_NOT_ADMITTABLE (missing attestation or not decodable media)"}

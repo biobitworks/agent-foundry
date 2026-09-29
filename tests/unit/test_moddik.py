@@ -225,3 +225,27 @@ def test_asr_engine_unavailable_is_explicit_not_faked():
     from agent_foundry import asr
     with pytest.raises(asr.EngineUnavailable):
         asr.transcribe("nope.wav")
+
+
+def test_plaud_import_records_filename_size_hash_time_relation_and_attestation(tmp_path, monkeypatch):
+    """SYNTHETIC audio (ffmpeg sine): proves the importer's records, NOT a real PLAUD recording."""
+    import shutil
+    import subprocess
+    if not shutil.which("ffmpeg"):
+        pytest.skip("ffmpeg not present")
+    from agent_foundry import plaud_import as pi
+    _stub(monkeypatch)
+    parent = mr.run_moddik("t-q", tmp_path, use_graph=False)
+    wav = tmp_path / "PLAUD_test_export.wav"
+    subprocess.run(["ffmpeg", "-y", "-f", "lavfi", "-i", "sine=frequency=440:duration=1", str(wav)], capture_output=True, check=True)
+    r = pi.import_into_addendum(parent["run_path"], wav, tmp_path, recording_id="rid1", attest_plaud_export=True, session_note="synthetic")
+    art = next(e for e in read_run(r["run_path"]) if e["event_type"] == "artifact")["payload"]
+    assert art["source_filename"] == "PLAUD_test_export.wav" and art["size_bytes"] == wav.stat().st_size
+    assert art["digest"] == "sha256:" + hashlib.sha256(wav.read_bytes()).hexdigest() and art["imported_at"].endswith("Z")
+    assert art["media_probe"]["is_media"] is True and art["relation_to_parent_run"].startswith("PARALLEL_CAPTURE/SAME_SESSION")
+    assert art["same_bytes_as_local_capture"].startswith("NOT_APPLICABLE") and "PASS_CANDIDATE" in r["status"] and "no MCP/SDK/API" in r["status"]
+    un = pi.import_into_addendum(parent["run_path"], wav, tmp_path, attest_plaud_export=False, addendum_id="t-q-plaud-2")
+    assert "NOT_ADMITTABLE" in un["status"]  # without operator attestation the lane is never presented as admitted custody
+    junk = tmp_path / "notaudio.wav"
+    junk.write_bytes(b"not media")
+    assert "NOT_ADMITTABLE" in pi.import_into_addendum(parent["run_path"], junk, tmp_path, attest_plaud_export=True, addendum_id="t-q-plaud-3")["status"]

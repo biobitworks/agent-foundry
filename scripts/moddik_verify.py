@@ -49,6 +49,17 @@ ctrl_roots = [b["MERKLE_ROOT"] for b in res["checks"]["control"]["breakpoints"]]
 var_roots = [b["MERKLE_ROOT"] for b in res["checks"]["variant"]["breakpoints"]]
 res["checks"]["replay_prefix_breakpoint_identical"] = ctrl_roots[0] == var_roots[0]
 res["checks"]["divergent_breakpoint_differs"] = ctrl_roots[1] != var_roots[1]
+add = d / "plaud_addendum.jsonl"
+if add.exists():  # independent audio custody, if present
+    ad = read_run(add)
+    art = next(e for e in ad if e["event_type"] == "artifact")["payload"]
+    pc = res["checks"]["plaud_custody"] = {"addendum_log_integrity": True, "parent_log_binding": ad[0]["payload"]["parent_log_sha256"] == hashlib.sha256((d / "control.jsonl").read_bytes()).hexdigest(),
+                                          "relation_is_parallel_capture_not_same_bytes": art["relation_to_parent_run"].startswith("PARALLEL_CAPTURE") and art["same_bytes_as_local_capture"] in (False, art["same_bytes_as_local_capture"]) and art["same_bytes_as_local_capture"] is not True,
+                                          "operator_attested": art["operator_attestation"] != "NOT_ATTESTED", "decodable_media_at_import": art.get("media_probe", {}).get("is_media") is True, "recorded": {k: art[k] for k in ("source_filename", "size_bytes", "digest", "imported_at")}}
+    if "--plaud-audio" in sys.argv:
+        f = Path(sys.argv[sys.argv.index("--plaud-audio") + 1])
+        h = hashlib.sha256(f.read_bytes()).hexdigest()
+        pc["exported_file_bytes_match_recorded_digest_and_size"] = art["digest"] == f"sha256:{h}" and art["size_bytes"] == f.stat().st_size
 if "--neo4j" in sys.argv:
     from agent_foundry import moddik_graph as g
     drv = g.connect()
@@ -69,7 +80,7 @@ if "--neo4j" in sys.argv:
 flat = []
 def walk(x):
     if isinstance(x, dict):
-        [walk(v) for k, v in x.items() if k not in ("counts", "checks", "events", "leaf_count", "tick", "label", "MERKLE_ROOT", "decision_actuation", "decision")]
+        [walk(v) for k, v in x.items() if k not in ("counts", "checks", "events", "leaf_count", "tick", "label", "MERKLE_ROOT", "decision_actuation", "decision", "recorded")]
     elif isinstance(x, bool):
         flat.append(x)
 walk(res["checks"])

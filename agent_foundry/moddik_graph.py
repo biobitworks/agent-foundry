@@ -100,6 +100,9 @@ def project_run(drv, events: list, run_log_path=None) -> dict:
             s.run("MERGE (x:Sensor {sensor_id:$id}) SET x.name=$n MERGE (p:Plate {plate_id:$p}) MERGE (x)-[:PART_OF]->(p)", id=f"{sim.HARDWARE_ID}/{name}", n=name, p=sim.PLATE_ID)
         s.run("MERGE (a:EvidenceArtifact {artifact_id:$id}) SET a.kind='canonical_run_log', a.sha256=$h, a.path=$p "
               "WITH a MATCH (r:Run {run_id:$r}) MERGE (r)-[:PROJECTED_FROM]->(a)", id=f"runlog:{run_id}", h=log_sha, p=f"runs/{run_id}.jsonl", r=run_id)
+        parent = events[0]["payload"].get("parent_run_id")
+        if parent:  # custody addendum: independent capture, declared same session (never same bytes)
+            s.run("MERGE (p:Run {run_id:$p}) WITH p MATCH (r:Run {run_id:$r}) MERGE (r)-[c:PARALLEL_CAPTURE]->(p) SET c.relation='SAME_SESSION', c.declared_by='operator', c.same_bytes=false", p=parent, r=run_id)
         by_id = {}
         for ev in events:
             lab = _label(ev)

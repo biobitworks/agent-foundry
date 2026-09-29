@@ -353,7 +353,7 @@ function mdRight(){
   if(r.action)step('6 · simulated action',[el('div','',r.action.simulated_action),el('div','note',r.action.actuation)],r.action.event_index);
   else step('6 · simulated action',[el('span','chip vio','NOT_COMPUTED'),el('div','note','no action was derived (criteria not met or verifier failed); none was manufactured')],null);
   if(r.next_breakpoint){arrow();step('7 · next HardwareBreakpoint',[el('div','mono','root '+r.next_breakpoint.root),el('div','note','tick '+r.next_breakpoint.tick+' · chained to the decision-state breakpoint by parent root')],r.next_breakpoint.event_index)}
-  if((v.audio||[]).length)step('audio custody',v.audio.map(a=>el('div','mono',(a.capture||'')+' '+(a.ref||'')+' '+(a.digest||'')+' '+(a.relation||''))),null);
+  if((v.audio||[]).length)step('independent audio custody (PARALLEL_CAPTURE, not the same bytes as any local capture)',v.audio.map(a=>{const d=el('div','mono',(a.capture||'')+' · '+(a.source_filename||a.ref||'')+' · '+(a.size_bytes!==undefined?a.size_bytes+' bytes · ':'')+(a.digest||'')+' · imported '+(a.imported_at||'?')+' · '+(a.operator_attestation||'')+' · parent log binding '+(a.parent_log_binding_verified));return d}),null);
 }
 async function mdGraph(){
   const o=$('mdGraphOut');o.className='note';o.textContent='Querying…';

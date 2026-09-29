@@ -243,7 +243,16 @@ def moddik_sources():
 def moddik_run_view(source: str, side: str = "control"):
     from agent_foundry.moddik_view import build_view
     events, kind, man = _moddik_events(source, side)
-    return {"source": kind, "tag": source, "side": side, "manifest": man, "events": events, "view": build_view(events)}
+    view = build_view(events)
+    m = re.fullmatch(r"recorded:([a-z0-9_]+)", source)
+    add = MD / m.group(1) / "plaud_addendum.jsonl" if m and side == "control" else None
+    if add is not None and add.exists():  # independent audio custody: linked by the parent log hash; verified on load
+        import hashlib
+        ad = read_run(add)
+        bound = ad[0]["payload"]["parent_log_sha256"] == hashlib.sha256((MD / m.group(1) / "control.jsonl").read_bytes()).hexdigest()
+        view["audio"] = [{"event_id": e["event_id"], **{k: e["payload"].get(k) for k in ("artifact_type", "source_filename", "digest", "size_bytes", "capture", "imported_at", "relation_to_parent_run", "operator_attestation")},
+                          "parent_log_binding_verified": bound} for e in ad if e["event_type"] == "artifact"]
+    return {"source": kind, "tag": source, "side": side, "manifest": man, "events": events, "view": view}
 
 
 @app.get("/api/moddik/pair/{source}")

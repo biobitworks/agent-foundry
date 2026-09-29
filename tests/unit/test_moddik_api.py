@@ -67,3 +67,21 @@ def test_non_loopback_neo4j_uri_is_refused(monkeypatch):
     with pytest.raises(RuntimeError, match="non-loopback"):
         g.connect()
     assert g._is_local("bolt://127.0.0.1:7691") and g._is_local("bolt://localhost:7687") and not g._is_local("neo4j+s://x.databases.neo4j.io:7687")
+
+
+def test_recorded_run_view_attaches_verified_plaud_addendum(tmp_path, monkeypatch):
+    """SYNTHETIC addendum: proves the view/binding logic, not a real PLAUD recording."""
+    import shutil
+    import api.server as srv
+    from agent_foundry import plaud_import as pi
+    d = tmp_path / "moddik" / "rehearsal_1"
+    shutil.copytree(REC, d)
+    audio = tmp_path / "x.wav"
+    audio.write_bytes(b"synthetic bytes" * 10)
+    r = pi.import_into_addendum(d / "control.jsonl", audio, tmp_path, recording_id="r", attest_plaud_export=True)
+    shutil.copyfile(r["run_path"], d / "plaud_addendum.jsonl")
+    monkeypatch.setattr(srv, "MD", tmp_path / "moddik")
+    v = TestClient(srv.app).get("/api/moddik/run/recorded:rehearsal_1").json()["view"]
+    a = v["audio"][0]
+    assert a["parent_log_binding_verified"] is True and a["size_bytes"] == audio.stat().st_size and a["source_filename"] == "x.wav"
+    assert a["relation_to_parent_run"].startswith("PARALLEL_CAPTURE")

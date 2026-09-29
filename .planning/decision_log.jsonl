@@ -8,3 +8,4 @@
 {"ts":"2026-09-29T05:41:56Z","decision":"provider_error_is_not_divergence","rationale":"timeout under memory pressure would have been reported as non-replayable; now REPLAY_FAILED/UNKNOWN"}
 {"ts":"2026-09-29T05:56:07Z","decision":"duplo_wrapper_is_separate_repo","rationale":"init-project.sh rewrites git history and origin; only acceptable in the wrapper. Operator created the wrapper; this agent verified, allowlisted 2 doc false positives, pushed."}
 {"ts":"2026-09-29T06:03:12Z","decision":"1.2B_instruct_is_local_structured_fallback_candidate_2.6B_is_not","rationale":"strict-JSON: 1.2B valid 4/4 (3/4 agree with core); 350M valid 4/4 (2/4 agree); 2.6B 0/4 valid in 3 settings"}
+{"ts":"2026-09-29T14:39:48Z","decision":"duplo_thin_adapter_direct_fallback_is_explicit","rationale":"agent lane 401; skill script needs no LLM; result subStatus records executed-directly; not presented as Duplo-agent execution"}

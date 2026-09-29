@@ -252,6 +252,8 @@ $('rpBranch').addEventListener('click',()=>{const [p,m]=$('rpAlt').value.split('
   try{const a=await (await fetch('/api/antigence')).json();a.cases.forEach(c=>scenarios.push({id:'ag|'+c.id,title:'REAL: Antigence core vs '+c.model+' · '+c.input_id+(c.output_valid?(c.agrees_with_core?' · agrees':' · DISAGREES'):' · INVALID OUTPUT'),recorded:true,real:true,ag:c.id.split('|')}))}catch(e){}
   const s=$('scenario');scenarios.forEach(x=>{const o=el('option','',(x.recorded?'● ':'')+x.title);o.value=x.id;s.append(o)});
   $('go').addEventListener('click',go);
+  const lv=new URLSearchParams(location.search).get('live');
+  if(lv){try{const r=await fetch('/api/live/'+encodeURIComponent(lv));if(!r.ok)throw new Error((await r.json()).detail||r.statusText);render(await r.json())}catch(e){$('status').className='err';$('status').textContent='Error loading live run '+lv+': '+e.message}}
 })();
 </script>
 </body>

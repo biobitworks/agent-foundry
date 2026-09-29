@@ -73,5 +73,26 @@
       "8484": "python3 LISTEN (untouched)"
     },
     "side_effect_observed": "Starting the OrbStack engine auto-restarted 3 pre-existing containers with restart policies (msm-piecewise-neo4j, seedgraph-neo4j-local, openshell-cluster-nemoclaw). Left running; ports do not collide. Engine VM reports 8 GB memory / 8 CPUs on a 16 GB host."
+  },
+  "successor_state_2026_09_29_b": {
+    "supersedes": "successor_state_2026_09_29 (kept; predecessor not rewritten)",
+    "runtime": "containers 6/6 running; duplo-ai-studio and duplo-ui report unhealthy while UI serves the sign-in page (HTTP 200) and the API accepts authenticated calls",
+    "ui_login": "NOT_OBSERVED_BY_AGENT (human credential)",
+    "api_token_auth": "OBSERVED (authenticated create/get/results accepted)",
+    "workspace": "EXTENSION_DEV_WORKSPACE verified by platform API (name == extension-dev)",
+    "platform_ready": "NOT_OBSERVED (UI login unobserved; agent lane failing)",
+    "extension": {
+      "id": "biobitworks.agentfoundry",
+      "version": "0.1.1",
+      "build": "EXECUTED (builder container, exit 0)",
+      "deploy": "EXECUTED (HTTP 200 hot-load)",
+      "resource_route": "extensions/agentfoundry-runs"
+    },
+    "smoke": {
+      "ticket_created": "OBSERVED (status TicketCreated)",
+      "agent_dispatch": "FAILED (agent container: 401 Missing Authentication header from LLM gateway; token not configured)",
+      "direct_skill_execution": "EXECUTED as explicit labeled fallback; result Complete in Duplo"
+    },
+    "openrouter_gateway": "FAILED_AUTH (agent lane); credentials never read or printed"
   }
 }

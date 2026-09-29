@@ -1,0 +1,66 @@
+{
+  "schema": "agent-foundry.duplo_rehearsal.v1",
+  "captured_at": "2026-09-29T14:39:48Z",
+  "host": "magicPRObox",
+  "kind": "TIMED_REHEARSAL_PROGRAMMATIC",
+  "steps": {
+    "A_open_duplo_ui": {
+      "http": 200,
+      "seconds": 0.1
+    },
+    "B_submit_via_duplo_api": {
+      "http": 201,
+      "seconds": 0.3
+    },
+    "C_observe_run": {
+      "platform_status_after_8s": "TicketCreated",
+      "agent_lane": "NOT_DISPATCHING (LLM gateway 401 Missing Authentication header)"
+    },
+    "D_skill_executed_direct_fallback": {
+      "seconds": 5.4,
+      "note": "canonical API + real local LFM 1.2B-Instruct; explicit fallback, NOT executed by the Duplo agent"
+    },
+    "E_read_back_from_duplo": {
+      "seconds": 0.1
+    }
+  },
+  "DEMO_DURATION_SECONDS": 14.1,
+  "duration_scope": "machine time only; excludes human navigation/typing in the Duplo UI",
+  "input_used": "combined benign+injection sentence (core and 1.2B disagree)",
+  "outcome": {
+    "changed": "YES",
+    "first_divergence": "event 4 (actor)"
+  },
+  "MANUAL_STEPS": [
+    "operator signs in to Duplo UI (password, not agent-operable)",
+    "operator enters LLM gateway token so the Duplo agent can dispatch (currently 401)",
+    "operator opens the Agent Foundry menu and the inspector permalink"
+  ],
+  "FAILURE_POINTS": [
+    "Duplo agent lane 401 (gateway token missing) -> ticket stays TicketCreated",
+    "cold local model load 30-90 s if not warmed (scripts/preflight.py or warm-up call)",
+    "inspector must be running on 127.0.0.1:8765 for the permalink and for container reachability",
+    "duplo-ai-studio and duplo-ui report unhealthy although the UI serves and the API works"
+  ],
+  "RECOVERY_PATH": [
+    "scripts/run-skill-direct.sh <id> (explicit labeled fallback)",
+    "recorded real scenarios in the inspector (hash-checked)",
+    "preflight before the demo"
+  ],
+  "wrapper_head": "fbd47d6c0080f6a3257983138d59d33c91a1ab17",
+  "states": {
+    "EXECUTED": [
+      "create via Duplo API",
+      "skill adapter -> canonical API -> real local model",
+      "result written into Duplo"
+    ],
+    "NOT_TESTED": [
+      "Duplo agent dispatching the skill",
+      "human UI sign-in and menu click-through",
+      "timed human demo"
+    ],
+    "FAILED": [
+      "Duplo agent LLM gateway auth (401)"
+    ]
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "schema": "agent-foundry.turn_breakpoint.v1",
+  "id": "AGENT_FOUNDRY_DUPLO_THIN_EXTENSION_016",
+  "parent": "AGENT_FOUNDRY_DUPLO_RUNTIME_SETUP_015",
+  "parent_source": "provenance/BREAKPOINT_DUPLO_RUNTIME_SETUP_015.json (last breakpoint file that exists in this repository)",
+  "external_context_not_ancestry": {
+    "chat_handoff_ids": [
+      "AGENT_FOUNDRY_DUPLO_GATEWAY_CONFIG_020",
+      "AGENT_FOUNDRY_VERIFY_FIXED_CONTINUE_021"
+    ],
+    "note": "chat-level handoffs; no breakpoint files exist for them in this repository; no Merkle/MMR continuity is claimed"
+  },
+  "created_at": "2026-09-29T14:40:10Z",
+  "wrapper_head": "fbd47d6c0080f6a3257983138d59d33c91a1ab17",
+  "verified_new": [
+    "6/6 Duplo containers running; UI serves sign-in (HTTP 200); duplo-ai-studio and duplo-ui flagged unhealthy",
+    "extension-dev workspace verified by platform API",
+    "extension biobitworks.agentfoundry v0.1.1 built (exit 0) and hot-loaded (HTTP 200)",
+    "container can reach canonical API at host.docker.internal:8765 (HTTP 200)",
+    "create via extension route returns 201 and opens a ticket (TicketCreated)",
+    "Duplo agent lane fails: 401 Missing Authentication header from LLM gateway"
+  ],
+  "executed": [
+    "skill adapter -> canonical /api/antigence/live -> real local LFM 1.2B-Instruct -> result Complete in Duplo (explicit direct fallback)",
+    "live-run permalink /api/live/{tag} and ?live= in inspector",
+    "timed rehearsal 14.1 s machine time"
+  ],
+  "observed": [
+    "changedOutcome YES on the combined input; NO (Same answer, different responder) on the plain injection",
+    "OrbStack start had restarted 3 unrelated containers (left running)"
+  ],
+  "decisions": [
+    "thin adapter only; no comparison/Antigence/lineage logic in the wrapper",
+    "direct skill execution is an explicit labeled fallback, never presented as the Duplo agent",
+    "2.6B statement limited to: the tested configurations did not satisfy the strict JSON contract",
+    "credentials never read or printed"
+  ],
+  "proposed": [
+    "operator sets the gateway token so the Duplo agent dispatches the skill",
+    "human sign-in and UI click-through rehearsal",
+    "Glasswork/HydraDG/FCO-FCG real bridges (still NOT_IMPLEMENTED)"
+  ],
+  "not_tested": [
+    "Duplo agent executing the skill",
+    "human UI sign-in and menu",
+    "Ollarma routing",
+    "Studio sync",
+    "OpenCode"
+  ],
+  "failures": [
+    "Duplo agent LLM gateway auth 401 (FAILED_AUTH)"
+  ],
+  "unresolved": [
+    "gateway token entry (operator)",
+    "unhealthy flags on duplo-ai-studio/duplo-ui (UI and API work)",
+    "MAGICSTUDIO_HEAD unknown (ssh guarded)"
+  ],
+  "next_action": "operator fixes gateway token (./run.sh --model gateway ... or scripts/switch-llm.sh), then re-run scripts/smoke-agent-foundry.sh to observe the Duplo agent executing the skill"
+}

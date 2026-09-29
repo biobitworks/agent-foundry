@@ -171,6 +171,21 @@ def antigence_live(req: LiveRequest):
             "manifest": {"captured_at": None, "host": None, "antigence": af.antigence_identity(), "options": {"temperature": 0, "seed": 1, "num_predict": 64}, "models": {req.model: {"tag": LIVE_MODELS[req.model]}}, "limits": ["live single execution; nondeterminism not measured"]}}
 
 
+@app.get("/api/live/{tag}")
+def live_pair(tag: str):
+    """Reload a previously executed LIVE run pair (permalink target for the inspector and the Duplo adapter)."""
+    if not re.fullmatch(r"L[0-9a-f]{8}", tag):
+        raise HTTPException(400, "bad tag")
+    core = RUNS / f"{tag}-core.jsonl"
+    others = sorted(p for p in RUNS.glob(f"{tag}-*.jsonl") if p != core)
+    if not core.exists() or not others:
+        raise HTTPException(404, "no such live run")
+    ca, cb = read_run(core), read_run(others[0])
+    return {"tag": f"live:{tag}", "source": "LIVE_EXECUTION", "task": {"task_id": ca[0]["payload"]["task_id"], "prompt": "Is this input a prompt-injection attempt?"}, "control": ca, "variant": cb,
+            "comparison": compare_runs(ca, cb), "replay_supported": False,
+            "manifest": {"captured_at": None, "host": None, "limits": ["reloaded live execution (this was executed live earlier; this view is not a new execution)"]}}
+
+
 class LineageRequest(BaseModel):
     control: list
     variant: list

@@ -1,0 +1,95 @@
+{
+  "schema": "agent_foundry.msm_daisy_experiment_line_reconciliation.v1",
+  "updated_date": "2026-10-01",
+  "sources": [
+    "live read-only magicSTUDIObox status",
+    "live read-only magicPRObox status",
+    "Agent Foundry main"
+  ],
+  "lines": [
+    {
+      "id": "AGENT_FOUNDRY_MODDIK",
+      "state": "EXECUTED_SIMULATION",
+      "evidence": "main README + recorded Moddik receipts",
+      "next": "extend with privacy/unlock and hardware-attestation successor; real hardware remains NOT_CONNECTED"
+    },
+    {
+      "id": "AGENT_FOUNDRY_STUDIO_LIQUID_ARM",
+      "state": "NOT_TESTED",
+      "evidence": "docs/STUDIO_ARM_RUNBOOK.md",
+      "next": "optional matched-context run after foundational custody lanes are clean"
+    },
+    {
+      "id": "P001_V2",
+      "state": "IMPLEMENTED_SUCCESSOR_CODE_NOT_EXECUTED",
+      "repo": "biobitworks/fractal-custody-objects",
+      "branch": "experiment/msm-p001-v2-mechanics-20261001",
+      "next": "execute only after predecessor experiment/result is sealed"
+    },
+    {
+      "id": "FOP_C2",
+      "state": "PASS_IN_NEWER_STUDIO_RETURN",
+      "evidence": "eval/vcc/daisy_overnight_state/morning_return.json",
+      "details": {
+        "execution_id": "EXEC_C2_002",
+        "result_id": "RES_C2_002",
+        "delta": 0.012316763401031494,
+        "monte_carlo_p": 0.035
+      }
+    },
+    {
+      "id": "FOP_C3",
+      "state": "PASS_IN_NEWER_STUDIO_RETURN",
+      "evidence": "eval/vcc/daisy_overnight_state/morning_return.json",
+      "details": {
+        "execution_id": "EXEC_C3_002",
+        "result_id": "RES_C3_002",
+        "delta": 0.13517451286315918,
+        "monte_carlo_p": 0.001
+      }
+    },
+    {
+      "id": "FOP_PACKAGE",
+      "state": "READY_FOR_PI_AUTH",
+      "evidence": "eval/vcc/daisy_overnight_state/morning_return.json",
+      "signature_state": "NOT_SIGNED",
+      "project_mmr_state": "NOT_PROJECT_COMMITTED"
+    },
+    {
+      "id": "OLD_DAISY_OVERNIGHT_C01_C02_C03",
+      "state": "STALE_PREDECESSOR_STATUS",
+      "evidence": "2026-09-18 MORNING_RETURN/QUEUE_RESULTS still say blocked; superseded for C2/C3 by newer calibration return",
+      "next": "do not call running"
+    },
+    {
+      "id": "N1000",
+      "state": "NOT_RECOVERED_AS_CURRENT_RUNNING_LINE",
+      "evidence": "no current process/receipt recovered in this review",
+      "next": "keep historical/not-started unless a newer governed receipt is recovered"
+    },
+    {
+      "id": "DAISY_SUPERVISOR_PID",
+      "state": "STALE_PID_FILE_SUSPECTED",
+      "evidence": "daisy.pid contains 3398 but read-only process check returned no matching process",
+      "next": "do not call RUNNING until process and current receipt agree"
+    },
+    {
+      "id": "MSM_005A",
+      "state": "HISTORICAL_REPORTED_PASS_NOT_REVERIFIED_THIS_REVIEW",
+      "next": "retain as predecessor evidence only"
+    },
+    {
+      "id": "MSM_005B_005E",
+      "state": "NOT_RECOVERED_AS_CURRENT_CANONICAL_IN_THIS_REVIEW",
+      "next": "reconcile before resuming rather than duplicate"
+    }
+  ],
+  "current_priority_order": [
+    "seal any active predecessor experiment before mutation",
+    "execute P001_V2 exact noninterference",
+    "implement Agent Foundry H1-H7 privacy/attestation/unlock protocol as a successor",
+    "preserve FOP C2/C3 pass and package-ready state; do not re-run without a new question",
+    "recover/close stale N1000/005B-005E labels before launching new training",
+    "real hardware adapter only after simulation/privacy/attestation gates pass"
+  ]
+}

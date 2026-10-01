@@ -1,0 +1,13 @@
+{
+  "schema": "agent_foundry.git_binding_fco.v1",
+  "object_id": "AF-MSM-DAISY-HARDWARE-PRIVACY-GIT-BINDING-001",
+  "binds_breakpoint_id": "AF-MSM-DAISY-HARDWARE-PRIVACY-BP-0001-CANDIDATE",
+  "binds_breakpoint_root": "4c879656bbeb22a50a79302d5978018bbda147e9575eecefa025a69f04480167",
+  "repo": "biobitworks/agent-foundry",
+  "branch": "design/msm-daisy-hardware-privacy-v01-20261001",
+  "design_source_commit": "92d29c15a9b571b0971f96502998f9ebe1ffdb88",
+  "breakpoint_receipt_commit": "9f8aba485bf607d24568c03d4efa5097d330474a",
+  "relation": "GIT_BOUND_AS",
+  "note": "The Merkle root commits the three design artifacts at design_source_commit. This GitBindingFCO is a successor object and is not a leaf of that root, avoiding commit/root self-reference.",
+  "signed": false
+}

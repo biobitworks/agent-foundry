@@ -1,0 +1,114 @@
+{
+  "schema": "agent_foundry.msm_daisy_hardware_privacy_objects.v1",
+  "object_types": {
+    "AttestationEvidenceFCO": [
+      "device_id",
+      "freshness_nonce",
+      "measurement_set",
+      "scheme",
+      "evidence_bytes_hash"
+    ],
+    "AttestationResultFCO": [
+      "evidence_ref",
+      "verifier_policy_id",
+      "result",
+      "claims_admitted",
+      "claims_rejected"
+    ],
+    "ResearchIdentityFCO": [
+      "research_id",
+      "linkability_scope",
+      "tokenization_scheme",
+      "data_class",
+      "access_policy_id"
+    ],
+    "BlindDatasetFCO": [
+      "dataset_root",
+      "included_leaf_manifest",
+      "excluded_class_manifest",
+      "research_purpose",
+      "access_policy_id"
+    ],
+    "HypothesisFCO": [
+      "blind_dataset_root",
+      "model_or_rule_id",
+      "hypothesis_bytes_hash",
+      "state"
+    ],
+    "PublicKeyFCO": [
+      "key_id",
+      "algorithm",
+      "purpose",
+      "public_key_fingerprint",
+      "valid_from_bp",
+      "status"
+    ],
+    "KeyEnvelopeFCO": [
+      "target_artifact_id",
+      "encryption_suite",
+      "recipient_key_id",
+      "encapsulation_hash",
+      "ciphertext_hash"
+    ],
+    "AccessHandshakeFCO": [
+      "target_root",
+      "requester_key_id",
+      "challenge_hash",
+      "transcript_hash",
+      "policy_id",
+      "authentication_result"
+    ],
+    "UnlockReceiptFCO": [
+      "prior_root",
+      "authorized_leaf_classes",
+      "denied_leaf_classes",
+      "result",
+      "session_key_recorded"
+    ],
+    "HardwareObservationFCO": [
+      "device_id",
+      "sensor_id",
+      "raw_or_pointer_hash",
+      "units",
+      "device_time",
+      "host_receipt_time",
+      "source"
+    ],
+    "HardwareBreakpointFCO": [
+      "ordered_leaf_manifest",
+      "merkle_scheme_id",
+      "root",
+      "attestation_result_ref"
+    ],
+    "ReplayCheckpointFCO": [
+      "parent_breakpoint",
+      "replay_input_root",
+      "result_root",
+      "first_divergence_index",
+      "verify"
+    ]
+  },
+  "prohibited_merkle_material": [
+    "private signing key",
+    "private encryption/key-agreement key",
+    "plaintext data-encryption key",
+    "raw PHI in research-visible breakpoint",
+    "protected linkage crosswalk in research-visible breakpoint"
+  ],
+  "states": [
+    "PROPOSED",
+    "IMPLEMENTED",
+    "EXECUTED",
+    "OBSERVED",
+    "SUPPORTED",
+    "FAILED",
+    "NULL",
+    "NEGATIVE",
+    "BLOCKED",
+    "DEFERRED",
+    "NOT_TESTED",
+    "NOT_COMPUTED",
+    "NOT_RECOVERED",
+    "UNKNOWN"
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "breakpoint_id": "AF-MSM-DAISY-HARDWARE-PRIVACY-BP-0001-CANDIDATE",
+  "parent_repo_state": {
+    "repo": "biobitworks/agent-foundry",
+    "branch": "main",
+    "commit": "caaae178bede2c314ab9e4fc9f2528e69b2a858c"
+  },
+  "design_source_commit": "92d29c15a9b571b0971f96502998f9ebe1ffdb88",
+  "root_kind": "DESIGN_SUCCESSOR_MERKLE_NOT_PROJECT_MMR",
+  "merkle_protocol": "MSM-MERKLE-RAW-v1",
+  "canonicalization": "JSON sort_keys=True, compact separators, UTF-8",
+  "leaf": "SHA256(0x00 || canonical_json(leaf_descriptor))",
+  "node": "SHA256(0x01 || raw(left_digest) || raw(right_digest))",
+  "split_rule": "RFC6962 largest-power-of-two split; no duplicate-last",
+  "leaf_count": 3,
+  "ordered_leaf_manifest": [
+    {
+      "index": 0,
+      "role": "PROTOCOL",
+      "path": "docs/MSM_DAISY_HARDWARE_PRIVACY_PROTOCOL.md",
+      "sha256": "dfa2c2a503f0926c036d1189743b638d695db594cef8de1d1a9066a619a33ca6",
+      "bytes": 9936
+    },
+    {
+      "index": 1,
+      "role": "LINE_RECONCILIATION",
+      "path": "provenance/MSM_DAISY_EXPERIMENT_LINE_RECONCILIATION_20261001.json",
+      "sha256": "96daaee07d624b922c3fe79998108e2bc71b8c13e56f5d7d6cb3583f2b6ecf04",
+      "bytes": 3517
+    },
+    {
+      "index": 2,
+      "role": "SCHEMA",
+      "path": "schemas/msm_daisy_hardware_privacy_objects.v1.json",
+      "sha256": "0e2aab44c2ac76cb1a240d7ae9fb919f94efdc1cea91b4100f06f059afb3df9e",
+      "bytes": 2498
+    }
+  ],
+  "root": "4c879656bbeb22a50a79302d5978018bbda147e9575eecefa025a69f04480167",
+  "independent_recomputed_root": "4c879656bbeb22a50a79302d5978018bbda147e9575eecefa025a69f04480167",
+  "verify": "PASS",
+  "signed": false,
+  "project_mmr_committed": false,
+  "execution_state": "DESIGN_ONLY",
+  "real_hardware_state": "NOT_CONNECTED",
+  "privacy_unlock_execution_state": "NOT_TESTED",
+  "claim_ceiling": "Design successor plus current-line reconciliation; does not establish hardware-root attestation, PHI de-identification compliance, or DAISY performance."
+}
